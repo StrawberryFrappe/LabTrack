@@ -1,4 +1,9 @@
 // Mock data for the lab inventory system
+// TODO: Replace all mock data with real API calls
+// TODO: Add more comprehensive test data for development
+// TODO: Implement data factories for generating test data
+// TODO: Add mock API responses for error scenarios
+
 export const compounds = [
   {
     id: "1",
@@ -122,6 +127,32 @@ export const compounds = [
   }
 ];
 
+// TODO: Add more mock data for comprehensive testing
+// TODO: Add mock users data
+export const mockUsers = [
+  // TODO: Implement user roles and permissions
+];
+
+// TODO: Add mock locations/storage areas
+export const mockLocations = [
+  // TODO: Implement hierarchical location structure
+];
+
+// TODO: Add mock suppliers
+export const mockSuppliers = [
+  // TODO: Implement supplier contact information and catalogs
+];
+
+// TODO: Add mock audit trail data
+export const mockAuditTrail = [
+  // TODO: Implement activity tracking
+];
+
+// TODO: Add mock notifications
+export const mockNotifications = [
+  // TODO: Implement notification system
+];
+
 export const countSessions = [
   {
     id: "1",
@@ -151,4 +182,38 @@ export const countSessions = [
     duration: "30 minutes",
     notes: "In progress - needs completion"
   }
+];
+
+// TODO: Add mock dashboard statistics
+export const mockDashboardStats = {
+  // TODO: Implement real-time statistics
+  totalValue: 0,
+  totalWeight: 0,
+  averageAge: 0,
+  // TODO: Add more meaningful metrics
+};
+
+// TODO: Add mock barcode data
+export const mockBarcodes = [
+  // TODO: Implement barcode generation and tracking
+];
+
+// TODO: Add mock safety data sheets
+export const mockSDS = [
+  // TODO: Implement SDS management
+];
+
+// TODO: Add mock disposal records
+export const mockDisposalRecords = [
+  // TODO: Implement waste disposal tracking
+];
+
+// TODO: Add mock purchase orders
+export const mockPurchaseOrders = [
+  // TODO: Implement procurement tracking
+];
+
+// TODO: Add mock temperature logs
+export const mockTemperatureLogs = [
+  // TODO: Implement environmental monitoring
 ];
