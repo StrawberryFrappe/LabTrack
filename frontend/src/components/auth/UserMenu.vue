@@ -141,10 +141,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuth } from '../../composables/useAuth.js'
 
-// Define events this component can emit
-const emit = defineEmits(['logout'])
+// Router for navigation
+const router = useRouter()
 
 // Get authentication state
 const { user, isAuthenticated, isAdmin, logout, loading } = useAuth()
@@ -174,12 +175,12 @@ const getUserInitials = () => {
 /**
  * Handle Logout
  * 
- * Logs out the user and emits logout event to parent.
+ * Logs out the user and navigates to login page.
  */
 const handleLogout = async () => {
   try {
     await logout()
-    emit('logout')
+    router.push('/login')
   } catch (error) {
     console.error('Logout failed:', error)
   }
@@ -203,7 +204,8 @@ const handlePreferencesClick = () => {
 }
 
 const handleAdminClick = () => {
-  console.log('Admin panel clicked - TODO: Implement admin features')
-  // TODO: Navigate to admin panel
+  console.log('Admin panel clicked - TODO: Navigate to settings')
+  router.push('/settings')
+  isMenuOpen.value = false
 }
 </script>
