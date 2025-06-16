@@ -1,51 +1,68 @@
 <template>
-  <div class="space-y-6">
-    <!-- Toolbar with filters and actions -->
-    <div class="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
-      <CompoundFilters />
-      
-      <div class="flex items-center gap-4">        <!-- View Toggle -->
-        <div class="flex items-center bg-slate-100 rounded-lg p-1" role="group" aria-label="View mode toggle">
-          <button
-            @click="viewMode = 'grid'"
-            :class="[
-              'px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200',
-              viewMode === 'grid' 
-                ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200' 
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-            ]"
-            :aria-pressed="viewMode === 'grid'"
-            title="Switch to grid view"
-          >
-            <!-- TODO: Use proper icon component -->
-            <span class="inline-flex items-center gap-1">
-              ⊞ <span class="hidden sm:inline">Cards</span>
-            </span>
-          </button>
-          <button
-            @click="viewMode = 'list'"
-            :class="[
-              'px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200',
-              viewMode === 'list' 
-                ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200' 
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-            ]"
-            :aria-pressed="viewMode === 'list'"
-            title="Switch to list view"
-          >
-            <!-- TODO: Use proper icon component -->
-            <span class="inline-flex items-center gap-1">
-              ☰ <span class="hidden sm:inline">List</span>
-            </span>
-          </button>
+  <div class="space-y-6">    <!-- Toolbar with filters and actions -->
+    <div class="space-y-4">
+      <!-- Filters Section -->
+      <CompoundFilters />      <!-- Actions Section -->
+      <div class="flex items-center justify-between">
+        <!-- Results summary and badges -->
+        <div class="flex items-center gap-4">
+          <div class="text-sm text-slate-600">
+            Showing {{ filteredCompounds.length }} of {{ compounds.length }} compounds
+          </div>
+          
+          <div class="flex gap-2">
+            <Badge variant="warning" v-if="lowStockItems.length > 0">
+              {{ lowStockItems.length }} Low Stock
+            </Badge>
+            <Badge variant="destructive" v-if="expiringItems.length > 0">
+              {{ expiringItems.length }} Expiring Soon
+            </Badge>
+          </div>
         </div>
-        
-        <!-- Action buttons -->
-        <!-- TODO: Add action buttons here -->
-        <div class="flex gap-2">
-          <!-- TODO: Add compound button -->
-          <!-- TODO: Import compounds button -->
-          <!-- TODO: Export compounds button -->
+
+        <div class="flex items-center gap-4">
+          <!-- View Toggle -->
+          <div class="flex items-center bg-slate-100 rounded-lg p-1" role="group" aria-label="View mode toggle">
+            <button
+              @click="viewMode = 'grid'"
+              :class="[
+                'px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200',
+                viewMode === 'grid' 
+                  ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              ]"
+              :aria-pressed="viewMode === 'grid'"
+              title="Switch to grid view"
+            >
+              <!-- TODO: Use proper icon component -->
+              <span class="inline-flex items-center gap-1">
+                ⊞ <span class="hidden sm:inline">Cards</span>
+              </span>
+            </button>
+            <button
+              @click="viewMode = 'list'"
+              :class="[
+                'px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200',
+                viewMode === 'list' 
+                  ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-200' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              ]"
+              :aria-pressed="viewMode === 'list'"
+              title="Switch to list view"
+            >
+              <!-- TODO: Use proper icon component -->
+              <span class="inline-flex items-center gap-1">
+                ☰ <span class="hidden sm:inline">List</span>
+              </span>
+            </button>
+          </div>
+            <!-- Action buttons -->
+          <!-- TODO: Add action buttons here -->
+          <div class="flex gap-2">
+            <!-- TODO: Add compound button -->
+            <!-- TODO: Import compounds button -->
+            <!-- TODO: Export compounds button -->
+          </div>
         </div>
       </div>
     </div>
@@ -92,9 +109,10 @@ import { ref } from 'vue'
 import CompoundCard from './CompoundCard.vue'
 import CompoundTable from './CompoundTable.vue'
 import CompoundFilters from './CompoundFilters.vue'
+import Badge from '@/components/ui/Badge.vue'
 import { useCompounds } from '@/composables/useCompounds'
 
-const { filteredCompounds } = useCompounds()
+const { filteredCompounds, compounds, lowStockItems, expiringItems } = useCompounds()
 
 // View mode state
 const viewMode = ref('grid') // 'grid' or 'list'

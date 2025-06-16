@@ -41,44 +41,22 @@
       <!-- TODO: Add expiry date range filter -->
       <!-- TODO: Add quantity range filter -->
       <!-- TODO: Add date received range filter -->
-    </div>
-
-    <!-- TODO: Add saved filter presets -->
+    </div>    <!-- TODO: Add saved filter presets -->
     <div class="flex items-center gap-4">
       <!-- TODO: Add quick filter buttons (Low Stock, Expiring Soon, Recently Added) -->
-    </div>
-    
-    <div class="flex items-center gap-4">
-      <div class="text-sm text-slate-600">
-        Showing {{ filteredCompounds.length }} of {{ compounds.length }} compounds
-      </div>
-      
-      <div class="flex gap-2">
-        <Badge variant="warning" v-if="lowStockItems.length > 0">
-          {{ lowStockItems.length }} Low Stock
-        </Badge>
-        <Badge variant="destructive" v-if="expiringItems.length > 0">
-          {{ expiringItems.length }} Expiring Soon
-        </Badge>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import Input from '@/components/ui/Input.vue'
-import Badge from '@/components/ui/Badge.vue'
 import { useCompounds } from '@/composables/useCompounds'
 
 const {
-  compounds,
   searchQuery,
   selectedHazardClass,
   selectedLocation,
   hazardClasses,
-  locations,
-  filteredCompounds,
-  lowStockItems,
-  expiringItems
+  locations
 } = useCompounds()
 </script>

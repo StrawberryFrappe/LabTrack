@@ -20,12 +20,11 @@
                 Name
                 <!-- TODO: Add sort indicators -->
               </button>
-            </th>
-            <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider hidden md:table-cell">
-              Formula
+            </th>            <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider hidden md:table-cell">
+              CAS Number
             </th>
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Category
+              Supplier
             </th>
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
               <button @click="sortBy('quantity')" class="hover:text-slate-700 transition-colors">
@@ -49,22 +48,21 @@
             :key="compound.id"
             class="hover:bg-slate-50 transition-colors"
           >
-            <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
-              <div>
+            <td class="px-4 sm:px-6 py-4 whitespace-nowrap">              <div>
                 <div class="text-sm font-medium text-slate-900">{{ compound.name }}</div>
                 <div class="text-xs text-slate-500">ID: {{ compound.id }}</div>
-                <!-- Show formula on mobile when hidden -->
-                <div class="text-xs text-slate-500 md:hidden mt-1" v-if="compound.formula">
-                  {{ compound.formula }}
+                <!-- Show CAS number on mobile when hidden -->
+                <div class="text-xs text-slate-500 md:hidden mt-1">
+                  CAS: {{ compound.casNumber }}
                 </div>
               </div>
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-slate-900 hidden md:table-cell">
-              {{ compound.formula || 'N/A' }}
+              {{ compound.casNumber || 'N/A' }}
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
               <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                {{ compound.category }}
+                {{ compound.supplier }}
               </span>
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
@@ -83,20 +81,13 @@
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-slate-900 hidden lg:table-cell">
               {{ compound.location }}
-            </td>
-            <td class="px-4 sm:px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+            </td>            <td class="px-4 sm:px-6 py-4 whitespace-nowrap hidden sm:table-cell">
               <div class="flex flex-wrap gap-1">
                 <span 
-                  v-for="hazard in compound.hazards.slice(0, 2)" 
-                  :key="hazard"
                   class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium"
-                  :class="getHazardClasses(hazard)"
+                  :class="getHazardClasses(compound.hazardClass)"
                 >
-                  {{ hazard }}
-                </span>
-                <span v-if="compound.hazards.length > 2" 
-                      class="text-xs text-slate-500">
-                  +{{ compound.hazards.length - 2 }} more
+                  {{ compound.hazardClass }}
                 </span>
               </div>
             </td>
@@ -126,21 +117,14 @@
                   ⋮
                 </button>
               </div>
-              
-              <!-- Show hazards on mobile when hidden -->
+                <!-- Show hazards on mobile when hidden -->
               <div class="sm:hidden mt-2">
                 <div class="flex flex-wrap gap-1">
                   <span 
-                    v-for="hazard in compound.hazards.slice(0, 3)" 
-                    :key="hazard"
                     class="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium"
-                    :class="getHazardClasses(hazard)"
+                    :class="getHazardClasses(compound.hazardClass)"
                   >
-                    {{ hazard }}
-                  </span>
-                  <span v-if="compound.hazards.length > 3" 
-                        class="text-xs text-slate-500">
-                    +{{ compound.hazards.length - 3 }}
+                    {{ compound.hazardClass }}
                   </span>
                 </div>
               </div>
@@ -176,12 +160,15 @@ defineEmits(['edit', 'scan'])
 // TODO: Move this to a shared utility or composable
 const getHazardClasses = (hazard) => {
   const hazardStyles = {
+    'Non-hazardous': 'bg-green-100 text-green-800',
     'Flammable': 'bg-red-100 text-red-800',
     'Toxic': 'bg-purple-100 text-purple-800',
+    'Toxic, Flammable': 'bg-red-200 text-red-900',
     'Corrosive': 'bg-orange-100 text-orange-800',
     'Oxidizing': 'bg-yellow-100 text-yellow-800',
     'Explosive': 'bg-red-200 text-red-900',
     'Carcinogenic': 'bg-pink-100 text-pink-800',
+    'Carcinogenic, Flammable': 'bg-pink-200 text-pink-900',
     default: 'bg-slate-100 text-slate-800'
   }
   
