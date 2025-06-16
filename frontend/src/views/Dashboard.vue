@@ -1,18 +1,49 @@
+<!--
+  Dashboard Component
+  
+  This is the main dashboard view that users see after logging in.
+  It provides navigation between different features and shows
+  user-specific content based on their role.
+  
+  Features:
+  - Responsive sidebar navigation
+  - Role-based view access
+  - User menu integration
+  - Mobile-friendly design
+    ✅ COMPLETED: Role-based view access
+  ✅ COMPLETED: User menu integration  
+  ✅ COMPLETED: Authentication-based navigation
+  
+  TODO: Implement proper routing with Vue Router
+  TODO: Add breadcrumb navigation
+  TODO: Add dashboard customization features
+  TODO: Implement user preferences storage
+-->
+
 <template>
-  <div class="min-h-screen bg-slate-50 flex" @click="settingsMenuOpen = false">    <!-- Mobile menu overlay -->
+  <div class="min-h-screen bg-slate-50 flex" @click="settingsMenuOpen = false">
+    <!-- Mobile menu overlay -->
     <div 
       v-if="mobileMenuOpen"
       class="fixed inset-0 z-20 bg-black bg-opacity-50 lg:hidden"
       @click="mobileMenuOpen = false; settingsMenuOpen = false"
-    ></div>    <!-- Left Sidebar - Fixed Position, No Scroll -->
-    <aside :class=" [
+    ></div>
+
+    <!-- Left Sidebar - Fixed Position, No Scroll -->
+    <aside :class="[
       'fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-sm border-r border-slate-200 flex-shrink-0 transform transition-transform duration-300 ease-in-out',
       mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
     ]" @click.stop>
       <div class="flex flex-col h-full">
+        <!-- Logo and Brand -->
         <div class="p-6">
           <div class="flex items-center justify-between mb-8">
-            <h1 class="text-xl font-semibold text-slate-900">LabTrack</h1>
+            <div class="flex items-center space-x-3">
+              <div class="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <span class="text-white text-lg">🧪</span>
+              </div>
+              <h1 class="text-xl font-semibold text-slate-900">LabTrack</h1>
+            </div>
             <!-- Mobile close button -->
             <button
               class="lg:hidden p-1 rounded-md text-slate-400 hover:text-slate-600"
@@ -22,10 +53,22 @@
             </button>
           </div>
           
+          <!-- User Role Indicator -->
+          <div class="mb-6 p-3 rounded-lg" :class="isAdmin ? 'bg-blue-50' : 'bg-green-50'">
+            <div class="flex items-center space-x-2">              <span 
+                class="inline-flex items-center px-2 py-1 rounded text-xs font-medium capitalize"
+                :class="isAdmin ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
+              >
+                {{ user && user.role }}
+              </span>
+              <span class="text-sm text-slate-600">{{ user && user.name }}</span>
+            </div>
+          </div>
+          
           <!-- Navigation Menu -->
           <nav class="space-y-2">
             <button
-              v-for="view in views"
+              v-for="view in availableViews"
               :key="view.id"
               :class="[
                 'w-full flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors text-left',
@@ -34,12 +77,18 @@
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               ]"
               @click="selectView(view.id)"
+              :disabled="view.disabled"
+              :title="view.disabled ? 'Feature coming soon' : ''"
             >
               <span class="mr-3 text-lg">{{ view.icon }}</span>
               {{ view.label }}
+              <!-- TODO indicator for disabled features -->
+              <span v-if="view.disabled" class="ml-auto text-xs text-slate-400">Soon</span>
             </button>
-          </nav>        </div>
-          <!-- Settings Section -->
+          </nav>
+        </div>
+        
+        <!-- Settings Section -->
         <div class="mt-auto p-6 border-t border-slate-200">
           <div class="mb-4 flex items-center justify-between">
             <!-- Settings Dropdown -->
@@ -63,7 +112,7 @@
                   @click="toggleTheme"
                 >
                   <span class="mr-3 text-base">🎨</span>
-                  Theme
+                  Theme Settings
                 </button>
                 
                 <button 
@@ -73,13 +122,25 @@
                   <span class="mr-3 text-base">🌐</span>
                   Language
                 </button>
+                
+                <!-- Admin-only settings -->
+                <template v-if="isAdmin">
+                  <div class="border-t border-slate-200 my-2"></div>
+                  <button 
+                    class="w-full flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors text-left"
+                    @click="openSystemSettings"
+                  >
+                    <span class="mr-3 text-base">🛠️</span>
+                    System Settings
+                  </button>
+                </template>
               </div>
             </div>
           </div>
           
           <!-- Version Info -->
           <div class="text-xs text-slate-500 text-center">
-            <div>Version 1.0.0</div>
+            <div>Version 1.0.0-beta</div>
             <div class="mt-1">Lab Inventory System</div>
           </div>
         </div>
@@ -97,30 +158,29 @@
               class="lg:hidden p-2 mr-3 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100"
               @click="mobileMenuOpen = true"
             >
-              <span class="text-xl">☰</span>
-            </button>
-            <div>
-              <h2 class="text-xl lg:text-2xl font-bold text-slate-900">
-                {{ views.find(v => v.id === currentView)?.label }}
+              <span class="text-xl">☰</span>            </button>
+            
+            <!-- Page Title -->            <div class="flex items-center space-x-3">
+              <h2 class="text-lg font-semibold text-slate-900">
+                {{ currentViewData && currentViewData.label || 'Dashboard' }}
               </h2>
-              <p class="text-slate-600 text-sm lg:text-base mt-1 hidden sm:block">
-                {{ views.find(v => v.id === currentView)?.description }}
-              </p>
+              <!-- TODO: Add breadcrumb navigation -->
             </div>
-          </div>          <!-- TODO: Add user profile dropdown here -->
-          <div class="flex items-center space-x-4">
-            <!-- TODO: Implement user authentication and profile management -->
-            <div class="text-sm text-slate-500 hidden md:block">
-              Welcome back, User
-            </div>
-            <!-- TODO: Add user avatar, notifications, and profile dropdown -->
-            <!-- TODO: Add logout functionality -->
           </div>
-        </div>
-      </header>
-
-      <!-- Main Content -->
-      <main class="flex-1 p-4 lg:p-6 overflow-auto">      <!-- Dashboard View -->
+          
+          <div class="flex items-center space-x-4">
+            <!-- TODO: Add search functionality -->
+            <!-- <SearchBar /> -->
+            
+            <!-- TODO: Add notifications -->
+            <!-- <NotificationBell /> -->
+            
+            <!-- User Menu -->
+            <UserMenu @logout="handleLogout" />
+          </div>
+        </div>      </header>      <!-- Main Content -->
+      <main class="flex-1 p-4 lg:p-6 overflow-auto">
+        <!-- Dashboard View -->
       <div v-if="currentView === 'dashboard'" class="space-y-8">
         <DashboardCards />
         
@@ -183,12 +243,15 @@
                 And {{ expiringItems.length - 5 }} more items...
               </div>
             </div>
-          </Card>
-        </div>
-      </div>      <!-- Compounds View -->
+          </Card>        </div>
+      </div>
+      
+      <!-- Compounds View -->
       <div v-else-if="currentView === 'compounds'" class="space-y-8">
         <CompoundList />
-      </div>      <!-- Inventory Count View -->
+      </div>
+      
+      <!-- Inventory Count View -->
       <div v-else-if="currentView === 'inventory-count'" class="space-y-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <InventoryScanner />
@@ -262,7 +325,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import Button from '@/components/ui/Button.vue'
 import Card from '@/components/ui/Card.vue'
 import Input from '@/components/ui/Input.vue'
@@ -270,33 +333,79 @@ import DashboardCards from '@/components/dashboard/DashboardCards.vue'
 import CompoundList from '@/components/compounds/CompoundList.vue'
 import InventoryScanner from '@/components/inventory/InventoryScanner.vue'
 import CountSession from '@/components/inventory/CountSession.vue'
+import UserMenu from '@/components/auth/UserMenu.vue'
 import { useCompounds } from '@/composables/useCompounds'
 import { useInventoryCount } from '@/composables/useInventoryCount'
+import { useAuth } from '@/composables/useAuth'
+
+// Define events this component can emit
+const emit = defineEmits(['logout'])
+
+// Authentication
+const { user, isAdmin, isVisitor } = useAuth()
 
 // Navigation
 const currentView = ref('dashboard')
 const mobileMenuOpen = ref(false)
 const settingsMenuOpen = ref(false)
-const views = [
+
+// All available views
+const allViews = [
   { 
     id: 'dashboard', 
     label: 'Dashboard', 
     icon: '📊',
-    description: 'Overview of your laboratory inventory'
+    description: 'Overview of your laboratory inventory',
+    roles: ['admin', 'visitor']
   },
   { 
     id: 'compounds', 
     label: 'Compounds', 
     icon: '🧪',
-    description: 'Manage your laboratory chemical inventory'
+    description: 'Manage your laboratory chemical inventory',
+    roles: ['admin', 'visitor']
   },
   { 
     id: 'inventory-count', 
     label: 'Inventory Count', 
     icon: '📝',
-    description: 'Scan and count your laboratory inventory'
+    description: 'Scan and count your laboratory inventory',
+    roles: ['admin', 'visitor']
+  },
+  { 
+    id: 'reports', 
+    label: 'Reports', 
+    icon: '📈',
+    description: 'Generate inventory and usage reports',
+    roles: ['admin'],
+    disabled: true // TODO: Implement reports feature
+  },
+  { 
+    id: 'admin', 
+    label: 'Admin Panel', 
+    icon: '🛡️',
+    description: 'System administration and user management',
+    roles: ['admin'],
+    disabled: true // TODO: Implement admin panel
   }
 ]
+
+// Filter views based on user role
+// INSIGHT: This is speculative - assumes simple role-based access control
+// The choice to filter views client-side provides immediate UI feedback
+// but shouldn't be the only access control mechanism in production
+const availableViews = computed(() => {
+  if (!user.value) return []
+  
+  return allViews.filter(view => 
+    view.roles.includes(user.value.role)
+  )
+})
+
+// Current view data
+const currentViewData = computed(() => 
+  availableViews.value.find(v => v.id === currentView.value)
+)
 
 // Compounds data
 const { lowStockItems, expiringItems } = useCompounds()
@@ -377,7 +486,7 @@ const toggleTheme = () => {
   // TODO: Persist theme preference in localStorage
   // TODO: Apply theme classes to document root
   settingsMenuOpen.value = false
-  console.log('Toggle theme')
+  console.log('Toggle theme - TODO: Implement theme switching')
 }
 
 const changeLanguage = () => {
@@ -387,6 +496,27 @@ const changeLanguage = () => {
   // TODO: Load language files dynamically
   // TODO: Persist language preference
   settingsMenuOpen.value = false
-  console.log('Change language')
+  console.log('Change language - TODO: Implement i18n')
+}
+
+const openSystemSettings = () => {
+  // TODO: Implement system settings for admin users
+  // This should open a modal or navigate to system settings page
+  // TODO: Add system configuration options
+  // TODO: User management interface
+  // TODO: Backup and restore functionality
+  settingsMenuOpen.value = false
+  console.log('Open system settings - TODO: Implement admin panel')
+}
+
+/**
+ * Handle Logout
+ * 
+ * Called when user clicks logout from UserMenu.
+ * Emits logout event to parent App component.
+ */
+const handleLogout = () => {
+  console.log('Logout requested from dashboard')
+  emit('logout')
 }
 </script>
