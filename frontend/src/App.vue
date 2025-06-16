@@ -1,15 +1,9 @@
 <script setup>
-// Import your components here
-// import MyComponent from './components/MyComponent.vue'
-
-// Your reactive data and functions here
-// const message = ref('')
+import Dashboard from './views/Dashboard.vue'
 </script>
 
 <template>
-  <div>
-    <p>Banana</p>
-  </div>
+  <Dashboard />
 </template>
 
 <style scoped>
