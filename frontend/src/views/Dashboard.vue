@@ -1,29 +1,92 @@
 <template>
-  <div class="min-h-screen bg-slate-50">
-    <!-- Top Navigation -->
-    <nav class="bg-white shadow-sm border-b border-slate-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <div class="flex items-center">
+  <div class="min-h-screen bg-slate-50 flex">
+    <!-- Mobile menu overlay -->
+    <div 
+      v-if="mobileMenuOpen"
+      class="fixed inset-0 z-20 bg-black bg-opacity-50 lg:hidden"
+      @click="mobileMenuOpen = false"
+    ></div>
+
+    <!-- Left Sidebar -->
+    <aside :class="[
+      'fixed lg:static inset-y-0 left-0 z-30 w-64 bg-white shadow-sm border-r border-slate-200 flex-shrink-0 transform transition-transform duration-300 ease-in-out lg:transform-none',
+      mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+    ]">
+      <div class="flex flex-col h-full">
+        <div class="p-6">
+          <div class="flex items-center justify-between">
             <h1 class="text-xl font-semibold text-slate-900">LabTrack</h1>
+            <!-- Mobile close button -->
+            <button
+              class="lg:hidden p-1 rounded-md text-slate-400 hover:text-slate-600"
+              @click="mobileMenuOpen = false"
+            >
+              <span class="text-xl">✕</span>
+            </button>
           </div>
-          <div class="flex items-center space-x-4">
-            <Button
+          
+          <!-- Navigation Menu -->
+          <nav class="mt-8 space-y-2">
+            <button
               v-for="view in views"
               :key="view.id"
-              :variant="currentView === view.id ? 'primary' : 'outline'"
-              size="sm"
-              @click="currentView = view.id"
+              :class="[
+                'w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors text-left',
+                currentView === view.id
+                  ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              ]"
+              @click="selectView(view.id)"
             >
+              <span class="mr-3 text-lg">{{ view.icon }}</span>
               {{ view.label }}
-            </Button>
+            </button>
+          </nav>
+        </div>
+        
+        <!-- Sidebar Footer -->
+        <div class="mt-auto p-6 border-t border-slate-200">
+          <div class="text-xs text-slate-500">
+            <div>Version 1.0.0</div>
+            <div class="mt-1">Lab Inventory System</div>
           </div>
         </div>
       </div>
-    </nav>
+    </aside>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 lg:ml-0">
+      <!-- Top Header Bar -->
+      <header class="bg-white shadow-sm border-b border-slate-200 px-4 lg:px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <!-- Mobile menu button -->
+            <button
+              class="lg:hidden p-2 mr-3 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+              @click="mobileMenuOpen = true"
+            >
+              <span class="text-xl">☰</span>
+            </button>
+            <div>
+              <h2 class="text-xl lg:text-2xl font-bold text-slate-900">
+                {{ views.find(v => v.id === currentView)?.label }}
+              </h2>
+              <p class="text-slate-600 text-sm lg:text-base mt-1 hidden sm:block">
+                {{ views.find(v => v.id === currentView)?.description }}
+              </p>
+            </div>
+          </div>
+          <!-- TODO: Add user profile dropdown here -->
+          <div class="flex items-center space-x-4">
+            <div class="text-sm text-slate-500 hidden md:block">
+              Welcome back, User
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-4 lg:p-6 overflow-auto">
       <!-- Dashboard View -->
       <div v-if="currentView === 'dashboard'" class="space-y-8">
         <div>
@@ -173,14 +236,14 @@
                   @click="createNewSession"
                   :disabled="!newSessionName.trim()"
                 >
-                  Create Session
-                </Button>
+                  Create Session                </Button>
               </template>
             </Card>
           </div>
         </div>
       </div>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -198,10 +261,26 @@ import { useInventoryCount } from '@/composables/useInventoryCount'
 
 // Navigation
 const currentView = ref('dashboard')
+const mobileMenuOpen = ref(false)
 const views = [
-  { id: 'dashboard', label: 'Dashboard' },
-  { id: 'compounds', label: 'Compounds' },
-  { id: 'inventory-count', label: 'Inventory Count' }
+  { 
+    id: 'dashboard', 
+    label: 'Dashboard', 
+    icon: '📊',
+    description: 'Overview of your laboratory inventory'
+  },
+  { 
+    id: 'compounds', 
+    label: 'Compounds', 
+    icon: '🧪',
+    description: 'Manage your laboratory chemical inventory'
+  },
+  { 
+    id: 'inventory-count', 
+    label: 'Inventory Count', 
+    icon: '📝',
+    description: 'Scan and count your laboratory inventory'
+  }
 ]
 
 // Compounds data
@@ -220,6 +299,11 @@ const newSessionDescription = ref('')
 const newSessionLocation = ref('')
 
 // Methods
+const selectView = (viewId) => {
+  currentView.value = viewId
+  mobileMenuOpen.value = false // Close mobile menu when selecting a view
+}
+
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('en-US', {
     year: 'numeric',
