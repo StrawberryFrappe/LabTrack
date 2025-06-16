@@ -2,7 +2,8 @@
   "name": "labtrack",
   "private": true,
   "version": "0.0.0",
-  "type": "module",  "scripts": {
+  "type": "module",
+  "scripts": {
     "dev": "concurrently \"npm run server\" \"vite\"",
     "server": "json-server --watch db.json --port 3001",
     "client": "vite",
@@ -13,7 +14,8 @@
     "axios": "^1.10.0",
     "concurrently": "^9.1.2",
     "json-server": "^1.0.0-beta.3",
-    "vue": "^3.5.13"
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",

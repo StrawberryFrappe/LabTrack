@@ -7,10 +7,16 @@
   
   Features:
   - User avatar (using initials)
-  - User name and role display
+  - User name and role display  
   - Dropdown menu with user actions
   - Logout functionality
   - Role-based visual indicators
+    ✅ COMPLETED: Router integration and menu restructuring
+      - Logout now uses router.push('/login') instead of events
+      - Added Preferences link for all users (router-link to /preferences)
+      - System Settings moved here for admin users (router-link to /settings)
+      - Removed event-based communication in favor of router navigation
+      - Improved separation of user vs system settings for better UX
 -->
 
 <template>
@@ -76,8 +82,7 @@
             </div>
           </div>
           
-          <!-- Menu Items -->
-          <a
+          <!-- Menu Items -->          <a
             href="#"
             @click.prevent="handleProfileClick"
             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
@@ -88,30 +93,30 @@
             </span>
           </a>
           
-          <a
-            href="#"
-            @click.prevent="handlePreferencesClick"
+          <router-link
+            to="/preferences"
+            @click="isMenuOpen = false"
             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
           >
             <span class="flex items-center">
               <span class="mr-3">⚙️</span>
               Preferences
             </span>
-          </a>
+          </router-link>
           
           <!-- Admin-only menu items -->
           <template v-if="isAdmin">
             <div class="border-t border-gray-200"></div>
-            <a
-              href="#"
-              @click.prevent="handleAdminClick"
+            <router-link
+              to="/settings"
+              @click="isMenuOpen = false"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
             >
               <span class="flex items-center">
-                <span class="mr-3">🛡️</span>
-                Admin Panel
+                <span class="mr-3">�</span>
+                System Settings
               </span>
-            </a>
+            </router-link>
           </template>
           
           <!-- Logout -->
@@ -141,10 +146,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuth } from '../../composables/useAuth.js'
 
-// Define events this component can emit
-const emit = defineEmits(['logout'])
+// Router for navigation
+const router = useRouter()
 
 // Get authentication state
 const { user, isAuthenticated, isAdmin, logout, loading } = useAuth()
@@ -174,12 +180,12 @@ const getUserInitials = () => {
 /**
  * Handle Logout
  * 
- * Logs out the user and emits logout event to parent.
+ * Logs out the user and navigates to login page.
  */
 const handleLogout = async () => {
   try {
     await logout()
-    emit('logout')
+    router.push('/login')
   } catch (error) {
     console.error('Logout failed:', error)
   }
@@ -195,15 +201,6 @@ const handleLogout = async () => {
 const handleProfileClick = () => {
   console.log('Profile clicked - TODO: Implement profile page')
   // TODO: Navigate to profile page or open profile modal
-}
-
-const handlePreferencesClick = () => {
-  console.log('Preferences clicked - TODO: Implement preferences')
-  // TODO: Open preferences modal/page
-}
-
-const handleAdminClick = () => {
-  console.log('Admin panel clicked - TODO: Implement admin features')
-  // TODO: Navigate to admin panel
+  isMenuOpen.value = false
 }
 </script>
