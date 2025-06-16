@@ -1,10 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-
-// TODO: Import and setup Vue Router
-// import { createRouter, createWebHistory } from 'vue-router'
-// import routes from './router/routes'
+import router from './router'
 
 // TODO: Import and setup Pinia for state management
 // import { createPinia } from 'pinia'
@@ -21,8 +18,8 @@ import App from './App.vue'
 
 const app = createApp(App)
 
-// TODO: Use router when implemented
-// app.use(router)
+// Use Vue Router
+app.use(router)
 
 // TODO: Use Pinia when implemented
 // app.use(createPinia())

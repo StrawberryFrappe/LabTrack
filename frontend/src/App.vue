@@ -1,21 +1,18 @@
 <!--
   Main Application Component
   
-  This is the root component that handles the authentication flow
-  and displays either the login form or the main dashboard based
-  on the user's authentication status.
+  This is the root component that provides the router-view for navigation.
+  Vue Router handles authentication flows and route protection through
+  navigation guards defined in the router configuration.
   
   Features:
-  - Authentication-based routing (login vs dashboard)
+  - Vue Router integration with authentication guards
   - Global loading states
-  - Error handling
+  - Global error handling
   - Responsive design
   
-  TODO: Implement Vue Router for proper navigation
-  TODO: Add authentication guards and route protection
-  TODO: Implement layout system with different page layouts
-  TODO: Add global error boundary
-  TODO: Add notification/toast system
+  ✅ COMPLETED: Vue Router implementation
+  ✅ COMPLETED: Authentication-based routing with guards
 -->
 
 <template>
@@ -31,20 +28,8 @@
       </div>
     </div>
 
-    <!-- Authentication Flow: Show Login or Dashboard -->
-    <template v-else>
-      <!-- Login Form - shown when user is not authenticated -->
-      <LoginForm 
-        v-if="!isAuthenticated" 
-        @login-success="handleLoginSuccess" 
-      />
-      
-      <!-- Main Dashboard - shown when user is authenticated -->
-      <Dashboard 
-        v-else 
-        @logout="handleLogout" 
-      />
-    </template>
+    <!-- Router View - handles all routing -->
+    <router-view v-else />
 
     <!-- TODO: Add global notification/toast container -->
     <!-- <NotificationContainer /> -->
@@ -59,43 +44,13 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import LoginForm from './components/auth/LoginForm.vue'
-import Dashboard from './views/Dashboard.vue'
 import { useAuth } from './composables/useAuth.js'
 
 // Get authentication state and methods
-const { isAuthenticated, loading } = useAuth()
+const { loading } = useAuth()
 
 // Local loading state for initial app load
 const authLoading = ref(true)
-
-/**
- * Handle Successful Login
- * 
- * Called when user successfully logs in through LoginForm.
- * The authentication state will automatically update and
- * trigger the dashboard to show.
- */
-const handleLoginSuccess = () => {
-  console.log('Login successful, switching to dashboard')
-  // TODO: Add login analytics/tracking
-  // TODO: Initialize user preferences
-  // TODO: Load user-specific data
-}
-
-/**
- * Handle Logout
- * 
- * Called when user logs out from the dashboard.
- * The authentication state will automatically update and
- * trigger the login form to show.
- */
-const handleLogout = () => {
-  console.log('User logged out, switching to login')
-  // TODO: Clear user-specific cached data
-  // TODO: Add logout analytics/tracking
-  // TODO: Show logout confirmation message
-}
 
 /**
  * Initialize Application
