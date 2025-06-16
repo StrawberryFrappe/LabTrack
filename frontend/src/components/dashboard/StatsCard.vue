@@ -5,9 +5,11 @@
         <p class="text-sm font-medium text-slate-600">{{ title }}</p>
         <p :class="valueClasses">{{ displayValue }}</p>
         <p v-if="subtitle" class="text-xs text-slate-500 mt-1">{{ subtitle }}</p>
-      </div>
-      <div :class="iconClasses">
+      </div>      <div :class="iconClasses">
         <!-- Using simple text icons for now, TODO: Replace with proper icon library -->
+        <!-- TODO: Implement Heroicons, Lucide, or other icon system -->
+        <!-- TODO: Add click handlers for interactive stats cards -->
+        <!-- TODO: Add loading skeleton states -->
         <span class="text-lg font-bold">{{ iconText }}</span>
       </div>
     </div>

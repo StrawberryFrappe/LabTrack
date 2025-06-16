@@ -6,11 +6,13 @@
     
     <div class="space-y-6">
       <!-- Scanner Input -->
-      <div class="space-y-4">
-        <div class="text-center p-6 border-2 border-dashed border-slate-300 rounded-lg">
+      <div class="space-y-4">        <div class="text-center p-6 border-2 border-dashed border-slate-300 rounded-lg">
           <div class="text-4xl mb-2">📱</div>
           <p class="text-slate-600 mb-4">Scan barcode or enter manually</p>
           <!-- TODO: Implement camera scanning -->
+          <!-- TODO: Add barcode scanning library (QuaggaJS or similar) -->
+          <!-- TODO: Handle camera permissions and errors -->
+          <!-- TODO: Support multiple barcode formats -->
           <Button variant="outline" disabled>
             Enable Camera Scanner
           </Button>
@@ -174,7 +176,9 @@ const processCode = () => {
     scannedItem.value = compound
     countedQuantity.value = compound.quantity
   } else {
-    // TODO: Show error toast
+    // TODO: Show error toast/notification
+    // TODO: Implement "compound not found" dialog with option to add new compound
+    // TODO: Suggest similar compounds based on partial matches
     console.log('Compound not found:', manualCode.value)
   }
 }
@@ -202,6 +206,9 @@ const confirmCount = () => {
     
     // TODO: Save to inventory count session
     // TODO: Update compound quantity if needed
+    // TODO: Show success notification
+    // TODO: Emit event to parent components
+    // TODO: Handle discrepancy alerts if difference is significant
     
     resetScanner()
   }
