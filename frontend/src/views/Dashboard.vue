@@ -107,12 +107,14 @@
                 {{ views.find(v => v.id === currentView)?.description }}
               </p>
             </div>
-          </div>
-          <!-- TODO: Add user profile dropdown here -->
+          </div>          <!-- TODO: Add user profile dropdown here -->
           <div class="flex items-center space-x-4">
+            <!-- TODO: Implement user authentication and profile management -->
             <div class="text-sm text-slate-500 hidden md:block">
               Welcome back, User
             </div>
+            <!-- TODO: Add user avatar, notifications, and profile dropdown -->
+            <!-- TODO: Add logout functionality -->
           </div>
         </div>
       </header>
@@ -349,22 +351,31 @@ const createNewSession = () => {
 
 const handleContinueSession = (session) => {
   // TODO: Implement session continuation
+  // TODO: Load session state and scanned items
+  // TODO: Navigate to scanning interface
   console.log('Continue session:', session)
 }
 
 const handleViewSessionDetails = (session) => {
   // TODO: Implement session details view
+  // TODO: Show detailed session information, scanned items, discrepancies
+  // TODO: Allow editing session notes and completion
   console.log('View session details:', session)
 }
 
 const handleCompleteSession = (session) => {
   // TODO: Implement session completion
+  // TODO: Show completion confirmation dialog
+  // TODO: Allow final notes entry
+  // TODO: Update compound quantities based on count results
   console.log('Complete session:', session)
 }
 
 const toggleTheme = () => {
   // TODO: Implement theme switching functionality
   // This should toggle between light and dark themes
+  // TODO: Persist theme preference in localStorage
+  // TODO: Apply theme classes to document root
   settingsMenuOpen.value = false
   console.log('Toggle theme')
 }
@@ -372,6 +383,9 @@ const toggleTheme = () => {
 const changeLanguage = () => {
   // TODO: Implement language switching functionality
   // This should show a dropdown/modal with available languages
+  // TODO: Implement i18n internationalization
+  // TODO: Load language files dynamically
+  // TODO: Persist language preference
   settingsMenuOpen.value = false
   console.log('Change language')
 }
