@@ -1,32 +1,32 @@
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     <StatsCard
-      title="Total Compounds"
+      :title="$t('dashboard.totalCompounds')"
       :value="compounds.length"
       icon="beaker"
       variant="default"
     />
     
     <StatsCard
-      title="Low Stock Items"
+      :title="$t('dashboard.lowStock')"
       :value="lowStockItems.length"
-      :subtitle="`Below threshold levels`"
+      :subtitle="$t('dashboard.belowThreshold')"
       icon="warning"
       variant="warning"
     />
     
     <StatsCard
-      title="Expiring Soon"
+      :title="$t('dashboard.expiring')"
       :value="expiringItems.length"
-      :subtitle="`Within 3 months`"
+      :subtitle="$t('dashboard.withinThreeMonths')"
       icon="clock"
       variant="error"
     />
     
     <StatsCard
-      title="Locations"
+      :title="$t('dashboard.locations')"
       :value="locations.length"
-      :subtitle="`Storage locations`"
+      :subtitle="$t('dashboard.storageLocations')"
       icon="info"
       variant="success"
     />
@@ -34,8 +34,12 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 import StatsCard from './StatsCard.vue'
 import { useCompounds } from '@/composables/useCompounds'
+
+// i18n
+const { t: $t } = useI18n()
 
 const { compounds, lowStockItems, expiringItems, locations } = useCompounds()
 </script>

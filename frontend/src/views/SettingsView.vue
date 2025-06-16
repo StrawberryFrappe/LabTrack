@@ -6,14 +6,14 @@
   
   Features:
   - User management
-  - System configuration
-  - Lab settings
+  - System configuration  - Lab settings
   - Data export/import
   
-  TODO: Implement user management interface
-  TODO: Add system backup functionality
-  TODO: Implement audit log viewer
-  TODO: Add notification settings
+  TRL3 PRIORITIES:
+  - Implement user management interface (add/edit/delete users)
+  - Add system backup and restore functionality  
+  - Implement audit log viewer for security and compliance
+  - Add notification settings for system alerts
 -->
 
 <template>
@@ -35,7 +35,7 @@
         </template>
         <div class="space-y-4">
           <p class="text-slate-600">Manage user accounts and permissions</p>
-          <!-- TODO: Add user management interface -->
+          <!-- TRL3: User management interface placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">👥</div>
             <p>User management interface coming soon</p>
@@ -50,7 +50,7 @@
         </template>
         <div class="space-y-4">
           <p class="text-slate-600">Configure system-wide settings</p>
-          <!-- TODO: Add system configuration options -->
+          <!-- TRL3: System configuration options placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">⚙️</div>
             <p>System configuration coming soon</p>
@@ -65,7 +65,7 @@
         </template>
         <div class="space-y-4">
           <p class="text-slate-600">Configure lab-specific settings</p>
-          <!-- TODO: Add lab settings interface -->
+          <!-- TRL3: Lab settings interface placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">🧪</div>
             <p>Lab settings interface coming soon</p>
@@ -80,7 +80,7 @@
         </template>
         <div class="space-y-4">
           <p class="text-slate-600">Export, import, and backup data</p>
-          <!-- TODO: Add data management tools -->
+          <!-- TRL3: Data management tools placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">💾</div>
             <p>Data management tools coming soon</p>

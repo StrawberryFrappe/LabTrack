@@ -1,0 +1,93 @@
+export default {
+  navigation: {
+    dashboard: 'Painel de Controle',
+    compounds: 'Compostos',
+    inventory: 'Contagem de Inventário',
+    preferences: 'Preferências',
+    settings: 'Configurações do Sistema'
+  },  dashboard: {
+    title: 'Painel do Laboratório',
+    welcome: 'Bem-vindo ao LabTrack',
+    overview: 'Visão Geral do Laboratório',
+    totalCompounds: 'Total de Compostos',
+    lowStock: 'Itens com Estoque Baixo',
+    expiring: 'Vencendo em Breve',
+    recentActivity: 'Atividade Recente',
+    quickActions: 'Ações Rápidas',
+    belowThreshold: 'Abaixo dos níveis limite',
+    withinThreeMonths: 'Dentro de 3 meses',
+    locations: 'Localidades',
+    storageLocations: 'Locais de armazenamento',
+    allItemsStocked: 'Todos os itens têm estoque adequado',
+    noItemsExpiring: 'Nenhum item vencendo em breve',
+    remaining: 'restante',
+    expires: 'Vence',
+    days: 'dias',
+    viewAllLowStock: 'Ver todos os {count} itens com estoque baixo',
+    viewAllExpiring: 'Ver todos os {count} itens vencendo',
+    manageCompounds: 'Gerenciar Compostos',
+    manageCompoundsDesc: 'Ver e atualizar inventário químico',
+    startCountSession: 'Iniciar Sessão de Contagem',
+    startCountSessionDesc: 'Começar contagem física do inventário',
+    systemSettings: 'Configurações do Sistema',
+    systemSettingsDesc: 'Configurar usuários e sistema',
+    laboratoryManagement: 'Gerenciamento de Laboratório'
+  },  compounds: {
+    title: 'Gerenciamento de Compostos',
+    description: 'Gerencie o inventário químico do seu laboratório',
+    addNew: 'Adicionar Novo Composto',
+    search: 'Buscar compostos...',
+    filters: 'Filtros',
+    category: 'Categoria',
+    hazardLevel: 'Nível de Perigo',
+    location: 'Localização',
+    status: 'Status',
+    actions: 'Ações',
+    edit: 'Editar',
+    delete: 'Excluir',
+    view: 'Ver Detalhes'
+  },
+  inventory: {
+    title: 'Contagem de Inventário',
+    startCount: 'Iniciar Nova Contagem',
+    activeCount: 'Sessão de Contagem Ativa',
+    scanBarcode: 'Escanear Código de Barras',
+    manualEntry: 'Entrada Manual',
+    saveCount: 'Salvar Contagem',
+    completeCount: 'Completar Contagem'
+  },  preferences: {
+    title: 'Preferências do Usuário',
+    description: 'Personalize sua experiência com o LabTrack',
+    appearance: 'Aparência',
+    theme: 'Tema',
+    preview: 'Visualização',
+    languageRegion: 'Idioma e Região',
+    displayLanguage: 'Idioma de Exibição',
+    language: 'Idioma',
+    notifications: 'Notificações',
+    dateFormat: 'Formato de Data',
+    save: 'Salvar Preferências',
+    cancel: 'Cancelar'
+  },common: {
+    save: 'Salvar',
+    saving: 'Salvando...',
+    soon: 'Em breve',
+    cancel: 'Cancelar',
+    edit: 'Editar',
+    delete: 'Excluir',
+    view: 'Ver',
+    add: 'Adicionar',
+    search: 'Buscar',
+    filter: 'Filtrar',
+    loading: 'Carregando...',
+    error: 'Erro',
+    success: 'Sucesso',
+    warning: 'Aviso',
+    info: 'Informação'
+  },
+  userMenu: {
+    profile: 'Configurações de Perfil',
+    preferences: 'Preferências',
+    systemSettings: 'Configurações do Sistema'
+  }
+}

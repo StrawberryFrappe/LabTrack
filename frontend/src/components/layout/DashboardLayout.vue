@@ -5,25 +5,39 @@
   including the sidebar navigation, top header, and router-view for content.
   
   Features:
-  - Responsive sidebar navigation with Vue Router links
-  - Mobile-friendly hamburger menu
-  - User menu integration
-  - Role-based navigation items
-  - Clean sidebar footer with version info
+  - Responsive sidebar navigation with Vue Router links ✅
+  - Mobile-friendly hamburger menu ✅
+  - User menu integration ✅
+  - Role-based navigation items ✅
+  - Clean sidebar footer with version info ✅
+  - Internationalization support ✅ COMPLETED
     ✅ COMPLETED: Router-based navigation system
       - Sidebar uses router-link instead of manual view switching
       - Active route highlighting with $route.name comparison
       - Role-based navigation filtering through availableViews computed
       - Clean URL structure with proper navigation flow
       
-  ✅ COMPLETED: UI restructuring for better UX
+    ✅ COMPLETED: Internationalization implementation  
+      - Navigation labels fully internationalized
+      - Page titles dynamically translated
+      - Real-time language switching support
+      
+    ✅ COMPLETED: UI restructuring for better UX
       - Removed settings dropdown from sidebar
       - Replaced with clean version/info display
       - Settings moved to user menu for better discoverability
-      - Improved mobile responsiveness and touch targets
-      
+      - Improved mobile responsiveness and touch targets      
   Used by: All authenticated routes as nested route container
-  TODO: Add breadcrumb navigation
+  
+  TRL3 PRIORITIES:
+  - Add breadcrumb navigation system for better user orientation
+  - Add global search functionality across all data types
+  - Add notification center integration for user alerts
+  
+  MODULARIZATION OPPORTUNITIES:
+  - Extract sidebar into separate component (SidebarNavigation.vue)
+  - Create navigation composable for reusable navigation logic
+  - Extract header section into TopBar.vue component
 -->
 
 <template>
@@ -84,22 +98,20 @@
                   ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               ]"
-              @click="mobileMenuOpen = false"
-            >
+              @click="mobileMenuOpen = false"            >
               <span class="mr-3 text-lg">{{ view.icon }}</span>
-              {{ view.label }}
-              <!-- TODO indicator for disabled features -->
-              <span v-if="view.disabled" class="ml-auto text-xs text-slate-400">Soon</span>
+              {{ $t(view.labelKey) }}
+              <!-- Visual indicator for future features -->
+              <span v-if="view.disabled" class="ml-auto text-xs text-slate-400">{{ $t('common.soon') }}</span>
             </router-link>
           </nav>
         </div>
           <!-- Settings Section -->
         <div class="mt-auto p-6 border-t border-slate-200">
-          <!-- Version/Info Display -->
-          <div class="text-center">
+          <!-- Version/Info Display -->          <div class="text-center">
             <div class="text-xs text-slate-500">
               <p class="font-medium text-slate-600">LabTrack v1.0.0</p>
-              <p>Laboratory Management</p>
+              <p>{{ $t('dashboard.laboratoryManagement') }}</p>
             </div>
           </div>
         </div>
@@ -118,22 +130,19 @@
               @click="mobileMenuOpen = true"
             >
               <span class="text-xl">☰</span>
-            </button>
-            
-            <!-- Page Title -->
+            </button>              <!-- Page Title -->
             <div class="flex items-center space-x-3">
               <h2 class="text-lg font-semibold text-slate-900">
                 {{ getPageTitle($route.name) }}
               </h2>
-              <!-- TODO: Add breadcrumb navigation -->
+              <!-- TRL3: Breadcrumb navigation system placeholder -->
             </div>
           </div>
-          
-          <div class="flex items-center space-x-4">
-            <!-- TODO: Add search functionality -->
+            <div class="flex items-center space-x-4">
+            <!-- TRL3: Global search functionality placeholder -->
             <!-- <SearchBar /> -->
             
-            <!-- TODO: Add notifications -->
+            <!-- TRL3: Notification center integration placeholder -->
             <!-- <NotificationBell /> -->
             
             <!-- User Menu -->
@@ -153,8 +162,12 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import UserMenu from '@/components/auth/UserMenu.vue'
 import { useAuth } from '@/composables/useAuth.js'
+
+// i18n
+const { t: $t } = useI18n()
 
 // Authentication
 const { user, isAdmin, isVisitor } = useAuth()
@@ -169,7 +182,7 @@ const allViews = [
     id: 'dashboard',
     routeName: 'Dashboard',
     path: '/dashboard',
-    label: 'Dashboard',
+    labelKey: 'navigation.dashboard', // Using translation key
     icon: '📊',
     roles: ['admin', 'user', 'visitor'],
     disabled: false
@@ -178,7 +191,7 @@ const allViews = [
     id: 'compounds',
     routeName: 'Compounds',
     path: '/compounds',
-    label: 'Compounds',
+    labelKey: 'navigation.compounds', // Using translation key
     icon: '🧪',
     roles: ['admin', 'user', 'visitor'],
     disabled: false
@@ -187,7 +200,7 @@ const allViews = [
     id: 'inventory-count',
     routeName: 'Inventory',
     path: '/inventory',
-    label: 'Inventory Count',
+    labelKey: 'navigation.inventory', // Using translation key
     icon: '📦',
     roles: ['admin', 'user'],
     disabled: false
@@ -205,13 +218,15 @@ const availableViews = computed(() => {
 
 // Get page title based on route name
 const getPageTitle = (routeName) => {
-  const titles = {
-    'Dashboard': 'Dashboard',
-    'Compounds': 'Chemical Compounds',
-    'Inventory': 'Inventory Count',
-    'Preferences': 'Preferences',
-    'Settings': 'Settings'
+  const titleKeys = {
+    'Dashboard': 'navigation.dashboard',
+    'Compounds': 'compounds.title',
+    'Inventory': 'navigation.inventory',
+    'Preferences': 'navigation.preferences',
+    'Settings': 'navigation.settings'
   }
-  return titles[routeName] || 'LabTrack'
+  
+  const titleKey = titleKeys[routeName]
+  return titleKey ? $t(titleKey) : 'LabTrack'
 }
 </script>

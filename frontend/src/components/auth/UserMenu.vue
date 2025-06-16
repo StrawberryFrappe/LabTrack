@@ -89,7 +89,7 @@
           >
             <span class="flex items-center">
               <span class="mr-3">👤</span>
-              Profile Settings
+              {{ $t('userMenu.profile') }}
             </span>
           </a>
           
@@ -100,7 +100,7 @@
           >
             <span class="flex items-center">
               <span class="mr-3">⚙️</span>
-              Preferences
+              {{ $t('userMenu.preferences') }}
             </span>
           </router-link>
           
@@ -111,10 +111,9 @@
               to="/settings"
               @click="isMenuOpen = false"
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
-            >
-              <span class="flex items-center">
-                <span class="mr-3">�</span>
-                System Settings
+            >              <span class="flex items-center">
+                <span class="mr-3">🔧</span>
+                {{ $t('userMenu.systemSettings') }}
               </span>
             </router-link>
           </template>
@@ -147,7 +146,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAuth } from '../../composables/useAuth.js'
+
+// i18n
+const { t: $t } = useI18n()
 
 // Router for navigation
 const router = useRouter()
