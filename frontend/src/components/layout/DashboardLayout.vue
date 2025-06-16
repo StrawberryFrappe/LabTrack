@@ -9,9 +9,21 @@
   - Mobile-friendly hamburger menu
   - User menu integration
   - Role-based navigation items
-  - Breadcrumb support (TODO)
-  
-  Used by: All authenticated routes
+  - Clean sidebar footer with version info
+    ✅ COMPLETED: Router-based navigation system
+      - Sidebar uses router-link instead of manual view switching
+      - Active route highlighting with $route.name comparison
+      - Role-based navigation filtering through availableViews computed
+      - Clean URL structure with proper navigation flow
+      
+  ✅ COMPLETED: UI restructuring for better UX
+      - Removed settings dropdown from sidebar
+      - Replaced with clean version/info display
+      - Settings moved to user menu for better discoverability
+      - Improved mobile responsiveness and touch targets
+      
+  Used by: All authenticated routes as nested route container
+  TODO: Add breadcrumb navigation
 -->
 
 <template>
@@ -81,52 +93,13 @@
             </router-link>
           </nav>
         </div>
-        
-        <!-- Settings Section -->
+          <!-- Settings Section -->
         <div class="mt-auto p-6 border-t border-slate-200">
-          <div class="mb-4 flex items-center justify-between">
-            <!-- Settings Dropdown -->
-            <div class="relative">
-              <button 
-                class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors"
-                @click.stop="settingsMenuOpen = !settingsMenuOpen"
-                title="Settings"
-              >
-                <span class="text-lg">⚙️</span>
-              </button>
-              
-              <!-- Settings Dropdown Menu -->
-              <div
-                v-if="settingsMenuOpen"
-                class="absolute bottom-full left-0 mb-2 w-48 bg-white rounded-lg shadow-lg border border-slate-200 py-2 z-50"
-                @click.stop
-              >
-                <button 
-                  class="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 flex items-center"
-                  @click="toggleTheme"
-                >
-                  <span class="mr-3">🌙</span>
-                  Toggle Theme
-                  <span class="ml-auto text-xs text-slate-400">Soon</span>
-                </button>
-                <button 
-                  class="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 flex items-center"
-                  @click="changeLanguage"
-                >
-                  <span class="mr-3">🌐</span>
-                  Language
-                  <span class="ml-auto text-xs text-slate-400">Soon</span>
-                </button>
-                <router-link
-                  v-if="isAdmin"
-                  to="/settings"
-                  class="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 flex items-center"
-                  @click="settingsMenuOpen = false"
-                >
-                  <span class="mr-3">🔧</span>
-                  System Settings
-                </router-link>
-              </div>
+          <!-- Version/Info Display -->
+          <div class="text-center">
+            <div class="text-xs text-slate-500">
+              <p class="font-medium text-slate-600">LabTrack v1.0.0</p>
+              <p>Laboratory Management</p>
             </div>
           </div>
         </div>
@@ -189,7 +162,6 @@ const { user, isAdmin, isVisitor } = useAuth()
 // Navigation
 const route = useRoute()
 const mobileMenuOpen = ref(false)
-const settingsMenuOpen = ref(false)
 
 // Navigation menu items based on user role
 const allViews = [
@@ -237,21 +209,9 @@ const getPageTitle = (routeName) => {
     'Dashboard': 'Dashboard',
     'Compounds': 'Chemical Compounds',
     'Inventory': 'Inventory Count',
+    'Preferences': 'Preferences',
     'Settings': 'Settings'
   }
   return titles[routeName] || 'LabTrack'
-}
-
-// Methods
-const toggleTheme = () => {
-  // TODO: Implement theme switching functionality
-  settingsMenuOpen.value = false
-  console.log('Toggle theme - TODO: Implement theme switching')
-}
-
-const changeLanguage = () => {
-  // TODO: Implement language switching functionality
-  settingsMenuOpen.value = false
-  console.log('Change language - TODO: Implement i18n')
 }
 </script>

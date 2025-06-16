@@ -1,17 +1,28 @@
 <!--
   Dashboard Home View
+    ✅ COMPLETED: Extracted from legacy Dashboard.vue component
+      - Successfully separated layout concerns from content
+      - Migrated from conditional rendering to dedicated route
+      - Improved component modularity and maintainability
   
   This is the main dashboard view that shows summary information
-  and quick access to key features.
+  and quick access to key features. Created as part of the router
+  migration to separate layout from content.
   
   Features:
-  - Dashboard summary cards
-  - Low stock alerts
-  - Expiring items alerts
-  - Quick actions
+  - Dashboard summary cards from DashboardCards component
+  - Low stock alerts with router links to compounds  
+  - Expiring items alerts with proper date formatting
+  - Quick action cards with router navigation
+  - Role-based action visibility (admin settings)
+    ✅ COMPLETED: Router integration for navigation
+      - Quick action cards use router-link for navigation
+      - Conditional admin settings card based on user role
+      - Proper navigation to /compounds, /inventory, /settings
+      - Eliminates need for custom event handling and view switching
   
   TODO: Add customizable dashboard widgets
-  TODO: Implement dashboard preferences
+  TODO: Implement dashboard preferences  
   TODO: Add real-time updates
 -->
 

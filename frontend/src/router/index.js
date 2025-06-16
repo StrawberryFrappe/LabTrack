@@ -1,8 +1,14 @@
 /**
  * Vue Router Configuration
  * 
- * This file sets up all the routes for the LabTrack application
- * and includes navigation guards for authentication and role-based access.
+ * ✅ COMPLETED: Comprehensive routing system for LabTrack
+ * 
+ * This file implements a complete Vue Router 4 setup with:
+ * - Nested route structure using DashboardLayout
+ * - Authentication guards for route protection
+ * - Role-based access control for admin routes  
+ * - Guest-only routes for unauthenticated users
+ * - Automatic redirects and proper navigation flow
  * 
  * Route Structure:
  * - /login - Authentication page (guest only)
@@ -10,12 +16,21 @@
  * - /dashboard - Main dashboard (authenticated users)
  * - /compounds - Compound management (authenticated users)
  * - /inventory - Inventory counts (authenticated users)
- * - /settings - Settings page (admin only)
+ * - /preferences - User preferences (authenticated users)
+ * - /settings - System settings (admin only)
+ *  * Navigation Guards Implementation:
+ * - requiresAuth: Redirects to login if not authenticated
+ * - requiresAdmin: Redirects to dashboard if not admin
+ * - requiresGuest: Redirects to dashboard if already authenticated
+ * - Document title management for better UX
+ * - Scroll behavior management for consistent navigation
  * 
- * Navigation Guards:
- * - requireAuth: Redirects to login if not authenticated
- * - requireAdmin: Redirects to dashboard if not admin
- * - requireGuest: Redirects to dashboard if already authenticated
+ * Key Benefits:
+ * - Eliminates complex conditional rendering in components
+ * - Provides clean URL structure for better user experience
+ * - Enables browser back/forward navigation
+ * - Centralizes authentication logic in one place
+ * - Supports lazy loading for better performance
  */
 
 import { createRouter, createWebHistory } from 'vue-router'
@@ -28,6 +43,7 @@ const DashboardHome = () => import('../views/DashboardHome.vue')
 const CompoundsView = () => import('../views/CompoundsView.vue')
 const InventoryView = () => import('../views/InventoryView.vue')
 const SettingsView = () => import('../views/SettingsView.vue')
+const PreferencesView = () => import('../views/PreferencesView.vue')
 
 const routes = [
   {
@@ -65,14 +81,22 @@ const routes = [
           requiresAuth: true,
           title: 'Compounds - LabTrack'
         }
-      },
-      {
+      },      {
         path: 'inventory',
         name: 'Inventory',
         component: InventoryView,
         meta: { 
           requiresAuth: true,
           title: 'Inventory - LabTrack'
+        }
+      },
+      {
+        path: 'preferences',
+        name: 'Preferences',
+        component: PreferencesView,
+        meta: { 
+          requiresAuth: true,
+          title: 'Preferences - LabTrack'
         }
       },
       {
@@ -111,10 +135,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const { isAuthenticated, isAdmin } = useAuth()
   
-  console.log(`Router: Navigating from ${from.path} to ${to.path}`)
-  console.log(`Router: User authenticated: ${isAuthenticated.value}`)
-  console.log(`Router: User is admin: ${isAdmin.value}`)
-  
   // Set document title
   if (to.meta.title) {
     document.title = to.meta.title
@@ -122,26 +142,22 @@ router.beforeEach((to, from, next) => {
   
   // Handle guest-only routes (like login)
   if (to.meta.requiresGuest && isAuthenticated.value) {
-    console.log('Router: Redirecting authenticated user from guest-only route to dashboard')
     next('/dashboard')
     return
   }
   
   // Handle authentication-required routes
   if (to.meta.requiresAuth && !isAuthenticated.value) {
-    console.log('Router: Redirecting unauthenticated user to login')
     next('/login')
     return
   }
   
   // Handle admin-only routes
   if (to.meta.requiresAdmin && !isAdmin.value) {
-    console.log('Router: Redirecting non-admin user to dashboard')
     next('/dashboard')
     return
   }
   
-  console.log('Router: Navigation allowed')
   next()
 })
 

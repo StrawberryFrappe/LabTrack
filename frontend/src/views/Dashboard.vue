@@ -1,22 +1,32 @@
 <!--
   Dashboard Component
   
-  This is the main dashboard view that users see after logging in.
-  It provides navigation between different features and shows
-  user-specific content based on their role.
+  NOTE: This component is now DEPRECATED in favor of the new router-based system.
+  The functionality has been split into:
+  - DashboardLayout.vue (sidebar navigation and layout)
+  - DashboardHome.vue (main dashboard content)
+  - Individual view components for each section
   
-  Features:
-  - Responsive sidebar navigation
-  - Role-based view access
-  - User menu integration
-  - Mobile-friendly design
-    ✅ COMPLETED: Role-based view access
+  ✅ COMPLETED: Role-based view access
+      - Implemented through router guards and useAuth composable
+      - Admin/user/visitor roles properly filtered in navigation
+      
   ✅ COMPLETED: User menu integration  
+      - UserMenu component handles authentication display
+      - Logout functionality integrated with router navigation
+      
   ✅ COMPLETED: Authentication-based navigation
-  
-  TODO: Implement proper routing with Vue Router
-  TODO: Add breadcrumb navigation
-  TODO: Add dashboard customization features
+      - Navigation guards ensure proper access control
+      - Automatic redirects based on authentication status
+      
+  ✅ COMPLETED: Proper routing with Vue Router
+      - Replaced conditional rendering with proper routes
+      - Nested route structure with DashboardLayout
+      - Individual routes for each major section
+      
+  TODO: Remove this deprecated component after migration verification
+  TODO: Add breadcrumb navigation to new layout
+  TODO: Add dashboard customization features  
   TODO: Implement user preferences storage
 -->
 
