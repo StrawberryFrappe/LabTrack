@@ -54,15 +54,19 @@
         </div>
       </div>
     </div>
-    
-    <template #footer>
+      <template #footer>
       <div class="flex gap-2">
+        <!-- TODO: Add more action buttons (View Details, Duplicate, Delete) -->
+        <!-- TODO: Add context menu for additional actions -->
+        <!-- TODO: Add confirmation dialogs for destructive actions -->
         <Button variant="outline" size="sm" @click="$emit('edit', compound)">
           Edit
         </Button>
         <Button variant="outline" size="sm" @click="$emit('scan', compound)">
           Count
         </Button>
+        <!-- TODO: Add quick quantity adjust buttons -->
+        <!-- TODO: Add barcode generation/print button -->
       </div>
     </template>
   </Card>
