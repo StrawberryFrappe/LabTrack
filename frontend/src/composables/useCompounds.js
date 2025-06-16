@@ -1,17 +1,53 @@
-import { ref, computed } from 'vue'
-import { compounds as mockCompounds } from '@/data/mockData'
+/**
+ * Compounds Composable
+ * 
+ * This composable manages all compound-related state and operations.
+ * It provides reactive data and methods for compound management.
+ * 
+ * Key Features:
+ * - Reactive compound data with real-time filtering
+ * - Loading states and error handling
+ * - Search and filter functionality
+ * - CRUD operations ready for API integration
+ * - Helper methods for common operations
+ */
+
+import { ref, computed, onMounted } from 'vue'
+import { compoundService } from '../services/compoundService.js'
 
 export function useCompounds() {
-  // TODO: Replace with real API calls to backend
-  const compounds = ref(mockCompounds)
+  // State management
+  const compounds = ref([])
   const searchQuery = ref('')
   const selectedHazardClass = ref('')
   const selectedLocation = ref('')
-
-  // TODO: Implement loading states and error handling
-  const isLoading = ref(false)
+  const loading = ref(false)
   const error = ref(null)
+  /**
+   * Load Compounds from API
+   * 
+   * Fetches all compounds from the backend.
+   * Called automatically when composable is used.
+   * 
+   * INSIGHT: This is speculative - assumes standard REST API patterns
+   * The choice to auto-load on mount may not be optimal for large datasets
+   * but provides immediate data availability for the proof-of-concept phase
+   */
+  const loadCompounds = async () => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      compounds.value = await compoundService.getAll()
+    } catch (err) {
+      error.value = 'Failed to load compounds: ' + err.message
+      console.error('Failed to load compounds:', err)
+    } finally {
+      loading.value = false
+    }
+  }
 
+  // Computed properties for dynamic data
   const hazardClasses = computed(() => 
     [...new Set(compounds.value.map(c => c.hazardClass))]
   )
@@ -29,6 +65,7 @@ export function useCompounds() {
     threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() + 3)
     
     return compounds.value.filter(item => {
+      if (!item.expiryDate) return false
       const expiryDate = new Date(item.expiryDate)
       return expiryDate <= threeMonthsFromNow
     })
@@ -37,30 +74,38 @@ export function useCompounds() {
   const filteredCompounds = computed(() => {
     let filtered = compounds.value
 
+    // Text search across multiple fields
     if (searchQuery.value) {
       const query = searchQuery.value.toLowerCase()
       filtered = filtered.filter(compound =>
         compound.name.toLowerCase().includes(query) ||
-        compound.casNumber.toLowerCase().includes(query) ||
-        compound.synonyms.toLowerCase().includes(query) ||
+        (compound.casNumber && compound.casNumber.toLowerCase().includes(query)) ||
+        (compound.synonyms && compound.synonyms.toLowerCase().includes(query)) ||
         compound.supplier.toLowerCase().includes(query)
       )
     }
 
+    // Filter by hazard class
     if (selectedHazardClass.value) {
       filtered = filtered.filter(compound =>
         compound.hazardClass === selectedHazardClass.value
       )
     }
 
+    // Filter by location
     if (selectedLocation.value) {
       filtered = filtered.filter(compound =>
         compound.location === selectedLocation.value
       )
-    }
-
-    return filtered
+    }    return filtered
   })
+
+  /**
+   * Find Compound by Various Identifiers
+   * 
+   * Helper method to find a compound by ID, CAS number, batch number, or name.
+   * Useful for barcode scanning and search functionality.
+   */
   const findCompound = (identifier) => {
     return compounds.value.find(c => 
       c.id === identifier || 
@@ -70,77 +115,148 @@ export function useCompounds() {
     )
   }
 
-  const updateCompoundQuantity = (compoundId, newQuantity) => {
-    // TODO: Replace with API call to update compound quantity
-    const compound = compounds.value.find(c => c.id === compoundId)
-    if (compound) {
+  /**
+   * Update Compound Quantity
+   * 
+   * Updates the quantity of a compound (used during inventory counts).
+   * For production, this would sync with the backend.
+   */
+  const updateCompoundQuantity = async (compoundId, newQuantity) => {
+    try {
+      // Find the compound locally
+      const compound = compounds.value.find(c => c.id === compoundId)
+      if (!compound) {
+        throw new Error('Compound not found')
+      }
+
+      // Update locally for immediate UI feedback (optimistic update)
+      // INSIGHT: This is speculative - assumes the API call will succeed
+      // Optimistic updates provide better UX but require rollback logic for failures
+      // The choice to update immediately trades consistency for perceived performance
       compound.quantity = newQuantity
+
+      // TODO: In production, sync with backend
+      // await compoundService.update(compoundId, { quantity: newQuantity })
+      
       // TODO: Create audit trail entry
       // TODO: Send notification if quantity crosses threshold
+    } catch (err) {
+      error.value = 'Failed to update quantity: ' + err.message
+      // Reload data to ensure consistency
+      await loadCompounds()
     }
   }
 
-  // TODO: Implement CRUD operations for compounds
-  const addCompound = async (compoundData) => {
-    // TODO: API call to create compound
-    // TODO: Validate compound data
-    // TODO: Handle duplicate checking
-    throw new Error('Not implemented')
+  /**
+   * Create New Compound
+   * 
+   * Adds a new compound to the system.
+   */
+  const createCompound = async (compoundData) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const newCompound = await compoundService.create(compoundData)
+      // Add to local array for immediate UI update
+      compounds.value.push(newCompound)
+      return newCompound
+    } catch (err) {
+      error.value = 'Failed to create compound: ' + err.message
+      throw err
+    } finally {
+      loading.value = false
+    }
   }
 
+  /**
+   * Update Existing Compound
+   * 
+   * Updates compound data.
+   */
   const updateCompound = async (compoundId, updates) => {
-    // TODO: API call to update compound
-    // TODO: Validate updates
-    // TODO: Handle optimistic updates
-    throw new Error('Not implemented')
+    loading.value = true
+    error.value = null
+    
+    try {
+      const updatedCompound = await compoundService.update(compoundId, updates)
+      
+      // Update local array
+      const index = compounds.value.findIndex(c => c.id === compoundId)
+      if (index !== -1) {
+        compounds.value[index] = updatedCompound
+      }
+      
+      return updatedCompound
+    } catch (err) {
+      error.value = 'Failed to update compound: ' + err.message
+      throw err
+    } finally {
+      loading.value = false
+    }
   }
 
+  /**
+   * Delete Compound
+   * 
+   * Removes a compound from the system.
+   */
   const deleteCompound = async (compoundId) => {
-    // TODO: API call to delete compound
-    // TODO: Confirm deletion with user
-    // TODO: Handle cascade deletes (inventory records, etc.)
-    throw new Error('Not implemented')
+    loading.value = true
+    error.value = null
+    
+    try {
+      await compoundService.delete(compoundId)
+      
+      // Remove from local array
+      compounds.value = compounds.value.filter(c => c.id !== compoundId)
+    } catch (err) {
+      error.value = 'Failed to delete compound: ' + err.message
+      throw err
+    } finally {
+      loading.value = false
+    }
   }
 
-  // TODO: Implement compound import/export functionality
-  const exportCompounds = async (format = 'csv') => {
-    // TODO: Export compounds to CSV/Excel/PDF
-    throw new Error('Not implemented')
+  /**
+   * Clear Error Message
+   * 
+   * Helper to clear error messages (useful for dismissing error alerts).
+   */
+  const clearError = () => {
+    error.value = null
   }
 
-  const importCompounds = async (file) => {
-    // TODO: Import compounds from file
-    // TODO: Validate import data
-    // TODO: Handle duplicates and conflicts
-    throw new Error('Not implemented')
-  }
-
-  // TODO: Implement barcode generation and management
-  const generateBarcode = (compoundId) => {
-    // TODO: Generate unique barcode for compound
-    throw new Error('Not implemented')
-  }
+  // Auto-load compounds when composable is first used
+  onMounted(() => {
+    loadCompounds()
+  })
 
   return {
+    // State
     compounds,
+    loading,
+    error,
+    
+    // Search and filter state
     searchQuery,
     selectedHazardClass,
     selectedLocation,
+    
+    // Computed properties
     hazardClasses,
     locations,
     lowStockItems,
     expiringItems,
     filteredCompounds,
+    
+    // Methods
+    loadCompounds,
     findCompound,
     updateCompoundQuantity,
-    isLoading,
-    error,
-    // TODO: Export new methods when implemented
-    addCompound,
+    createCompound,
     updateCompound,
     deleteCompound,
-    exportCompounds,
-    importCompounds,
-    generateBarcode
+    clearError
   }
 }

@@ -65,21 +65,41 @@
           </div>
         </div>
       </div>
+    </div>    <!-- ✅ COMPLETED: Loading state with spinner and user feedback -->
+    <div v-if="loading" class="flex justify-center items-center py-12">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+        <p class="mt-4 text-gray-600">Loading compounds...</p>
+      </div>
     </div>
     
-    <!-- TODO: Add loading state -->
-    <!-- TODO: Add error state -->
-    
-    <!-- Empty state -->
-    <div v-if="filteredCompounds.length === 0" class="text-center py-12">
+    <!-- ✅ COMPLETED: Error state with retry functionality and user-friendly messaging -->
+    <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <span class="text-red-400 text-xl">⚠️</span>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">Error loading compounds</h3>
+          <p class="text-sm text-red-700 mt-1">{{ error }}</p>
+          <button 
+            @click="loadCompounds"
+            class="mt-3 text-sm bg-red-100 text-red-800 px-3 py-1 rounded hover:bg-red-200 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    </div>
+      <!-- Empty state -->
+    <div v-else-if="filteredCompounds.length === 0 && !loading" class="text-center py-12">
       <div class="text-slate-400 text-lg mb-2">🔍</div>
       <h3 class="text-lg font-medium text-slate-900 mb-2">No compounds found</h3>
       <p class="text-slate-500">Try adjusting your search filters.</p>
       <!-- TODO: Quick action to add first compound if none exist -->
     </div>
-    
-    <!-- Content based on view mode -->
-    <div v-else>
+      <!-- Content based on view mode -->
+    <div v-else-if="!loading && !error">
       <!-- Grid View (Cards) -->
       <div v-if="viewMode === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <CompoundCard
@@ -112,7 +132,7 @@ import CompoundFilters from './CompoundFilters.vue'
 import Badge from '@/components/ui/Badge.vue'
 import { useCompounds } from '@/composables/useCompounds'
 
-const { filteredCompounds, compounds, lowStockItems, expiringItems } = useCompounds()
+const { filteredCompounds, compounds, lowStockItems, expiringItems, loading, error, loadCompounds } = useCompounds()
 
 // View mode state
 const viewMode = ref('grid') // 'grid' or 'list'
