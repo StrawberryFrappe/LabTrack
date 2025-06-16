@@ -2,10 +2,15 @@ import { ref, computed } from 'vue'
 import { compounds as mockCompounds } from '@/data/mockData'
 
 export function useCompounds() {
+  // TODO: Replace with real API calls to backend
   const compounds = ref(mockCompounds)
   const searchQuery = ref('')
   const selectedHazardClass = ref('')
   const selectedLocation = ref('')
+
+  // TODO: Implement loading states and error handling
+  const isLoading = ref(false)
+  const error = ref(null)
 
   const hazardClasses = computed(() => 
     [...new Set(compounds.value.map(c => c.hazardClass))]
@@ -56,7 +61,6 @@ export function useCompounds() {
 
     return filtered
   })
-
   const findCompound = (identifier) => {
     return compounds.value.find(c => 
       c.id === identifier || 
@@ -67,10 +71,54 @@ export function useCompounds() {
   }
 
   const updateCompoundQuantity = (compoundId, newQuantity) => {
+    // TODO: Replace with API call to update compound quantity
     const compound = compounds.value.find(c => c.id === compoundId)
     if (compound) {
       compound.quantity = newQuantity
+      // TODO: Create audit trail entry
+      // TODO: Send notification if quantity crosses threshold
     }
+  }
+
+  // TODO: Implement CRUD operations for compounds
+  const addCompound = async (compoundData) => {
+    // TODO: API call to create compound
+    // TODO: Validate compound data
+    // TODO: Handle duplicate checking
+    throw new Error('Not implemented')
+  }
+
+  const updateCompound = async (compoundId, updates) => {
+    // TODO: API call to update compound
+    // TODO: Validate updates
+    // TODO: Handle optimistic updates
+    throw new Error('Not implemented')
+  }
+
+  const deleteCompound = async (compoundId) => {
+    // TODO: API call to delete compound
+    // TODO: Confirm deletion with user
+    // TODO: Handle cascade deletes (inventory records, etc.)
+    throw new Error('Not implemented')
+  }
+
+  // TODO: Implement compound import/export functionality
+  const exportCompounds = async (format = 'csv') => {
+    // TODO: Export compounds to CSV/Excel/PDF
+    throw new Error('Not implemented')
+  }
+
+  const importCompounds = async (file) => {
+    // TODO: Import compounds from file
+    // TODO: Validate import data
+    // TODO: Handle duplicates and conflicts
+    throw new Error('Not implemented')
+  }
+
+  // TODO: Implement barcode generation and management
+  const generateBarcode = (compoundId) => {
+    // TODO: Generate unique barcode for compound
+    throw new Error('Not implemented')
   }
 
   return {
@@ -84,6 +132,15 @@ export function useCompounds() {
     expiringItems,
     filteredCompounds,
     findCompound,
-    updateCompoundQuantity
+    updateCompoundQuantity,
+    isLoading,
+    error,
+    // TODO: Export new methods when implemented
+    addCompound,
+    updateCompound,
+    deleteCompound,
+    exportCompounds,
+    importCompounds,
+    generateBarcode
   }
 }
