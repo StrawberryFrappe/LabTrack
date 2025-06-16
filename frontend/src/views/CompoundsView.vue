@@ -5,26 +5,30 @@
   listing, filtering, and managing chemical compounds in the lab.
   
   Features:
-  - Compound list and table views
-  - Search and filtering
-  - Add/edit/delete compounds
-  - Role-based access controls
+  - Compound list and table views ✅
+  - Search and filtering ✅
+  - Add/edit/delete compounds (TRL3 PRIORITY)
+  - Role-based access controls ✅
   
-  TODO: Add compound batch management
-  TODO: Implement compound categories
-  TODO: Add compound expiry tracking
-  TODO: Implement compound usage history
+  TRL3 PRIORITIES:
+  - Add compound CRUD operations (add/edit/delete forms)
+  - Implement modal system for compound management
+  - Add form validation for compound data
+  - Implement import/export functionality for data migration
+  
+  MODULARIZATION OPPORTUNITIES:
+  - Extract compound management into separate composables (technical debt)
+  - Create reusable CRUD component pattern for other entities
+  - Split compound operations into domain-specific services
 -->
 
 <template>
-  <div class="space-y-8">
-    <!-- Page Header -->
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="text-2xl font-bold text-slate-900">Chemical Compounds</h1>
-        <p class="text-slate-600 mt-1">Manage your laboratory's chemical inventory</p>
+  <div class="space-y-8">    <!-- Page Header -->
+    <div class="flex items-center justify-between">      <div>
+        <h1 class="text-2xl font-bold text-slate-900">{{ $t('compounds.title') }}</h1>
+        <p class="text-slate-600 mt-1">{{ $t('compounds.description') }}</p>
       </div>
-      <!-- TODO: Add compound management actions -->
+      <!-- TRL3: Add compound management actions (add/import buttons) -->
       <div class="flex items-center space-x-3">
         <!-- <Button variant="primary" @click="showAddCompound = true">
           Add Compound

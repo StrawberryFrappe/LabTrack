@@ -18,11 +18,12 @@
 -->
 
 <template>
-  <div class="space-y-8">
-    <!-- Page Header -->
+  <div class="space-y-8">    <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
+        <!-- TODO i18n: Internationalize "Inventory Counts" -->
         <h1 class="text-2xl font-bold text-slate-900">Inventory Counts</h1>
+        <!-- TODO i18n: Internationalize "Manage physical inventory counting sessions" -->
         <p class="text-slate-600 mt-1">Manage physical inventory counting sessions</p>
       </div>
     </div>
