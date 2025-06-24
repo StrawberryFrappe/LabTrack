@@ -55,13 +55,17 @@
                 ☰ <span class="hidden sm:inline">List</span>
               </span>
             </button>
-          </div>
-            <!-- Action buttons -->
-          <!-- TODO: Add action buttons here -->
+          </div>          <!-- Action buttons -->
           <div class="flex gap-2">
-            <!-- TODO: Add compound button -->
-            <!-- TODO: Import compounds button -->
-            <!-- TODO: Export compounds button -->
+            <Button variant="primary" @click="addModal.openForCreate()">
+              Add Compound
+            </Button>
+            <Button variant="outline" @click="handleImportCompounds">
+              Import
+            </Button>
+            <Button variant="outline" @click="handleExportCompounds">
+              Export
+            </Button>
           </div>
         </div>
       </div>
@@ -108,6 +112,7 @@
           :compound="compound"
           @edit="handleEdit"
           @scan="handleScan"
+          @delete="handleDelete"
         />
       </div>
       
@@ -117,10 +122,59 @@
         :compounds="filteredCompounds"
         @edit="handleEdit"
         @scan="handleScan"
+        @delete="handleDelete"
       />
     </div>
-    
-    <!-- TODO: Add pagination for large datasets -->
+      <!-- TODO: Add pagination for large datasets -->
+
+    <!-- Add Compound Modal -->
+    <FormModal
+      v-model="addModal.isOpen.value"
+      title="Add New Compound"
+      submit-text="Add Compound"
+      :loading="addModal.loading.value"
+      :errors="addModal.errors"
+      :is-form-valid="addModal.isFormValid.value"
+      @submit="handleAddSubmit"
+      @cancel="addModal.handleCancel"
+      @reset="addModal.resetForm"
+    >
+      <CompoundForm
+        :form-data="addModal.formData"
+        :errors="addModal.errors"
+        @validate="addModal.setErrors"
+      />
+    </FormModal>
+
+    <!-- Edit Compound Modal -->
+    <FormModal
+      v-model="editModal.isOpen.value"
+      title="Edit Compound"
+      submit-text="Save Changes"
+      :loading="editModal.loading.value"
+      :errors="editModal.errors"
+      :is-form-valid="editModal.isFormValid.value"
+      @submit="handleEditSubmit"
+      @cancel="editModal.handleCancel"
+      @reset="editModal.resetForm"
+    >
+      <CompoundForm
+        :form-data="editModal.formData"
+        :errors="editModal.errors"
+        @validate="editModal.setErrors"
+      />
+    </FormModal>
+
+    <!-- Delete Confirmation Dialog -->
+    <ConfirmDialog
+      v-model="deleteDialog.isOpen.value"
+      :title="deleteDialog.config.title"
+      :message="deleteDialog.config.message"
+      :type="deleteDialog.config.type"
+      :loading="deleteDialog.loading.value"
+      @confirm="deleteDialog.handleConfirm"
+      @cancel="deleteDialog.handleCancel"
+    />
   </div>
 </template>
 
@@ -129,26 +183,61 @@ import { ref } from 'vue'
 import CompoundCard from './CompoundCard.vue'
 import CompoundTable from './CompoundTable.vue'
 import CompoundFilters from './CompoundFilters.vue'
+import CompoundForm from './CompoundForm.vue'
 import Badge from '@/components/ui/Badge.vue'
+import Button from '@/components/ui/Button.vue'
+import FormModal from '@/components/ui/FormModal.vue'
+import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 import { useCompounds } from '@/composables/useCompounds'
+import { useFormModal, useConfirmDialog } from '@/composables/useModals'
+import { exportToCSV, exportToExcel, importFromCSV, importFromExcel } from '@/utils/importExport'
 
-const { filteredCompounds, compounds, lowStockItems, expiringItems, loading, error, loadCompounds } = useCompounds()
+const { filteredCompounds, compounds, lowStockItems, expiringItems, loading, error, loadCompounds, addCompound, updateCompound, deleteCompound } = useCompounds()
 
 // View mode state
 const viewMode = ref('grid') // 'grid' or 'list'
 
-// TODO: Persist view mode preference in localStorage
-// TODO: Add view mode to URL query params for sharing
+// Modal instances
+const addModal = useFormModal({
+  name: '',
+  casNumber: '',
+  quantity: 0,
+  unit: '',
+  threshold: 0,
+  location: '',
+  hazardClass: '',
+  expiryDate: '',
+  receivedDate: '',
+  supplier: '',
+  batchNumber: '',
+  synonyms: ''
+})
+
+const editModal = useFormModal()
+const deleteDialog = useConfirmDialog()
 
 defineEmits(['edit-compound', 'scan-compound'])
 
 const handleEdit = (compound) => {
-  // TODO: Implement edit functionality
-  // TODO: Open edit dialog/modal with compound form
-  // TODO: Validate compound data before saving
-  // TODO: Handle optimistic updates
-  // TODO: Show success/error notifications
-  console.log('Edit compound:', compound)
+  editModal.openForEdit({ ...compound })
+}
+
+const handleDelete = async (compound) => {
+  try {
+    await deleteDialog.confirm({
+      title: 'Delete Compound',
+      message: `Are you sure you want to delete "${compound.name}"? This action cannot be undone.`,
+      type: 'danger',
+      confirmText: 'Delete',
+      cancelText: 'Cancel'
+    })
+    
+    await deleteCompound(compound.id)
+  } catch (error) {
+    if (error !== false) { // Not a user cancellation
+      console.error('Error deleting compound:', error)
+    }
+  }
 }
 
 const handleScan = (compound) => {
@@ -157,6 +246,88 @@ const handleScan = (compound) => {
   // TODO: If no active session, prompt to create one
   // TODO: Navigate to scanning interface for this compound
   console.log('Scan compound:', compound)
+}
+
+const handleAddSubmit = async () => {
+  await addModal.handleSubmit(async (formData) => {
+    await addCompound(formData)
+  })
+}
+
+const handleEditSubmit = async () => {
+  await editModal.handleSubmit(async (formData) => {
+    await updateCompound(formData.id, formData)
+  })
+}
+
+// TODO: Implement import functionality
+const handleImportCompounds = async () => {
+  // Show file input dialog
+  const input = document.createElement('input')
+  input.type = 'file'
+  input.accept = '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+  input.onchange = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    let imported = []
+    try {
+      if (file.name.endsWith('.csv')) {
+        imported = await importFromCSV(file)
+      } else if (file.name.endsWith('.xlsx')) {
+        imported = await importFromExcel(file)
+      } else {
+        alert('Unsupported file type')
+        return
+      }
+      // TODO: Validate and merge imported data
+      // For now, just log
+      console.log('Imported compounds:', imported)
+      // Optionally, update compounds.value here
+    } catch (err) {
+      alert('Import failed: ' + err.message)
+    }
+  }
+  input.click()
+}
+
+// Show export dialog to select file type and name
+const handleExportCompounds = async () => {
+  // Create a modal dialog for export options
+  const modal = document.createElement('dialog')
+  modal.className = 'rounded-lg p-6 shadow-xl bg-white max-w-xs w-full'
+  modal.innerHTML = `
+    <form method="dialog" class="flex flex-col gap-4">
+      <label class="text-sm font-medium">File name
+        <input type="text" name="filename" value="compounds" class="border rounded px-2 py-1 w-full mt-1" required />
+      </label>
+      <label class="text-sm font-medium">File type
+        <select name="filetype" class="border rounded px-2 py-1 w-full mt-1">
+          <option value="csv">CSV (.csv)</option>
+          <option value="xlsx">Excel (.xlsx)</option>
+        </select>
+      </label>
+      <div class="flex gap-2 justify-end mt-4">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Export</button>
+        <button type="button" class="bg-gray-200 px-4 py-1 rounded" id="cancelExport">Cancel</button>
+      </div>
+    </form>
+  `
+  document.body.appendChild(modal)
+  modal.showModal()
+  modal.querySelector('#cancelExport').onclick = () => modal.close()
+  modal.addEventListener('close', () => document.body.removeChild(modal))
+  modal.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const form = e.target
+    const filename = form.filename.value.trim() || 'compounds'
+    const filetype = form.filetype.value
+    if (filetype === 'csv') {
+      exportToCSV(compounds.value, filename + '.csv')
+    } else {
+      exportToExcel(compounds.value, filename + '.xlsx')
+    }
+    modal.close()
+  })
 }
 
 // TODO: Implement bulk operations
@@ -172,15 +343,7 @@ const handleBulkExport = (compoundIds) => {
   // TODO: Export selected compounds to CSV/Excel
 }
 
-// TODO: Implement compound addition
-const handleAddCompound = () => {
-  // TODO: Open add compound form/modal
-}
-
-// TODO: Implement import functionality
-const handleImportCompounds = () => {
-  // TODO: Show file upload dialog for importing compounds
-}
-
 // TODO: Implement keyboard shortcuts for view switching (e.g., Ctrl+1 for grid, Ctrl+2 for list)
+// TODO: Persist view mode preference in localStorage
+// TODO: Add view mode to URL query params for sharing
 </script>
