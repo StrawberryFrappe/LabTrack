@@ -1,0 +1,30 @@
+export default {
+  dashboard: {
+    title: 'Painel do Laboratório',
+    welcome: 'Bem-vindo ao LabTrack',
+    overview: 'Visão Geral do Laboratório',
+    totalCompounds: 'Total de Compostos',
+    lowStock: 'Itens com Estoque Baixo',
+    expiring: 'Vencendo em Breve',
+    recentActivity: 'Atividade Recente',
+    quickActions: 'Ações Rápidas',
+    belowThreshold: 'Abaixo dos níveis limite',
+    withinThreeMonths: 'Dentro de 3 meses',
+    locations: 'Localidades',
+    storageLocations: 'Locais de armazenamento',
+    allItemsStocked: 'Todos os itens têm estoque adequado',
+    noItemsExpiring: 'Nenhum item vencendo em breve',
+    remaining: 'restante',
+    expires: 'Vence',
+    days: 'dias',
+    viewAllLowStock: 'Ver todos os {count} itens com estoque baixo',
+    viewAllExpiring: 'Ver todos os {count} itens vencendo',
+    manageCompounds: 'Gerenciar Compostos',
+    manageCompoundsDesc: 'Ver e atualizar inventário químico',
+    startCountSession: 'Iniciar Sessão de Contagem',
+    startCountSessionDesc: 'Começar contagem física do inventário',
+    systemSettings: 'Configurações do Sistema',
+    systemSettingsDesc: 'Configurar usuários e sistema',
+    laboratoryManagement: 'Gerenciamento de Laboratório'
+  }
+}

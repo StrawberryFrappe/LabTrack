@@ -1,93 +1,17 @@
+import dashboard from './es/dashboard.js'
+import compounds from './es/compounds.js'
+import inventory from './es/inventory.js'
+import preferences from './es/preferences.js'
+import common from './es/common.js'
+import navigation from './es/navigation.js'
+import userMenu from './es/userMenu.js'
+
 export default {
-  navigation: {
-    dashboard: 'Panel de Control',
-    compounds: 'Compuestos',
-    inventory: 'Conteo de Inventario',
-    preferences: 'Preferencias',
-    settings: 'Configuración del Sistema'
-  },  dashboard: {
-    title: 'Panel de Control del Laboratorio',
-    welcome: 'Bienvenido a LabTrack',
-    overview: 'Resumen del Laboratorio',
-    totalCompounds: 'Total de Compuestos',
-    lowStock: 'Elementos con Poco Stock',
-    expiring: 'Expiran Pronto',
-    recentActivity: 'Actividad Reciente',
-    quickActions: 'Acciones Rápidas',
-    belowThreshold: 'Por debajo de los niveles límite',
-    withinThreeMonths: 'Dentro de 3 meses',
-    locations: 'Ubicaciones',
-    storageLocations: 'Ubicaciones de almacenamiento',
-    allItemsStocked: 'Todos los elementos tienen stock adecuado',
-    noItemsExpiring: 'No hay elementos que expiren pronto',
-    remaining: 'restante',
-    expires: 'Expira',
-    days: 'días',
-    viewAllLowStock: 'Ver todos los {count} elementos con poco stock',
-    viewAllExpiring: 'Ver todos los {count} elementos que expiran',
-    manageCompounds: 'Gestionar Compuestos',
-    manageCompoundsDesc: 'Ver y actualizar inventario químico',
-    startCountSession: 'Iniciar Sesión de Conteo',
-    startCountSessionDesc: 'Comenzar conteo físico de inventario',
-    systemSettings: 'Configuración del Sistema',
-    systemSettingsDesc: 'Configurar usuarios y sistema',
-    laboratoryManagement: 'Gestión de Laboratorio'
-  },  compounds: {
-    title: 'Gestión de Compuestos',
-    description: 'Gestiona el inventario químico de tu laboratorio',
-    addNew: 'Agregar Nuevo Compuesto',
-    search: 'Buscar compuestos...',
-    filters: 'Filtros',
-    category: 'Categoría',
-    hazardLevel: 'Nivel de Peligro',
-    location: 'Ubicación',
-    status: 'Estado',
-    actions: 'Acciones',
-    edit: 'Editar',
-    delete: 'Eliminar',
-    view: 'Ver Detalles'
-  },
-  inventory: {
-    title: 'Conteo de Inventario',
-    startCount: 'Iniciar Nuevo Conteo',
-    activeCount: 'Sesión de Conteo Activa',
-    scanBarcode: 'Escanear Código de Barras',
-    manualEntry: 'Entrada Manual',
-    saveCount: 'Guardar Conteo',
-    completeCount: 'Completar Conteo'
-  },  preferences: {
-    title: 'Preferencias del Usuario',
-    description: 'Personaliza tu experiencia con LabTrack',
-    appearance: 'Apariencia',
-    theme: 'Tema',
-    preview: 'Vista Previa',
-    languageRegion: 'Idioma y Región',
-    displayLanguage: 'Idioma de Visualización',
-    language: 'Idioma',
-    notifications: 'Notificaciones',
-    dateFormat: 'Formato de Fecha',
-    save: 'Guardar Preferencias',
-    cancel: 'Cancelar'
-  },common: {
-    save: 'Guardar',
-    saving: 'Guardando...',
-    soon: 'Pronto',
-    cancel: 'Cancelar',
-    edit: 'Editar',
-    delete: 'Eliminar',
-    view: 'Ver',
-    add: 'Agregar',
-    search: 'Buscar',
-    filter: 'Filtrar',
-    loading: 'Cargando...',
-    error: 'Error',
-    success: 'Éxito',
-    warning: 'Advertencia',
-    info: 'Información'
-  },
-  userMenu: {
-    profile: 'Configuración de Perfil',
-    preferences: 'Preferencias',
-    systemSettings: 'Configuración del Sistema'
-  }
+  dashboard: dashboard.dashboard,
+  compounds: compounds.compounds,
+  inventory: inventory.inventory,
+  preferences: preferences.preferences,
+  common: common.common,
+  navigation: navigation.navigation,
+  userMenu: userMenu.userMenu
 }

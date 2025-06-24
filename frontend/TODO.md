@@ -12,6 +12,16 @@
 - [x] Translation keys organized by feature domain (navigation, dashboard, preferences, common)
 - [x] Fallback locale system with English as default
 - [x] Build system compatibility and production-ready configuration
+- [x] **Feature-based translation file structure**: All language files split by feature/module (2025-06)
+- [x] **Documentation updated**: INTERNATIONALIZATION.md reflects new structure
+
+#### Remaining/Next i18n Steps
+- [ ] **Lazy loading of translation modules** for performance (future enhancement)
+- [ ] **Audit new features/components** for untranslated strings as app grows
+- [ ] **Internationalize all form validation and error messages**
+- [ ] **Locale-specific formatting** (dates, numbers, currency)
+- [ ] **Evaluate translation management tooling** for team scaling
+- [ ] **RTL support** (future, if needed)
 
 ### **Vue Router 4 Implementation & SPA Architecture** ⭐ **COMPLETED**
 - [x] Complete Vue Router 4 setup with authentication guards and nested routes

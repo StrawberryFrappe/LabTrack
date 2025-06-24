@@ -6,9 +6,9 @@
 - **Vue i18n package installed**: vue-i18n@9 with Composition API mode
 - **i18n configuration created**: `/src/locales/index.js` with localStorage persistence
 - **Language files created**:
-  - English (`/src/locales/en.js`) - Complete
-  - Spanish (`/src/locales/es.js`) - Complete  
-  - Portuguese (BR) (`/src/locales/pt.js`) - Complete
+  - English (`/src/locales/en.js`) → now split by feature in `/src/locales/en/`
+  - Spanish (`/src/locales/es.js`) → now split by feature in `/src/locales/es/`
+  - Portuguese (BR) (`/src/locales/pt.js`) → now split by feature in `/src/locales/pt/`
 - **Main.js integration**: i18n properly configured and imported ✅
 - **Language persistence**: localStorage integration (`labtrack-language`) ✅
 - **Language switching**: Fully functional in PreferencesView ✅
@@ -37,6 +37,24 @@
   - 🇺🇸 English (default/fallback)
   - 🇪🇸 Español (complete translation)
   - 🇧🇷 Português (BR) (complete translation)
+
+---
+
+## 🆕 2025-06: Feature-based Translation File Structure
+
+- All language files are now split by feature/module for scalability:
+  - `/src/locales/{lang}/dashboard.js`
+  - `/src/locales/{lang}/compounds.js`
+  - `/src/locales/{lang}/inventory.js`
+  - `/src/locales/{lang}/preferences.js`
+  - `/src/locales/{lang}/common.js`
+  - `/src/locales/{lang}/navigation.js`
+  - `/src/locales/{lang}/userMenu.js`
+- Each root language file (e.g. `en.js`) re-exports all feature modules for compatibility.
+- No changes required in component usage: continue using `$t('dashboard.title')`, etc.
+- This structure supports easier maintenance and future lazy loading.
+
+---
 
 ## 🏗️ Architecture & Implementation Details
 
