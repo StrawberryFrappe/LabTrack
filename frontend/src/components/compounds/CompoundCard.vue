@@ -65,6 +65,9 @@
         <Button variant="outline" size="sm" @click="$emit('scan', compound)">
           Count
         </Button>
+        <Button variant="destructive" size="sm" @click="$emit('delete', compound)">
+          Delete
+        </Button>
         <!-- TODO: Add quick quantity adjust buttons -->
         <!-- TODO: Add barcode generation/print button -->
       </div>
@@ -85,7 +88,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['edit', 'scan'])
+defineEmits(['edit', 'scan', 'delete'])
 
 const stockPercentage = computed(() => 
   (props.compound.quantity / props.compound.threshold) * 100

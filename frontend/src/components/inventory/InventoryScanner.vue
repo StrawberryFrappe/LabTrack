@@ -54,36 +54,6 @@
             <span class="font-medium">{{ scannedItem.quantity }} {{ scannedItem.unit }}</span>
           </div>
           
-          <div class="space-y-2">
-            <label class="block text-sm font-medium text-slate-700">
-              Counted Quantity
-            </label>
-            <div class="flex items-center gap-2">
-              <Button 
-                variant="outline" 
-                size="sm"
-                @click="adjustQuantity(-1)"
-                :disabled="countedQuantity <= 0"
-              >
-                -
-              </Button>
-              <Input
-                v-model.number="countedQuantity"
-                type="number"
-                min="0"
-                class="w-24 text-center"
-              />
-              <Button 
-                variant="outline" 
-                size="sm"
-                @click="adjustQuantity(1)"
-              >
-                +
-              </Button>
-              <span class="text-sm text-slate-600 ml-2">{{ scannedItem.unit }}</span>
-            </div>
-          </div>
-          
           <div v-if="discrepancy !== 0" class="p-3 rounded-md" :class="discrepancyClasses">
             <div class="flex items-center gap-2">
               <span class="font-medium">Discrepancy:</span>
@@ -133,6 +103,14 @@
         </div>
       </div>
     </div>
+
+    <CountEntryModal
+      v-model="countModalOpen"
+      :compound="countModalCompound"
+      :initial-count="countModalInitial"
+      @confirm="handleCountConfirm"
+      @cancel="handleCountCancel"
+    />
   </Card>
 </template>
 
@@ -142,6 +120,7 @@ import Card from '@/components/ui/Card.vue'
 import Button from '@/components/ui/Button.vue'
 import Input from '@/components/ui/Input.vue'
 import Badge from '@/components/ui/Badge.vue'
+import CountEntryModal from './CountEntryModal.vue'
 import { useCompounds } from '@/composables/useCompounds'
 
 const { findCompound } = useCompounds()
@@ -150,6 +129,9 @@ const manualCode = ref('')
 const scannedItem = ref(null)
 const countedQuantity = ref(null)
 const recentScans = ref([])
+const countModalOpen = ref(false)
+const countModalCompound = ref(null)
+const countModalInitial = ref(0)
 
 const discrepancy = computed(() => {
   if (!scannedItem.value || countedQuantity.value === null) return 0
@@ -173,8 +155,7 @@ const discrepancyClasses = computed(() => ({
 const processCode = () => {
   const compound = findCompound(manualCode.value.trim())
   if (compound) {
-    scannedItem.value = compound
-    countedQuantity.value = compound.quantity
+    openCountModal(compound, compound.quantity)
   } else {
     // TODO: Show error toast/notification
     // TODO: Implement "compound not found" dialog with option to add new compound
@@ -183,11 +164,22 @@ const processCode = () => {
   }
 }
 
-const adjustQuantity = (change) => {
-  if (countedQuantity.value === null) {
-    countedQuantity.value = 0
+const openCountModal = (compound, initialCount = null) => {
+  countModalCompound.value = compound
+  countModalInitial.value = initialCount ?? compound.quantity
+  countModalOpen.value = true
+}
+
+const handleCountConfirm = (newCount) => {
+  if (countModalCompound.value) {
+    scannedItem.value = countModalCompound.value
+    countedQuantity.value = newCount
+    // Optionally, trigger confirmCount() here or wait for user action
   }
-  countedQuantity.value = Math.max(0, countedQuantity.value + change)
+  countModalOpen.value = false
+}
+const handleCountCancel = () => {
+  countModalOpen.value = false
 }
 
 const confirmCount = () => {

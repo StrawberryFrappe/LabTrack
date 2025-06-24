@@ -109,7 +109,14 @@
                   <!-- TODO: Use proper icon component -->
                   📱
                 </button>
-                <!-- TODO: Add more actions (delete, duplicate, etc.) -->
+                <button
+                  @click="$emit('delete', compound)"
+                  class="text-red-600 hover:text-red-900 transition-colors p-1 rounded hover:bg-red-50"
+                  :title="`Delete ${compound.name}`"
+                >
+                  🗑️
+                </button>
+                <!-- TODO: Add more actions (duplicate, etc.) -->
                 <button
                   class="text-slate-400 hover:text-slate-600 transition-colors p-1 rounded hover:bg-slate-50"
                   :title="`More actions for ${compound.name}`"
@@ -155,7 +162,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['edit', 'scan'])
+defineEmits(['edit', 'scan', 'delete'])
 
 // TODO: Move this to a shared utility or composable
 const getHazardClasses = (hazard) => {

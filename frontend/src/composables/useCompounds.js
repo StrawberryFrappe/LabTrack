@@ -249,11 +249,11 @@ export function useCompounds() {
     lowStockItems,
     expiringItems,
     filteredCompounds,
-    
-    // Methods
+      // Methods
     loadCompounds,
     findCompound,
     updateCompoundQuantity,
+    addCompound: createCompound, // Alias for consistency
     createCompound,
     updateCompound,
     deleteCompound,
