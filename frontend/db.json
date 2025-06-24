@@ -19,23 +19,7 @@
       "createdAt": "2024-01-01T00:00:00.000Z"
     }
   ],
-  "compounds": [
-    {
-      "id": "aaa6",
-      "name": "Lota",
-      "casNumber": "",
-      "quantity": 66666,
-      "unit": "ml",
-      "threshold": 0,
-      "location": "1",
-      "hazardClass": "Non-hazardous",
-      "expiryDate": "",
-      "receivedDate": "",
-      "supplier": "",
-      "batchNumber": "",
-      "synonyms": ""
-    }
-  ],
+  "compounds": [],
   "countSessions": [
     {
       "id": "1",

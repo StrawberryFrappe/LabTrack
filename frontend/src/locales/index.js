@@ -3,14 +3,15 @@ import en from './en.js'
 import es from './es.js'
 import pt from './pt.js'
 
+// Try to get user preference for locale
+const userPrefLocale = localStorage.getItem('locale')
+const savedLanguage = userPrefLocale || localStorage.getItem('labtrack-language') || 'en'
+
 const messages = {
   en,
   es,
   pt
 }
-
-// Get saved language from localStorage or default to 'en'
-const savedLanguage = localStorage.getItem('labtrack-language') || 'en'
 
 const i18n = createI18n({
   locale: savedLanguage,
@@ -31,5 +32,6 @@ export const availableLanguages = [
 export const setLanguage = (locale) => {
   i18n.global.locale.value = locale
   localStorage.setItem('labtrack-language', locale)
+  localStorage.setItem('locale', locale)
   document.documentElement.lang = locale
 }

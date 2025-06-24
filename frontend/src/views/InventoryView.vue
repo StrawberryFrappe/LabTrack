@@ -21,10 +21,8 @@
   <div class="space-y-8">    <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
-        <!-- TODO i18n: Internationalize "Inventory Counts" -->
-        <h1 class="text-2xl font-bold text-slate-900">Inventory Counts</h1>
-        <!-- TODO i18n: Internationalize "Manage physical inventory counting sessions" -->
-        <p class="text-slate-600 mt-1">Manage physical inventory counting sessions</p>
+        <h1 class="text-2xl font-bold text-slate-900">{{$t('inventory.countsTitle')}}</h1>
+        <p class="text-slate-600 mt-1">{{$t('inventory.countsSubtitle')}}</p>
       </div>
     </div>
     
@@ -36,7 +34,7 @@
       <div class="space-y-6">
         <!-- Active Sessions -->
         <div v-if="activeSessions.length > 0">
-          <h3 class="text-lg font-semibold text-slate-900 mb-4">Active Count Sessions</h3>
+          <h3 class="text-lg font-semibold text-slate-900 mb-4">{{$t('inventory.activeSessions')}}</h3>
           <div class="space-y-4">
             <CountSession
               v-for="session in activeSessions"
@@ -51,7 +49,7 @@
         
         <!-- Recent Sessions -->
         <div v-if="completedSessions.length > 0">
-          <h3 class="text-lg font-semibold text-slate-900 mb-4">Recent Sessions</h3>
+          <h3 class="text-lg font-semibold text-slate-900 mb-4">{{$t('inventory.recentSessions')}}</h3>
           <div class="space-y-4">
             <CountSession
               v-for="session in completedSessions.slice(0, 3)"
@@ -65,23 +63,23 @@
         <!-- Create New Session -->
         <Card>
           <template #header>
-            <h3 class="text-lg font-semibold text-slate-900">Create New Count Session</h3>
+            <h3 class="text-lg font-semibold text-slate-900">{{$t('inventory.createSessionTitle')}}</h3>
           </template>
           <div class="space-y-4">
             <Input
               v-model="newSessionName"
-              placeholder="Session name"
-              label="Name"
+              :placeholder="$t('inventory.sessionNamePlaceholder')"
+              :label="$t('inventory.sessionNameLabel')"
             />
             <Input
               v-model="newSessionDescription"
-              placeholder="Session description"
-              label="Description"
+              :placeholder="$t('inventory.sessionDescriptionPlaceholder')"
+              :label="$t('inventory.sessionDescriptionLabel')"
             />
             <Input
               v-model="newSessionLocation"
-              placeholder="Location to count"
-              label="Location"
+              :placeholder="$t('inventory.sessionLocationPlaceholder')"
+              :label="$t('inventory.sessionLocationLabel')"
             />
           </div>
           <template #footer>
@@ -90,7 +88,7 @@
               @click="createNewSession"
               :disabled="!newSessionName.trim()"
             >
-              Create Session
+              {{$t('inventory.createSessionButton')}}
             </Button>
           </template>
         </Card>

@@ -13,7 +13,7 @@
           <div class="text-sm text-slate-600">Expected: {{ compound.quantity }} {{ compound.unit }}</div>
         </div>
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Counted Quantity</label>
+          <label class="block text-sm font-medium text-slate-700 mb-1">{{$t('inventory.countedQuantity')}}</label>
           <Input
             v-model.number="localCount"
             type="number"

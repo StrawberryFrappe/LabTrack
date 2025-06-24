@@ -3,13 +3,13 @@
       <!-- TODO: Add advanced search with multiple criteria -->
       <Input
         v-model="searchQuery"
-        placeholder="Search compounds..."
+        :placeholder="$t('compounds.searchPlaceholder')"
         label="Search"
       />
       
       <!-- TODO: Make these select components reusable -->
       <div class="space-y-2">
-        <label class="block text-sm font-medium text-slate-700">Hazard Class</label>
+        <label class="block text-sm font-medium text-slate-700">{{$t('compounds.hazardClass')}}</label>
         <select
           v-model="selectedHazardClass"
           class="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2"
@@ -22,7 +22,7 @@
       </div>
       
       <div class="space-y-2">
-        <label class="block text-sm font-medium text-slate-700">Location</label>
+        <label class="block text-sm font-medium text-slate-700">{{$t('compounds.location')}}</label>
         <select
           v-model="selectedLocation"
           class="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2"

@@ -80,6 +80,7 @@ import { computed } from 'vue'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
+import { useFormat } from '@/utils/format'
 
 const props = defineProps({
   compound: {
@@ -89,6 +90,8 @@ const props = defineProps({
 })
 
 defineEmits(['edit', 'scan', 'delete'])
+
+const { formatDate } = useFormat()
 
 const stockPercentage = computed(() => 
   (props.compound.quantity / props.compound.threshold) * 100
@@ -129,12 +132,4 @@ const expiryClasses = computed(() => {
     }
   ]
 })
-
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  })
-}
 </script>

@@ -4,12 +4,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label for="compound-name" class="block text-sm font-medium text-slate-700 mb-2">
-          Compound Name *
+          {{$t('compounds.name')}} *
         </label>
         <Input
           id="compound-name"
           v-model="formData.name"
-          placeholder="Enter compound name"
+          :placeholder="$t('compounds.namePlaceholder')"
           :error="errors.name"
           required
         />
@@ -18,12 +18,12 @@
 
       <div>
         <label for="cas-number" class="block text-sm font-medium text-slate-700 mb-2">
-          CAS Number
+          {{$t('compounds.casNumber')}}
         </label>
         <Input
           id="cas-number"
           v-model="formData.casNumber"
-          placeholder="000-00-0"
+          :placeholder="$t('compounds.casPlaceholder')"
           :error="errors.casNumber"
         />
         <ErrorMessage v-if="errors.casNumber" :message="errors.casNumber" />
@@ -34,7 +34,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <label for="quantity" class="block text-sm font-medium text-slate-700 mb-2">
-          Current Quantity *
+          {{$t('compounds.quantity')}} *
         </label>
         <Input
           id="quantity"
@@ -42,7 +42,7 @@
           type="number"
           min="0"
           step="0.01"
-          placeholder="0"
+          :placeholder="$t('compounds.quantityPlaceholder')"
           :error="errors.quantity"
           required
         />
@@ -51,7 +51,7 @@
 
       <div>
         <label for="unit" class="block text-sm font-medium text-slate-700 mb-2">
-          Unit *
+          {{$t('compounds.unit')}} *
         </label>
         <select
           id="unit"
@@ -60,22 +60,22 @@
           :class="{ 'border-red-500': errors.unit }"
           required
         >
-          <option value="">Select unit</option>
-          <option value="g">Grams (g)</option>
-          <option value="kg">Kilograms (kg)</option>
-          <option value="ml">Milliliters (ml)</option>
-          <option value="l">Liters (l)</option>
-          <option value="mg">Milligrams (mg)</option>
-          <option value="μg">Micrograms (μg)</option>
-          <option value="mol">Moles (mol)</option>
-          <option value="mmol">Millimoles (mmol)</option>
+          <option value="">{{$t('compounds.unitSelect')}}</option>
+          <option value="g">{{$t('compounds.unit.g')}}</option>
+          <option value="kg">{{$t('compounds.unit.kg')}}</option>
+          <option value="ml">{{$t('compounds.unit.ml')}}</option>
+          <option value="l">{{$t('compounds.unit.l')}}</option>
+          <option value="mg">{{$t('compounds.unit.mg')}}</option>
+          <option value="μg">{{$t('compounds.unit.μg')}}</option>
+          <option value="mol">{{$t('compounds.unit.mol')}}</option>
+          <option value="mmol">{{$t('compounds.unit.mmol')}}</option>
         </select>
         <ErrorMessage v-if="errors.unit" :message="errors.unit" />
       </div>
 
       <div>
         <label for="threshold" class="block text-sm font-medium text-slate-700 mb-2">
-          Reorder Threshold
+          {{$t('compounds.reorderThreshold')}}
         </label>
         <Input
           id="threshold"
@@ -83,7 +83,7 @@
           type="number"
           min="0"
           step="0.01"
-          placeholder="0"
+          :placeholder="$t('compounds.thresholdPlaceholder')"
           :error="errors.threshold"
         />
         <ErrorMessage v-if="errors.threshold" :message="errors.threshold" />
@@ -94,12 +94,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label for="location" class="block text-sm font-medium text-slate-700 mb-2">
-          Storage Location *
+          {{$t('compounds.location')}} *
         </label>
         <Input
           id="location"
           v-model="formData.location"
-          placeholder="e.g., Cabinet A-3, Freezer B"
+          :placeholder="$t('compounds.locationPlaceholder')"
           :error="errors.location"
           required
         />
@@ -108,7 +108,7 @@
 
       <div>
         <label for="hazard-class" class="block text-sm font-medium text-slate-700 mb-2">
-          Hazard Class
+          {{$t('compounds.hazardClass')}}
         </label>
         <select
           id="hazard-class"
@@ -116,15 +116,15 @@
           class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           :class="{ 'border-red-500': errors.hazardClass }"
         >
-          <option value="">Select hazard class</option>
-          <option value="Non-hazardous">Non-hazardous</option>
-          <option value="Flammable">Flammable</option>
-          <option value="Corrosive">Corrosive</option>
-          <option value="Toxic">Toxic</option>
-          <option value="Oxidizing">Oxidizing</option>
-          <option value="Explosive">Explosive</option>
-          <option value="Carcinogenic">Carcinogenic</option>
-          <option value="Radioactive">Radioactive</option>
+          <option value="">{{$t('compounds.hazardClassSelect')}}</option>
+          <option value="Non-hazardous">{{$t('compounds.hazardClassNonHazardous')}}</option>
+          <option value="Flammable">{{$t('compounds.hazardClassFlammable')}}</option>
+          <option value="Corrosive">{{$t('compounds.hazardClassCorrosive')}}</option>
+          <option value="Toxic">{{$t('compounds.hazardClassToxic')}}</option>
+          <option value="Oxidizing">{{$t('compounds.hazardClassOxidizing')}}</option>
+          <option value="Explosive">{{$t('compounds.hazardClassExplosive')}}</option>
+          <option value="Carcinogenic">{{$t('compounds.hazardClassCarcinogenic')}}</option>
+          <option value="Radioactive">{{$t('compounds.hazardClassRadioactive')}}</option>
         </select>
         <ErrorMessage v-if="errors.hazardClass" :message="errors.hazardClass" />
       </div>
@@ -134,7 +134,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label for="expiry-date" class="block text-sm font-medium text-slate-700 mb-2">
-          Expiry Date
+          {{$t('compounds.expiryDate')}}
         </label>
         <Input
           id="expiry-date"
@@ -147,7 +147,7 @@
 
       <div>
         <label for="received-date" class="block text-sm font-medium text-slate-700 mb-2">
-          Received Date
+          {{$t('compounds.receivedDate')}}
         </label>
         <Input
           id="received-date"
@@ -163,12 +163,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label for="supplier" class="block text-sm font-medium text-slate-700 mb-2">
-          Supplier
+          {{$t('compounds.supplier')}}
         </label>
         <Input
           id="supplier"
           v-model="formData.supplier"
-          placeholder="e.g., Sigma-Aldrich, Fisher Scientific"
+          :placeholder="$t('compounds.supplierPlaceholder')"
           :error="errors.supplier"
         />
         <ErrorMessage v-if="errors.supplier" :message="errors.supplier" />
@@ -176,12 +176,12 @@
 
       <div>
         <label for="batch-number" class="block text-sm font-medium text-slate-700 mb-2">
-          Batch Number
+          {{$t('compounds.batchNumber')}}
         </label>
         <Input
           id="batch-number"
           v-model="formData.batchNumber"
-          placeholder="Enter batch number"
+          :placeholder="$t('compounds.batchNumberPlaceholder')"
           :error="errors.batchNumber"
         />
         <ErrorMessage v-if="errors.batchNumber" :message="errors.batchNumber" />
@@ -191,7 +191,7 @@
     <!-- Synonyms -->
     <div>
       <label for="synonyms" class="block text-sm font-medium text-slate-700 mb-2">
-        Synonyms
+        {{$t('compounds.synonyms')}}
       </label>
       <textarea
         id="synonyms"
@@ -199,10 +199,10 @@
         rows="3"
         class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         :class="{ 'border-red-500': errors.synonyms }"
-        placeholder="Enter alternative names, separated by commas"
+        :placeholder="$t('compounds.synonymsPlaceholder')"
       />
       <p class="text-xs text-slate-500 mt-1">
-        Enter alternative names separated by commas
+        {{$t('compounds.synonymsHelp')}}
       </p>
       <ErrorMessage v-if="errors.synonyms" :message="errors.synonyms" />
     </div>

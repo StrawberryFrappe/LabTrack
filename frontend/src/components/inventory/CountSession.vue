@@ -95,6 +95,7 @@ import { computed } from 'vue'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
+import { useFormat } from '@/utils/format'
 
 const props = defineProps({
   session: {
@@ -105,16 +106,10 @@ const props = defineProps({
 
 defineEmits(['continue', 'view-details', 'complete'])
 
+const { formatDate } = useFormat()
+
 const progressPercentage = computed(() => {
   if (!props.session.totalItems || props.session.totalItems === 0) return 0
   return (props.session.countedItems / props.session.totalItems) * 100
 })
-
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  })
-}
 </script>

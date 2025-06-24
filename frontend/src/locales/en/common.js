@@ -14,6 +14,8 @@ export default {
     error: 'Error',
     success: 'Success',
     warning: 'Warning',
-    info: 'Information'
+    info: 'Information',
+    username: "Username",
+    password: "Password"
   }
 }

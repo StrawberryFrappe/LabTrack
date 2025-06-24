@@ -19,6 +19,7 @@
 <script setup>
 import { computed } from 'vue'
 import Card from '@/components/ui/Card.vue'
+import { useFormat } from '@/utils/format'
 
 const props = defineProps({
   title: {
@@ -44,9 +45,11 @@ const props = defineProps({
   }
 })
 
+const { formatNumber } = useFormat()
+
 const displayValue = computed(() => {
   if (typeof props.value === 'number') {
-    return props.value.toLocaleString()
+    return formatNumber(props.value)
   }
   return props.value
 })

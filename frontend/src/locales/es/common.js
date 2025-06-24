@@ -14,6 +14,8 @@ export default {
     error: 'Error',
     success: 'Éxito',
     warning: 'Advertencia',
-    info: 'Información'
+    info: 'Información',
+    username: "Usuario",
+    password: "Contraseña"
   }
 }

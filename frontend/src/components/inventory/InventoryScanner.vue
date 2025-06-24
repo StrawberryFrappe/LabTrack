@@ -1,35 +1,31 @@
 <template>
   <Card>
     <template #header>
-      <h3 class="text-lg font-semibold text-slate-900">Inventory Scanner</h3>
+      <h3 class="text-lg font-semibold text-slate-900">{{$t('inventory.scannerTitle')}}</h3>
     </template>
     
     <div class="space-y-6">
       <!-- Scanner Input -->
       <div class="space-y-4">        <div class="text-center p-6 border-2 border-dashed border-slate-300 rounded-lg">
           <div class="text-4xl mb-2">📱</div>
-          <p class="text-slate-600 mb-4">Scan barcode or enter manually</p>
-          <!-- TODO: Implement camera scanning -->
-          <!-- TODO: Add barcode scanning library (QuaggaJS or similar) -->
-          <!-- TODO: Handle camera permissions and errors -->
-          <!-- TODO: Support multiple barcode formats -->
+          <p class="text-slate-600 mb-4">{{$t('inventory.scannerPrompt')}}</p>
           <Button variant="outline" disabled>
-            Enable Camera Scanner
+            {{$t('inventory.enableCamera')}}
           </Button>
         </div>
         
         <div class="space-y-2">
           <label class="block text-sm font-medium text-slate-700">
-            Manual Entry
+            {{$t('inventory.manualEntry')}}
           </label>
           <div class="flex gap-2">
             <Input
               v-model="manualCode"
-              placeholder="Enter barcode, CAS number, or compound name"
+              :placeholder="$t('inventory.manualEntryPlaceholder')"
               class="flex-1"
             />
             <Button @click="processCode" :disabled="!manualCode.trim()">
-              Find
+              {{$t('inventory.findButton')}}
             </Button>
           </div>
         </div>
@@ -50,13 +46,13 @@
         
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-sm text-slate-600">Expected Quantity</span>
+            <span class="text-sm text-slate-600">{{$t('inventory.expectedQuantity')}}</span>
             <span class="font-medium">{{ scannedItem.quantity }} {{ scannedItem.unit }}</span>
           </div>
           
           <div v-if="discrepancy !== 0" class="p-3 rounded-md" :class="discrepancyClasses">
             <div class="flex items-center gap-2">
-              <span class="font-medium">Discrepancy:</span>
+              <span class="font-medium">{{$t('inventory.discrepancy')}}:</span>
               <span>{{ discrepancy > 0 ? '+' : '' }}{{ discrepancy }} {{ scannedItem.unit }}</span>
             </div>
           </div>
@@ -68,13 +64,13 @@
               class="flex-1"
               :disabled="countedQuantity === null"
             >
-              Confirm Count
+              {{$t('inventory.confirmCount')}}
             </Button>
             <Button 
               variant="outline" 
               @click="cancelScan"
             >
-              Cancel
+              {{$t('inventory.cancel')}}
             </Button>
           </div>
         </div>
@@ -82,7 +78,7 @@
       
       <!-- Recent Scans -->
       <div v-if="recentScans.length > 0" class="space-y-2">
-        <h4 class="font-medium text-slate-900">Recent Scans</h4>
+        <h4 class="font-medium text-slate-900">{{$t('inventory.recentScans')}}</h4>
         <div class="space-y-2 max-h-48 overflow-y-auto">
           <div 
             v-for="scan in recentScans" 
@@ -92,7 +88,7 @@
             <div class="flex-1">
               <div class="font-medium">{{ scan.name }}</div>
               <div class="text-sm text-slate-600">
-                Counted: {{ scan.countedQuantity }} {{ scan.unit }}
+                {{$t('inventory.counted')}}: {{ scan.countedQuantity }} {{ scan.unit }}
                 <span v-if="scan.discrepancy !== 0" :class="scan.discrepancy > 0 ? 'text-green-600' : 'text-red-600'">
                   ({{ scan.discrepancy > 0 ? '+' : '' }}{{ scan.discrepancy }})
                 </span>

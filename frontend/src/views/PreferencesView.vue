@@ -109,7 +109,7 @@
             <!-- Date Format -->
           <div>
             <!-- TODO i18n: Internationalize "Date Format" -->
-            <label class="block text-sm font-medium text-slate-700 mb-3">Date Format</label>
+            <label class="block text-sm font-medium text-slate-700 mb-3">{{ $t('preferences.dateFormat') }}</label>
             <select
               v-model="selectedDateFormat"
               @change="selectDateFormat"
@@ -127,7 +127,7 @@
           
           <!-- Time Format -->
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-3">Time Format</label>
+            <label class="block text-sm font-medium text-slate-700 mb-3">{{ $t('preferences.timeFormat') }}</label>
             <div class="space-y-2">
               <label class="flex items-center">
                 <input
@@ -138,7 +138,7 @@
                   @change="selectTimeFormat"
                   class="text-blue-600 focus:ring-blue-500"
                 />
-                <span class="ml-2 text-sm">12-hour (2:30 PM)</span>
+                <span class="ml-2 text-sm">{{ $t('preferences.time12h') }}</span>
               </label>
               <label class="flex items-center">
                 <input
@@ -149,7 +149,7 @@
                   @change="selectTimeFormat"
                   class="text-blue-600 focus:ring-blue-500"
                 />
-                <span class="ml-2 text-sm">24-hour (14:30)</span>
+                <span class="ml-2 text-sm">{{ $t('preferences.time24h') }}</span>
               </label>
             </div>
           </div>
@@ -159,13 +159,13 @@
       <!-- Notification Settings -->
       <Card>
         <template #header>
-          <h3 class="text-lg font-semibold text-slate-900">Notifications</h3>
+          <h3 class="text-lg font-semibold text-slate-900">{{ $t('preferences.notifications') }}</h3>
         </template>
         <div class="space-y-6">
           <!-- Email Notifications -->
           <div>
             <label class="flex items-center justify-between">
-              <span class="text-sm font-medium text-slate-700">Email Notifications</span>
+              <span class="text-sm font-medium text-slate-700">{{ $t('preferences.emailNotifications') }}</span>
               <input
                 type="checkbox"
                 v-model="emailNotifications"
@@ -173,13 +173,13 @@
                 class="rounded text-blue-600 focus:ring-blue-500"
               />
             </label>
-            <p class="text-xs text-slate-500 mt-1">Receive email updates for important events</p>
+            <p class="text-xs text-slate-500 mt-1">{{ $t('preferences.emailHelp') }}</p>
           </div>
           
           <!-- Browser Notifications -->
           <div>
             <label class="flex items-center justify-between">
-              <span class="text-sm font-medium text-slate-700">Browser Notifications</span>
+              <span class="text-sm font-medium text-slate-700">{{ $t('preferences.browserNotifications') }}</span>
               <input
                 type="checkbox"
                 v-model="browserNotifications"
@@ -187,13 +187,13 @@
                 class="rounded text-blue-600 focus:ring-blue-500"
               />
             </label>
-            <p class="text-xs text-slate-500 mt-1">Show notifications in your browser</p>
+            <p class="text-xs text-slate-500 mt-1">{{ $t('preferences.browserHelp') }}</p>
           </div>
           
           <!-- Low Stock Alerts -->
           <div>
             <label class="flex items-center justify-between">
-              <span class="text-sm font-medium text-slate-700">Low Stock Alerts</span>
+              <span class="text-sm font-medium text-slate-700">{{ $t('preferences.lowStockAlerts') }}</span>
               <input
                 type="checkbox"
                 v-model="lowStockAlerts"
@@ -201,7 +201,7 @@
                 class="rounded text-blue-600 focus:ring-blue-500"
               />
             </label>
-            <p class="text-xs text-slate-500 mt-1">Get notified when items are running low</p>
+            <p class="text-xs text-slate-500 mt-1">{{ $t('preferences.lowStockHelp') }}</p>
           </div>
         </div>
       </Card>
@@ -209,26 +209,26 @@
       <!-- Display Settings -->
       <Card>
         <template #header>
-          <h3 class="text-lg font-semibold text-slate-900">Display</h3>
+          <h3 class="text-lg font-semibold text-slate-900">{{ $t('preferences.display') }}</h3>
         </template>
         <div class="space-y-6">
           <!-- Items per Page -->
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-3">Items per Page</label>
+            <label class="block text-sm font-medium text-slate-700 mb-3">{{ $t('preferences.itemsPerPage') }}</label>
             <select
               v-model="itemsPerPage"
               @change="selectItemsPerPage"
               class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option v-for="option in itemsPerPageOptions" :key="option" :value="option">
-                {{ option }} items
+                {{ option }} {{$t('preferences.items')}}
               </option>
             </select>
           </div>
           
           <!-- Default View -->
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-3">Default Compounds View</label>
+            <label class="block text-sm font-medium text-slate-700 mb-3">{{ $t('preferences.defaultCompoundsView') }}</label>
             <div class="space-y-2">
               <label class="flex items-center">
                 <input
@@ -239,7 +239,7 @@
                   @change="selectDefaultView"
                   class="text-blue-600 focus:ring-blue-500"
                 />
-                <span class="ml-2 text-sm">Table View</span>
+                <span class="ml-2 text-sm">{{ $t('preferences.tableView') }}</span>
               </label>
               <label class="flex items-center">
                 <input
@@ -250,7 +250,7 @@
                   @change="selectDefaultView"
                   class="text-blue-600 focus:ring-blue-500"
                 />
-                <span class="ml-2 text-sm">Grid View</span>
+                <span class="ml-2 text-sm">{{ $t('preferences.gridView') }}</span>
               </label>
             </div>
           </div>
@@ -276,30 +276,31 @@ import { useI18n } from 'vue-i18n'
 import Card from '@/components/ui/Card.vue'
 import Button from '@/components/ui/Button.vue'
 import { availableLanguages, setLanguage } from '@/locales'
+import { useUserPreferences } from '@/composables/useUserPreferences'
 
 // i18n setup
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 
 // TODO: Load user preferences from storage/API
 // Theme preferences
 const themes = [
   {
     value: 'light',
-    label: 'Light', // TRL3: Theme labels to be internationalized
+    label: t('preferences.themeLight'),
     icon: '☀️',
-    description: 'Clean and bright' // TRL3: Theme descriptions to be internationalized
+    description: t('preferences.themeLightDesc')
   },
   {
     value: 'dark',
-    label: 'Dark', // TRL3: Theme labels to be internationalized
+    label: t('preferences.themeDark'),
     icon: '🌙',
-    description: 'Easy on the eyes' // TRL3: Theme descriptions to be internationalized
+    description: t('preferences.themeDarkDesc')
   },
   {
     value: 'auto',
-    label: 'Auto', // TRL3: Theme labels to be internationalized
+    label: t('preferences.themeAuto'),
     icon: '🔄',
-    description: 'Follow system' // TRL3: Theme descriptions to be internationalized
+    description: t('preferences.themeAutoDesc')
   }
 ]
 
@@ -307,16 +308,33 @@ const selectedTheme = ref('light')
 
 // Language preferences - Using availableLanguages from i18n config
 const languages = availableLanguages
-const selectedLanguage = ref(locale.value)
 
-// Date and time formats
-const dateFormats = [  { value: 'MM/DD/YYYY', label: 'MM/DD/YYYY', example: '12/31/2025' }, // TRL3: Format labels to be internationalized
-  { value: 'DD/MM/YYYY', label: 'DD/MM/YYYY', example: '31/12/2025' }, // TRL3: Format labels to be internationalized  
-  { value: 'YYYY-MM-DD', label: 'YYYY-MM-DD', example: '2025-12-31' } // TRL3: Format labels to be internationalized
+// User preferences composable
+const prefs = useUserPreferences()
+
+// Language
+const selectedLanguage = ref(prefs.locale.value)
+function selectLanguage() {
+  prefs.setLocale(selectedLanguage.value)
+  locale.value = selectedLanguage.value
+}
+
+// Date Format
+const dateFormats = [
+  { value: 'short', label: t('preferences.dateShort'), example: '1/24/25' },
+  { value: 'medium', label: t('preferences.dateMedium'), example: 'Jan 24, 2025' },
+  { value: 'long', label: t('preferences.dateLong'), example: 'January 24, 2025' },
 ]
+const selectedDateFormat = ref(prefs.dateFormat.value)
+function selectDateFormat() {
+  prefs.setDateFormat(selectedDateFormat.value)
+}
 
-const selectedDateFormat = ref('MM/DD/YYYY')
-const selectedTimeFormat = ref('12')
+// Time Format
+const selectedTimeFormat = ref(prefs.timeFormat.value === '24' ? '24' : '12')
+function selectTimeFormat() {
+  prefs.setTimeFormat(selectedTimeFormat.value)
+}
 
 // Notification preferences
 const emailNotifications = ref(true)
@@ -331,15 +349,11 @@ const defaultView = ref('table')
 // Saving state
 const saving = ref(false)
 
-// Load saved preferences on mount
+// onMounted: sync UI with stored preferences
 onMounted(() => {
-  // Load saved language preference
-  const savedLanguage = localStorage.getItem('labtrack-language')
-  if (savedLanguage && languages.find(lang => lang.code === savedLanguage)) {
-    selectedLanguage.value = savedLanguage
-  }
-  
-  // TRL3: Load other preferences from localStorage/API (persistence implementation)
+  selectedLanguage.value = prefs.locale.value
+  selectedDateFormat.value = prefs.dateFormat.value
+  selectedTimeFormat.value = prefs.timeFormat.value
 })
 
 // Methods - TRL3 implementation priorities
@@ -348,28 +362,6 @@ const selectTheme = (theme) => {
   console.log('TRL3: Implement theme switching to:', theme)
   // TRL3: Apply theme to application (CSS variables, localStorage, etc.)
   // TRL3: Save to user preferences (backend integration)
-}
-
-const selectLanguage = () => {
-  console.log('✅ IMPLEMENTED: Language switching to:', selectedLanguage.value)
-  
-  // Update i18n locale and save to localStorage
-  setLanguage(selectedLanguage.value)
-  
-  // TODO: Save to user preferences API when backend is ready
-  // TODO: Show success notification
-}
-
-const selectDateFormat = () => {
-  console.log('TODO: Implement date format change to:', selectedDateFormat.value)
-  // TODO: Update date formatting throughout app
-  // TODO: Save to user preferences
-}
-
-const selectTimeFormat = () => {
-  console.log('TODO: Implement time format change to:', selectedTimeFormat.value)
-  // TODO: Update time formatting throughout app
-  // TODO: Save to user preferences
 }
 
 const toggleEmailNotifications = () => {

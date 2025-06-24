@@ -16,6 +16,7 @@ This is a Vue.js web application built with:
 - Use modern ES6+ JavaScript features
 - Maintain responsive design principles with Tailwind's responsive utilities
 - Keep components focused and reusable
+- **All user-facing text must be internationalized using the i18n system. Do not hardcode visible strings. Add translations for all supported languages when developing new features.**
 
 ## Project Structure
 
