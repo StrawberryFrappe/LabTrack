@@ -1,6 +1,7 @@
 import dashboard from './pt/dashboard.js'
 import compounds from './pt/compounds.js'
 import inventory from './pt/inventory.js'
+import inventorySessions from './pt/inventorySessions.js'
 import preferences from './pt/preferences.js'
 import settings from './pt/settings.js'
 import common from './pt/common.js'
@@ -12,6 +13,7 @@ export default {
   dashboard: dashboard.dashboard,
   compounds: compounds.compounds,
   inventory: inventory.inventory,
+  inventorySessions: inventorySessions.inventorySessions,
   preferences: preferences.preferences,
   settings: settings.settings,
   common: common.common,

@@ -2,7 +2,7 @@
   Login Form Component
   
   This is the main login interface for the LabTrack application.
-  I          <p class="font-medium text-gray-700">{{ $t('common.demoAccounts') }}</p>
+          <p class="font-medium text-gray-700">{{ $t('common.demoAccounts') }}</p>
           <div class="grid grid-cols-2 gap-3 text-sm">
             <div class="bg-blue-50 p-2 rounded">
               <p class="font-semibold text-blue-800">{{ $t('common.administrator') }}</p>

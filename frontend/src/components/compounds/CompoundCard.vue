@@ -30,9 +30,12 @@
       <div class="pt-3 border-t border-slate-200">
         <div class="flex items-center justify-between mb-2">
           <span class="text-sm text-slate-500">{{ $t('compounds.currentStock') }}</span>
-          <span :class="stockStatusClasses">
-            {{ compound.quantity }} {{ compound.unit }}
-          </span>
+          <div class="flex items-center gap-2">
+            <LoadingSpinner v-if="stockLoading" size="xs" />
+            <span :class="stockStatusClasses">
+              {{ currentStock }} {{ compound.unit }}
+            </span>
+          </div>
         </div>
         <div class="w-full bg-slate-200 rounded-full h-2">
           <div 
@@ -65,6 +68,13 @@
         <Button variant="outline" size="sm" @click="$emit('scan', compound)">
           {{ $t('compounds.actions.count') }}
         </Button>
+        <Button 
+          variant="primary" 
+          size="sm" 
+          @click="navigateToInventorySessions(compound)"
+        >
+          {{ $t('compounds.actions.recordTransaction') }}
+        </Button>
         <Button variant="destructive" size="sm" @click="$emit('delete', compound)">
           {{ $t('compounds.actions.delete') }}
         </Button>
@@ -76,14 +86,19 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
+import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
 import { useFormat } from '@/utils/format'
+import { useInventory } from '@/composables/useInventory'
 
 const { t } = useI18n()
+const router = useRouter()
+const { calculateCurrentStock } = useInventory()
 
 const props = defineProps({
   compound: {
@@ -96,8 +111,26 @@ defineEmits(['edit', 'scan', 'delete'])
 
 const { formatDate } = useFormat()
 
+// Real-time stock calculation
+const currentStock = ref(props.compound.quantity)
+const stockLoading = ref(false)
+
+// Load real-time stock on mount
+onMounted(async () => {
+  try {
+    stockLoading.value = true
+    const realStock = await calculateCurrentStock(props.compound.id, props.compound.quantity)
+    currentStock.value = realStock
+  } catch (error) {
+    console.error('Failed to calculate current stock:', error)
+    // Keep initial quantity as fallback
+  } finally {
+    stockLoading.value = false
+  }
+})
+
 const stockPercentage = computed(() => 
-  (props.compound.quantity / props.compound.threshold) * 100
+  (currentStock.value / props.compound.threshold) * 100
 )
 
 const hazardBadgeVariant = computed(() => {
@@ -135,4 +168,13 @@ const expiryClasses = computed(() => {
     }
   ]
 })
+
+// Navigation methods
+const navigateToInventorySessions = (compound) => {
+  // Navigate to inventory sessions with compound pre-selected
+  router.push({
+    name: 'InventorySessions',
+    query: { compound: compound.id }
+  })
+}
 </script>

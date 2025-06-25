@@ -204,6 +204,15 @@ const allViews = [
     icon: '📦',
     roles: ['admin', 'user'],
     disabled: false
+  },
+  {
+    id: 'inventory-sessions',
+    routeName: 'InventorySessions',
+    path: '/inventory-sessions',
+    labelKey: 'navigation.inventorySessions', // Using translation key
+    icon: '📋',
+    roles: ['admin', 'user'],
+    disabled: false
   }
 ]
 
@@ -222,6 +231,7 @@ const getPageTitle = (routeName) => {
     'Dashboard': 'navigation.dashboard',
     'Compounds': 'compounds.title',
     'Inventory': 'navigation.inventory',
+    'InventorySessions': 'navigation.inventorySessions',
     'Preferences': 'navigation.preferences',
     'Settings': 'navigation.settings'
   }

@@ -91,7 +91,8 @@ export default {
       edit: "Editar",
       delete: "Eliminar",
       count: "Contar",
-      view: "Ver"
+      view: "Ver",
+      recordTransaction: "Registrar Transacción"
     },
     
     // Labels and prefixes

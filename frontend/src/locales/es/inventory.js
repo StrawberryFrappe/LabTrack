@@ -77,5 +77,89 @@ export default {
       inProgress: "En Progreso", 
       percentComplete: "% Completado"
     }
+  },
+  
+  // Inventory Sessions (Transaction Management)
+  inventorySessions: {
+    title: 'Sesiones de Inventario',
+    subtitle: 'Registra y rastrea transacciones de inventario en tiempo real',
+    
+    // Quick Transaction Form
+    quickTransaction: {
+      title: 'Transacción Rápida',
+      selectCompound: 'Seleccionar Compuesto',
+      compoundPlaceholder: 'Buscar compuestos...',
+      transactionType: 'Tipo de Transacción',
+      quantity: 'Cantidad',
+      notes: 'Notas (Opcional)',
+      notesPlaceholder: 'Agregar notas...',
+      location: 'Ubicación',
+      locationPlaceholder: 'Ingresar ubicación...',
+      record: 'Registrar Transacción',
+      
+      // Transaction Types
+      types: {
+        use: 'Usar',
+        restock: 'Reabastecer',
+        adjust: 'Ajustar',
+        transfer: 'Transferir',
+        waste: 'Desecho'
+      },
+      
+      // Stock Preview
+      stockPreview: {
+        current: 'Stock Actual',
+        after: 'Después de Transacción',
+        loading: 'Calculando...'
+      }
+    },
+    
+    // Transaction History
+    history: {
+      title: 'Historial de Transacciones',
+      today: 'Hoy',
+      thisWeek: 'Esta Semana',
+      total: 'Total',
+      allTypes: 'Todos los Tipos',
+      allTime: 'Todo el Tiempo',
+      last7Days: 'Últimos 7 Días',
+      last30Days: 'Últimos 30 Días',
+      thisMonth: 'Este Mes',
+      
+      // Table Headers
+      compound: 'Compuesto',
+      type: 'Tipo',
+      quantity: 'Cantidad',
+      user: 'Usuario',
+      timestamp: 'Fecha y Hora',
+      notes: 'Notas',
+      actions: 'Acciones'
+    },
+    
+    // Actions
+    actions: {
+      refresh: 'Actualizar',
+      bulkAction: 'Acciones Masivas',
+      edit: 'Editar',
+      delete: 'Eliminar',
+      export: 'Exportar'
+    },
+    
+    // Bulk Operations
+    bulk: {
+      title: 'Operaciones Masivas',
+      description: 'Importar o exportar transacciones de inventario en lote',
+      import: 'Importar Transacciones',
+      export: 'Exportar a CSV'
+    },
+    
+    // Messages
+    messages: {
+      transactionRecorded: 'Transacción registrada exitosamente',
+      transactionFailed: 'Error al registrar transacción',
+      deleteTransactionConfirm: '¿Estás seguro de que quieres eliminar esta transacción?',
+      noTransactions: 'No se encontraron transacciones',
+      loadingTransactions: 'Cargando transacciones...'
+    }
   }
 }

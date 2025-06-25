@@ -1,8 +1,9 @@
 export default {
   navigation: {
-    dashboard: 'Panel de Control',
+    dashboard: 'Tablero',
     compounds: 'Compuestos',
     inventory: 'Conteo de Inventario',
+    inventorySessions: 'Sesiones de Inventario',
     preferences: 'Preferencias',
     settings: 'Configuración del Sistema'
   }

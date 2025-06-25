@@ -77,5 +77,89 @@ export default {
       inProgress: "In Progress",
       percentComplete: "% Complete"
     }
+  },
+  
+  // Inventory Sessions (Transaction Management)
+  inventorySessions: {
+    title: 'Inventory Sessions',
+    subtitle: 'Record and track inventory transactions in real-time',
+    
+    // Quick Transaction Form
+    quickTransaction: {
+      title: 'Quick Transaction',
+      selectCompound: 'Select Compound',
+      compoundPlaceholder: 'Search compounds...',
+      transactionType: 'Transaction Type',
+      quantity: 'Quantity',
+      notes: 'Notes (Optional)',
+      notesPlaceholder: 'Add notes...',
+      location: 'Location',
+      locationPlaceholder: 'Enter location...',
+      record: 'Record Transaction',
+      
+      // Transaction Types
+      types: {
+        use: 'Use',
+        restock: 'Restock',
+        adjust: 'Adjust',
+        transfer: 'Transfer',
+        waste: 'Waste'
+      },
+      
+      // Stock Preview
+      stockPreview: {
+        current: 'Current Stock',
+        after: 'After Transaction',
+        loading: 'Calculating...'
+      }
+    },
+    
+    // Transaction History
+    history: {
+      title: 'Transaction History',
+      today: 'Today',
+      thisWeek: 'This Week',
+      total: 'Total',
+      allTypes: 'All Types',
+      allTime: 'All Time',
+      last7Days: 'Last 7 Days',
+      last30Days: 'Last 30 Days',
+      thisMonth: 'This Month',
+      
+      // Table Headers
+      compound: 'Compound',
+      type: 'Type',
+      quantity: 'Quantity',
+      user: 'User',
+      timestamp: 'Date & Time',
+      notes: 'Notes',
+      actions: 'Actions'
+    },
+    
+    // Actions
+    actions: {
+      refresh: 'Refresh',
+      bulkAction: 'Bulk Actions',
+      edit: 'Edit',
+      delete: 'Delete',
+      export: 'Export'
+    },
+    
+    // Bulk Operations
+    bulk: {
+      title: 'Bulk Operations',
+      description: 'Import or export inventory transactions in bulk',
+      import: 'Import Transactions',
+      export: 'Export to CSV'
+    },
+    
+    // Messages
+    messages: {
+      transactionRecorded: 'Transaction recorded successfully',
+      transactionFailed: 'Failed to record transaction',
+      deleteTransactionConfirm: 'Are you sure you want to delete this transaction?',
+      noTransactions: 'No transactions found',
+      loadingTransactions: 'Loading transactions...'
+    }
   }
 }
