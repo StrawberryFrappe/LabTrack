@@ -81,6 +81,12 @@ export default {
     importError: "Error al importar compuestos. Verifique el formato del archivo.",
     exportSuccess: "Compuestos exportados exitosamente",
     exportError: "Error al exportar compuestos. Intente de nuevo.",
-    unsupportedFileType: "Tipo de archivo no soportado. Use archivos CSV o Excel."
+    unsupportedFileType: "Tipo de archivo no soportado. Use archivos CSV o Excel.",
+    export: {
+      button: "Exportar Compuestos",
+      success: "Se exportaron exitosamente {count} compuestos",
+      error: "Error al exportar compuestos",
+      noData: "No hay compuestos para exportar"
+    }
   }
 }

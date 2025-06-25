@@ -118,7 +118,14 @@ import Input from '@/components/ui/Input.vue'
 import Button from '@/components/ui/Button.vue'
 import InventoryScanner from '@/components/inventory/InventoryScanner.vue'
 import CountSession from '@/components/inventory/CountSession.vue'
-import { useInventoryCount } from '@/composables/useInventoryCount.js'
+import { useToast } from '@/composables/useToast'
+import { useAuth } from '@/composables/useAuth'
+import { useInventoryCount } from '@/composables/useInventoryCount'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const { isAdmin } = useAuth()
+const { success, error, warning } = useToast()
 
 // Inventory count composable
 const { 

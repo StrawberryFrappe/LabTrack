@@ -5,6 +5,7 @@ import preferences from './es/preferences.js'
 import common from './es/common.js'
 import navigation from './es/navigation.js'
 import userMenu from './es/userMenu.js'
+import validation from './es/validation.js'
 
 export default {
   dashboard: dashboard.dashboard,
@@ -13,5 +14,6 @@ export default {
   preferences: preferences.preferences,
   common: common.common,
   navigation: navigation.navigation,
-  userMenu: userMenu.userMenu
+  userMenu: userMenu.userMenu,
+  validation: validation.validation
 }

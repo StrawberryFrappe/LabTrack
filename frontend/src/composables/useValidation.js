@@ -177,7 +177,7 @@ export function useValidation(formId = 'default') {
       isValid: true,
       isTouched: false,
       isValidating: false,
-      showErrors: false
+      showErrors: false // Never show errors initially
     }
   }
   
@@ -198,7 +198,7 @@ export function useValidation(formId = 'default') {
     let isValid = true
     
     try {
-      // Run synchronous validations
+      // Run synchronous validations first
       for (const rule of config.rules) {
         if (typeof rule === 'string') {
           // Built-in rule
@@ -207,8 +207,8 @@ export function useValidation(formId = 'default') {
             field.errors.push(t(validator.message, { field: fieldName }))
             isValid = false
           }
-        } else if (typeof rule === 'object') {
-          // Rule with parameters
+        } else if (typeof rule === 'object' && !rule.async) {
+          // Synchronous rule with parameters
           const { name, params, message } = rule
           const validator = VALIDATION_RULES[name]
           
@@ -227,19 +227,29 @@ export function useValidation(formId = 'default') {
         }
       }
       
-      // Run async validations
-      for (const rule of config.rules) {
-        if (typeof rule === 'object' && rule.async) {
-          const { name, params, currentId } = rule
-          const validator = ASYNC_VALIDATION_RULES[name]
-          
-          if (validator) {
-            validationInProgress[fieldName] = true
-            const asyncResult = await validator.validate(value, params, currentId)
+      // Only run async validations if:
+      // 1. Synchronous validation passed
+      // 2. Value is not empty (don't validate empty fields)
+      // 3. Field has been touched by user (not initial render)
+      if (isValid && value && field.isTouched) {
+        for (const rule of config.rules) {
+          if (typeof rule === 'object' && rule.async) {
+            const { name, params, currentId } = rule
+            const validator = ASYNC_VALIDATION_RULES[name]
             
-            if (!asyncResult) {
-              field.errors.push(t(validator.message, { field: fieldName, ...params }))
-              isValid = false
+            if (validator) {
+              try {
+                validationInProgress[fieldName] = true
+                const asyncResult = await validator.validate(value, params, currentId)
+                
+                if (!asyncResult) {
+                  field.errors.push(t(validator.message, { field: fieldName, ...params }))
+                  isValid = false
+                }
+              } catch (error) {
+                console.warn(`Async validation failed for ${fieldName}:`, error)
+                // Don't fail validation if async service is unavailable
+              }
             }
           }
         }
@@ -252,7 +262,7 @@ export function useValidation(formId = 'default') {
     } finally {
       field.isValidating = false
       field.isValid = isValid
-      field.showErrors = showErrors
+      field.showErrors = showErrors && field.isTouched
       validationInProgress[fieldName] = false
     }
     

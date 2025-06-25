@@ -323,7 +323,7 @@ const formData = reactive({
 
 // Register validation rules for each field
 onMounted(() => {
-  // Name field - required, unique
+  // Name field - required with async uniqueness validation
   registerField('name', [
     'required',
     { name: 'minLength', params: { min: 2 } },
@@ -331,17 +331,19 @@ onMounted(() => {
     { 
       name: 'uniqueCompoundName', 
       async: true, 
-      currentId: props.compound?.id 
+      currentId: props.compound?.id,
+      message: 'validation.uniqueCompoundName'
     }
   ])
 
-  // CAS Number - format validation, unique
+  // CAS Number - format validation with async uniqueness validation
   registerField('casNumber', [
     'casNumber',
     { 
       name: 'uniqueCasNumber', 
       async: true, 
-      currentId: props.compound?.id 
+      currentId: props.compound?.id,
+      message: 'validation.uniqueCasNumber'
     }
   ])
 

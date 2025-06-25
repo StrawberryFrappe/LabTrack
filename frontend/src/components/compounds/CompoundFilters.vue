@@ -188,8 +188,6 @@ const quickFilters = [
         toggleAdvancedMode()
       }
       // Clear existing conditions and add low stock condition
-      // Note: This will be handled by the advanced search composable
-      // For now, clear simple filters
       searchQuery.value = ''
       selectedHazardClass.value = ''
       selectedLocation.value = ''
