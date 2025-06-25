@@ -18,7 +18,16 @@ export default {
     username: "Usuario",
     password: "Contraseña",
     confirm: "Confirmar",
-    close: "Cerrar"
+    close: "Cerrar",
+    
+    // Dialog common text
+    confirmAction: "Confirmar Acción",
+    confirmActionText: "Confirmar",
+    cancelActionText: "Cancelar",
+    pleaseConfirm: "Por favor confirme esta acción",
+    
+    // Common values
+    notAvailable: "N/D"
   },
   pagination: {
     itemsPerPage: 'Elementos por página',

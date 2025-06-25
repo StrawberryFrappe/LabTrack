@@ -30,5 +30,52 @@ export default {
     cancel: "Cancel",
     recentScans: "Recent Scans",
     counted: "Counted",
+    
+    // Count Entry Modal
+    countEntry: "Count Entry",
+    countedQuantity: "Counted Quantity",
+    countedQuantityPlaceholder: "Enter counted quantity",
+    discrepancyFound: "Discrepancy Found",
+    overageFound: "Overage",
+    shortageFound: "Shortage",
+    noDiscrepancy: "No Discrepancy",
+    
+    // Count Entry Labels
+    cas: "CAS",
+    location: "Location", 
+    expected: "Expected",
+    
+    // Count Entry Actions
+    confirmCount: "Confirm Count",
+    confirmCountAction: "Confirm",
+    cancelCountAction: "Cancel",
+    
+    // Count Session Progress
+    progress: "Progress",
+    unknown: "Unknown",
+    
+    // Count Session Labels
+    labels: {
+      location: "Location",
+      createdBy: "Created by",
+      startDate: "Start Date", 
+      completed: "Completed",
+      duration: "Duration",
+      notes: "Notes"
+    },
+    
+    // Count Session Actions
+    sessionActions: {
+      continueCount: "Continue Count",
+      viewDetails: "View Details", 
+      complete: "Complete"
+    },
+    
+    // Count Session Status
+    status: {
+      completed: "Completed",
+      inProgress: "In Progress",
+      percentComplete: "% Complete"
+    }
   }
 }

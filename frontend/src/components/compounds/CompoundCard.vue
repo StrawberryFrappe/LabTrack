@@ -10,26 +10,26 @@
     <div class="space-y-3">
       <div class="grid grid-cols-2 gap-4 text-sm">
         <div>
-          <span class="text-slate-500">CAS Number:</span>
+          <span class="text-slate-500">{{ $t('compounds.labels.casNumber') }}:</span>
           <span class="ml-2 font-mono">{{ compound.casNumber }}</span>
         </div>
         <div>
-          <span class="text-slate-500">Batch:</span>
+          <span class="text-slate-500">{{ $t('compounds.labels.batch') }}:</span>
           <span class="ml-2 font-mono">{{ compound.batchNumber }}</span>
         </div>
         <div>
-          <span class="text-slate-500">Location:</span>
+          <span class="text-slate-500">{{ $t('compounds.labels.location') }}:</span>
           <span class="ml-2">{{ compound.location }}</span>
         </div>
         <div>
-          <span class="text-slate-500">Supplier:</span>
+          <span class="text-slate-500">{{ $t('compounds.labels.supplier') }}:</span>
           <span class="ml-2">{{ compound.supplier }}</span>
         </div>
       </div>
       
       <div class="pt-3 border-t border-slate-200">
         <div class="flex items-center justify-between mb-2">
-          <span class="text-sm text-slate-500">Current Stock</span>
+          <span class="text-sm text-slate-500">{{ $t('compounds.currentStock') }}</span>
           <span :class="stockStatusClasses">
             {{ compound.quantity }} {{ compound.unit }}
           </span>
@@ -42,14 +42,14 @@
           />
         </div>
         <div class="flex justify-between text-xs text-slate-500 mt-1">
-          <span>Threshold: {{ compound.threshold }} {{ compound.unit }}</span>
+          <span>{{ $t('compounds.labels.threshold') }}: {{ compound.threshold }} {{ compound.unit }}</span>
           <span>{{ stockPercentage.toFixed(0) }}%</span>
         </div>
       </div>
       
       <div class="pt-3 border-t border-slate-200">
         <div class="flex items-center justify-between text-sm">
-          <span class="text-slate-500">Expires:</span>
+          <span class="text-slate-500">{{ $t('compounds.labels.expires') }}:</span>
           <span :class="expiryClasses">{{ formatDate(compound.expiryDate) }}</span>
         </div>
       </div>
@@ -60,13 +60,13 @@
         <!-- TODO: Add context menu for additional actions -->
         <!-- TODO: Add confirmation dialogs for destructive actions -->
         <Button variant="outline" size="sm" @click="$emit('edit', compound)">
-          Edit
+          {{ $t('compounds.actions.edit') }}
         </Button>
         <Button variant="outline" size="sm" @click="$emit('scan', compound)">
-          Count
+          {{ $t('compounds.actions.count') }}
         </Button>
         <Button variant="destructive" size="sm" @click="$emit('delete', compound)">
-          Delete
+          {{ $t('compounds.actions.delete') }}
         </Button>
         <!-- TODO: Add quick quantity adjust buttons -->
         <!-- TODO: Add barcode generation/print button -->
@@ -77,10 +77,13 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
 import { useFormat } from '@/utils/format'
+
+const { t } = useI18n()
 
 const props = defineProps({
   compound: {

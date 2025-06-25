@@ -1,7 +1,9 @@
 export default {
   userMenu: {
-    profile: 'Configurações de Perfil',
+    profile: 'Configurações do Perfil',
     preferences: 'Preferências',
-    systemSettings: 'Configurações do Sistema'
+    systemSettings: 'Configurações do Sistema',
+    signOut: 'Sair',
+    signingOut: 'Saindo...'
   }
 }

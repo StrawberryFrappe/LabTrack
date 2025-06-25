@@ -28,8 +28,11 @@ export default {
     filters: 'Filtros',
     category: 'Categoria',
     hazardLevel: 'Nível de Perigo',
-    hazardClass: 'Classe de perigo',
+    hazardClass: 'Classe de Perigo',
+    allHazardClasses: 'Todas as classes de perigo',
     location: 'Localização',
+    allLocations: 'Todas as localizações',
+    filtersActive: 'filtros ativos',
     status: 'Status',
     actions: 'Ações',
     edit: 'Editar',
@@ -66,6 +69,41 @@ export default {
     synonyms: "Sinônimos",
     synonymsPlaceholder: "Insira sinônimos (separados por vírgula)",
     synonymsHelp: "Separe os sinônimos com vírgulas (ex. Acetona, Dimetil cetona)",
+    
+    // Stock and inventory
+    currentStock: "Estoque Atual",
+    lowStockWarning: "⚠️ Estoque baixo!",
+    
+    // Table headers
+    tableHeaders: {
+      name: "Nome",
+      casNumber: "Número CAS",
+      supplier: "Fornecedor",
+      quantity: "Quantidade", 
+      location: "Local",
+      hazards: "Perigos",
+      actions: "Ações"
+    },
+    
+    // Action buttons
+    actions: {
+      edit: "Editar",
+      delete: "Excluir",
+      count: "Contar",
+      view: "Ver"
+    },
+    
+    // Labels and prefixes
+    labels: {
+      id: "ID",
+      cas: "CAS", 
+      casNumber: "Número CAS",
+      batch: "Lote",
+      location: "Local",
+      supplier: "Fornecedor",
+      expires: "Expira",
+      threshold: "Limite"
+    },
 
     // CRUD Operations
     createSuccess: "Composto criado com sucesso",

@@ -30,5 +30,52 @@ export default {
     cancel: "Cancelar",
     recentScans: "Leituras recentes",
     counted: "Contado",
+    
+    // Count Entry Modal
+    countEntry: "Entrada de Contagem",
+    countedQuantity: "Quantidade Contada",
+    countedQuantityPlaceholder: "Digite a quantidade contada",
+    discrepancyFound: "Discrepância Encontrada",
+    overageFound: "Excesso",
+    shortageFound: "Faltante",
+    noDiscrepancy: "Sem Discrepância",
+    
+    // Count Entry Labels
+    cas: "CAS",
+    location: "Local",
+    expected: "Esperado",
+    
+    // Count Entry Actions
+    confirmCount: "Confirmar Contagem",
+    confirmCountAction: "Confirmar",
+    cancelCountAction: "Cancelar",
+    
+    // Count Session Progress
+    progress: "Progresso",
+    unknown: "Desconhecido",
+    
+    // Count Session Labels
+    labels: {
+      location: "Local",
+      createdBy: "Criado por",
+      startDate: "Data de Início",
+      completed: "Completado", 
+      duration: "Duração",
+      notes: "Notas"
+    },
+    
+    // Count Session Actions
+    sessionActions: {
+      continueCount: "Continuar Contagem",
+      viewDetails: "Ver Detalhes",
+      complete: "Completar"
+    },
+    
+    // Count Session Status
+    status: {
+      completed: "Completado",
+      inProgress: "Em Progresso",
+      percentComplete: "% Completo"
+    }
   }
 }

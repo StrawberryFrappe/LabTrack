@@ -4,7 +4,7 @@
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold text-slate-900">{{ session.name }}</h3>
         <Badge :variant="session.completed ? 'success' : 'warning'">
-          {{ session.completed ? 'Completed' : 'In Progress' }}
+          {{ session.completed ? $t('inventory.status.completed') : $t('inventory.status.inProgress') }}
         </Badge>
       </div>
     </template>
@@ -12,19 +12,19 @@
     <div class="space-y-4">
       <div class="grid grid-cols-2 gap-4 text-sm">
         <div>
-          <span class="text-slate-500">Location:</span>
+          <span class="text-slate-500">{{ $t('inventory.labels.location') }}:</span>
           <span class="ml-2">{{ session.location }}</span>
         </div>
         <div>
-          <span class="text-slate-500">Created by:</span>
+          <span class="text-slate-500">{{ $t('inventory.labels.createdBy') }}:</span>
           <span class="ml-2">{{ session.createdBy }}</span>
         </div>
         <div>
-          <span class="text-slate-500">Start Date:</span>
+          <span class="text-slate-500">{{ $t('inventory.labels.startDate') }}:</span>
           <span class="ml-2">{{ formatDate(session.startDate) }}</span>
         </div>
         <div v-if="session.completedDate">
-          <span class="text-slate-500">Completed:</span>
+          <span class="text-slate-500">{{ $t('inventory.labels.completed') }}:</span>
           <span class="ml-2">{{ formatDate(session.completedDate) }}</span>
         </div>
       </div>
@@ -35,8 +35,8 @@
       
       <div class="space-y-2">
         <div class="flex items-center justify-between text-sm">
-          <span class="text-slate-500">Progress</span>
-          <span class="font-medium">{{ session.countedItems }} / {{ session.totalItems || 'Unknown' }}</span>
+          <span class="text-slate-500">{{ $t('inventory.progress') }}</span>
+          <span class="font-medium">{{ session.countedItems }} / {{ session.totalItems || $t('inventory.unknown') }}</span>
         </div>
         <div class="w-full bg-slate-200 rounded-full h-2">
           <div 
@@ -45,17 +45,17 @@
           />
         </div>
         <div class="text-xs text-slate-500 text-right">
-          {{ progressPercentage.toFixed(0) }}% Complete
+          {{ progressPercentage.toFixed(0) }}{{ $t('inventory.status.percentComplete') }}
         </div>
       </div>
       
       <div v-if="session.duration" class="text-sm">
-        <span class="text-slate-500">Duration:</span>
+        <span class="text-slate-500">{{ $t('inventory.labels.duration') }}:</span>
         <span class="ml-2">{{ session.duration }}</span>
       </div>
       
       <div v-if="session.notes" class="p-3 bg-slate-50 rounded-md text-sm">
-        <div class="font-medium text-slate-700 mb-1">Notes:</div>
+        <div class="font-medium text-slate-700 mb-1">{{ $t('inventory.labels.notes') }}:</div>
         <div class="text-slate-600">{{ session.notes }}</div>
       </div>
     </div>
@@ -68,14 +68,14 @@
           size="sm"
           @click="$emit('continue', session)"
         >
-          Continue Count
+          {{ $t('inventory.sessionActions.continueCount') }}
         </Button>
         <Button 
           variant="outline"
           size="sm"
           @click="$emit('view-details', session)"
         >
-          View Details
+          {{ $t('inventory.sessionActions.viewDetails') }}
         </Button>
         <Button 
           v-if="!session.completed"
@@ -83,7 +83,7 @@
           size="sm"
           @click="$emit('complete', session)"
         >
-          Complete
+          {{ $t('inventory.sessionActions.complete') }}
         </Button>
       </div>
     </template>
@@ -92,10 +92,13 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
 import { useFormat } from '@/utils/format'
+
+const { t } = useI18n()
 
 const props = defineProps({
   session: {

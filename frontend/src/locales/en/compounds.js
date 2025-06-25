@@ -69,6 +69,41 @@ export default {
     synonyms: "Synonyms",
     synonymsPlaceholder: "Enter synonyms (comma separated)",
     synonymsHelp: "Separate synonyms with commas (e.g. Acetone, Dimethyl ketone)",
+    
+    // Stock and inventory
+    currentStock: "Current Stock",
+    lowStockWarning: "⚠️ Low stock!",
+    
+    // Table headers
+    tableHeaders: {
+      name: "Name",
+      casNumber: "CAS Number", 
+      supplier: "Supplier",
+      quantity: "Quantity",
+      location: "Location",
+      hazards: "Hazards",
+      actions: "Actions"
+    },
+    
+    // Action buttons
+    actions: {
+      edit: "Edit",
+      delete: "Delete",
+      count: "Count",
+      view: "View"
+    },
+    
+    // Labels and prefixes
+    labels: {
+      id: "ID",
+      cas: "CAS",
+      casNumber: "CAS Number",
+      batch: "Batch",
+      location: "Location",
+      supplier: "Supplier",
+      expires: "Expires",
+      threshold: "Threshold"
+    },
 
     // CRUD Operations
     createSuccess: "Compound created successfully",
