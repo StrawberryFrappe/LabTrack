@@ -46,7 +46,8 @@
           <tr 
             v-for="compound in compounds" 
             :key="compound.id"
-            class="hover:bg-slate-50 transition-colors"
+            class="hover:bg-slate-50 transition-colors cursor-pointer"
+            @click="$emit('view-detail', compound)"
           >
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap">              <div>
                 <div class="text-sm font-medium text-slate-900">{{ compound.name }}</div>
@@ -92,21 +93,26 @@
               </div>
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2" @click.stop>
+                <button
+                  @click="$emit('view-detail', compound)"
+                  class="text-slate-600 hover:text-slate-900 transition-colors p-1 rounded hover:bg-slate-50"
+                  :title="`View ${compound.name} details`"
+                >
+                  👁️
+                </button>
                 <button
                   @click="$emit('edit', compound)"
                   class="text-blue-600 hover:text-blue-900 transition-colors p-1 rounded hover:bg-blue-50"
                   :title="`Edit ${compound.name}`"
                 >
-                  <!-- TODO: Use proper icon component -->
                   ✏️
                 </button>
                 <button
-                  @click="$emit('scan', compound)"
+                  @click="$emit('view-instances', compound)"
                   class="text-green-600 hover:text-green-900 transition-colors p-1 rounded hover:bg-green-50"
-                  :title="`Scan ${compound.name} for inventory`"
+                  :title="`View ${compound.name} instances`"
                 >
-                  <!-- TODO: Use proper icon component -->
                   📱
                 </button>
                 <button
@@ -165,7 +171,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['edit', 'scan', 'delete'])
+defineEmits(['edit', 'view-instances', 'delete', 'view-detail'])
 
 // TODO: Move this to a shared utility or composable
 const getHazardClasses = (hazard) => {

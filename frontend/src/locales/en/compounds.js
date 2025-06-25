@@ -74,6 +74,43 @@ export default {
     // Stock and inventory
     currentStock: "Current Stock",
     lowStockWarning: "⚠️ Low stock!",
+    totalStock: "Total Stock",
+    acrossInstances: "{count} instance | {count} instances",
+    batch: "Batch",
+    
+    // Instance management
+    instances: {
+      title: "Compound Instances",
+      description: "Physical containers and their locations",
+      addNew: "Add New Instance",
+      noInstances: "No instances found",
+      location: "Location",
+      batchNumber: "Batch Number",
+      quantity: "Quantity",
+      expiryDate: "Expiry Date",
+      status: "Status",
+      actions: "Actions",
+      created: "Created",
+      opened: "Opened",
+      received: "Received",
+      statusActive: "Active",
+      statusUsedUp: "Used Up",
+      statusExpired: "Expired",
+      edit: "Edit Instance",
+      delete: "Delete Instance",
+      deleteConfirm: "Are you sure you want to delete this instance?",
+      search: "Search instances...",
+      openedHelp: "Leave empty if container hasn't been opened yet",
+      summary: {
+        totalInstances: "Total Instances",
+        totalQuantity: "Total Quantity",
+        locations: "Locations",
+        expiringSoon: "Expiring Soon"
+      },
+      createSuccess: "Instance created successfully",
+      updateSuccess: "Instance updated successfully",
+      deleteSuccess: "Instance deleted successfully"
+    },
     
     // Table headers
     tableHeaders: {
@@ -92,7 +129,9 @@ export default {
       delete: "Delete",
       count: "Count",
       view: "View",
-      recordTransaction: "Record Transaction"
+      recordTransaction: "Record Transaction",
+      viewInstances: "View Instances",
+      addInstance: "Add Instance"
     },
     
     // Labels and prefixes
@@ -134,6 +173,23 @@ export default {
       expiringSoon: "Expiring Soon", 
       flammable: "Flammable",
       corrosive: "Corrosive"
+    },
+
+    // Detail modal
+    detail: {
+      title: "Compound Details",
+      loading: "Loading compound details...",
+      errorLoading: "Failed to load compound details",
+      notFound: "Compound not found",
+      compoundInfo: "Compound Information",
+      editCompound: "Edit Compound",
+      stockSummary: "Stock Summary",
+      createTransaction: "Create Transaction",
+      deleteCompound: "Delete Compound",
+      notes: "Notes",
+      notesPlaceholder: "Add notes about this compound...",
+      loadingInstances: "Loading instances...",
+      transactionFeatureComingSoon: "Transaction feature coming soon!"
     }
   }
 }

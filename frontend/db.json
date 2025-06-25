@@ -33,16 +33,26 @@
       "id": "2",
       "name": "Hydrochloric Acid",
       "casNumber": "7647-01-0",
+      "threshold": 50,
+      "hazardClass": "Corrosive",
+      "supplier": "Fisher Scientific",
+      "synonyms": "Muriatic acid",
+      "notes": "General lab reagent for pH adjustment"
+    }
+  ],
+  "compoundInstances": [
+    {
+      "id": "inst-2-1",
+      "compoundId": "2",
+      "batchNumber": "HCl-2024-002",
       "quantity": 25,
       "unit": "ml",
-      "threshold": 50,
       "location": "Acid Cabinet",
-      "hazardClass": "Corrosive",
       "expiryDate": "2025-06-30",
       "receivedDate": "2024-02-01",
-      "supplier": "Fisher Scientific",
-      "batchNumber": "HCl-2024-002",
-      "synonyms": "Muriatic acid"
+      "openedDate": null,
+      "status": "active",
+      "createdAt": "2024-02-01T00:00:00.000Z"
     }
   ],
   "countSessions": [
@@ -66,6 +76,7 @@
     {
       "id": "1",
       "compoundId": "2",
+      "instanceId": "inst-2-1",
       "type": "use",
       "quantity": 5,
       "timestamp": "2025-06-24T10:30:00.000Z",
@@ -77,6 +88,7 @@
     {
       "id": "2",
       "compoundId": "2",
+      "instanceId": "inst-2-1",
       "type": "restock",
       "quantity": 50,
       "timestamp": "2025-06-20T09:00:00.000Z",
@@ -88,6 +100,7 @@
     {
       "id": "3",
       "compoundId": "2",
+      "instanceId": "inst-2-1",
       "type": "use",
       "quantity": 20,
       "timestamp": "2025-06-22T14:15:00.000Z",
@@ -99,6 +112,7 @@
     {
       "id": "fed3",
       "compoundId": "2",
+      "instanceId": "inst-2-1",
       "type": "use",
       "quantity": 2,
       "timestamp": "2025-06-25T15:55:50.348Z",
@@ -110,6 +124,7 @@
     {
       "id": "511b",
       "compoundId": "2",
+      "instanceId": "inst-2-1",
       "type": "use",
       "quantity": 3,
       "timestamp": "2025-06-25T16:00:08.914Z",
@@ -121,6 +136,7 @@
     {
       "id": "1200",
       "compoundId": "2",
+      "instanceId": "inst-2-1",
       "type": "restock",
       "quantity": 10,
       "timestamp": "2025-06-25T16:00:08.915Z",

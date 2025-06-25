@@ -134,6 +134,23 @@ export default {
       expiringSoon: "Expiran Pronto",
       flammable: "Inflamable", 
       corrosive: "Corrosivo"
+    },
+
+    // Detail modal
+    detail: {
+      title: "Detalles del Compuesto",
+      loading: "Cargando detalles del compuesto...",
+      errorLoading: "Error al cargar detalles del compuesto",
+      notFound: "Compuesto no encontrado",
+      compoundInfo: "Información del Compuesto",
+      editCompound: "Editar Compuesto",
+      stockSummary: "Resumen de Stock",
+      createTransaction: "Crear Transacción",
+      deleteCompound: "Eliminar Compuesto",
+      notes: "Notas",
+      notesPlaceholder: "Agregar notas sobre este compuesto...",
+      loadingInstances: "Cargando instancias...",
+      transactionFeatureComingSoon: "¡Función de transacciones próximamente!"
     }
   }
 }

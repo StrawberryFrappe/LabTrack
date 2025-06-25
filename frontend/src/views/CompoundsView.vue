@@ -59,15 +59,44 @@
     <CompoundList 
       @edit="handleEditCompound"
       @delete="handleDeleteCompound"
+      @view-instances="handleViewInstances"
+      @add-instance="handleAddInstance"
+      @view-detail="handleViewDetail"
     />
 
-    <!-- Add/Edit Modal -->
+    <!-- Add/Edit Compound Modal -->
     <CompoundFormModal
       v-model="showFormModal"
       :compound="editingCompound"
       :loading="formLoading"
       @submit="handleSubmitCompound"
       @close="handleCloseModal"
+    />
+
+    <!-- Compound Detail Modal -->
+    <CompoundDetailModal
+      v-model="showDetailModal"
+      :compound-id="selectedCompoundId"
+      @compound-updated="handleCompoundUpdated"
+      @compound-deleted="handleCompoundDeleted"
+    />
+
+    <!-- Instance List Modal -->
+    <InstanceListModal
+      :is-open="showInstanceListModal"
+      :compound="selectedCompound"
+      @close="showInstanceListModal = false"
+      @add-instance="handleAddInstance"
+      @edit-instance="handleEditInstance"
+    />
+
+    <!-- Instance Form Modal -->
+    <InstanceFormModal
+      :is-open="showInstanceFormModal"
+      :compound="selectedCompound"
+      :instance="editingInstance"
+      @close="handleCloseInstanceModal"
+      @success="handleInstanceSuccess"
     />
 
     <!-- Delete Confirmation Dialog -->
@@ -89,6 +118,9 @@
 import { computed, ref } from 'vue'
 import CompoundList from '@/components/compounds/CompoundList.vue'
 import CompoundFormModal from '@/components/compounds/CompoundFormModal.vue'
+import CompoundDetailModal from '@/components/compounds/CompoundDetailModal.vue'
+import InstanceListModal from '@/components/compounds/InstanceListModal.vue'
+import InstanceFormModal from '@/components/compounds/InstanceFormModal.vue'
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 import Button from '@/components/ui/Button.vue'
 import { useAuth } from '@/composables/useAuth.js'
@@ -105,8 +137,14 @@ const { success, error } = useToast()
 // Modal state
 const showFormModal = ref(false)
 const showDeleteDialog = ref(false)
+const showDetailModal = ref(false)
+const showInstanceListModal = ref(false)
+const showInstanceFormModal = ref(false)
 const editingCompound = ref(null)
 const deletingCompound = ref(null)
+const selectedCompound = ref(null)
+const selectedCompoundId = ref(null)
+const editingInstance = ref(null)
 
 // Loading states
 const formLoading = ref(false)
@@ -132,6 +170,16 @@ const handleEditCompound = (compound) => {
 const handleDeleteCompound = (compound) => {
   deletingCompound.value = compound
   showDeleteDialog.value = true
+}
+
+const handleViewDetail = (compound) => {
+  console.log('handleViewDetail called with compound:', compound)
+  selectedCompoundId.value = compound.id
+  showDetailModal.value = true
+  console.log('Modal state set to:', showDetailModal.value, 'with compound ID:', selectedCompoundId.value)
+  
+  // Force a simple alert for debugging
+  
 }
 
 const handleSubmitCompound = async (formData) => {
@@ -178,6 +226,47 @@ const handleConfirmDelete = async () => {
 const handleCloseModal = () => {
   showFormModal.value = false
   editingCompound.value = null
+}
+
+// Instance management handlers
+const handleViewInstances = (compound) => {
+  selectedCompound.value = compound
+  showInstanceListModal.value = true
+}
+
+const handleAddInstance = (compound) => {
+  selectedCompound.value = compound
+  editingInstance.value = null
+  showInstanceFormModal.value = true
+}
+
+const handleEditInstance = (instance) => {
+  editingInstance.value = instance
+  showInstanceFormModal.value = true
+}
+
+const handleCloseInstanceModal = () => {
+  showInstanceFormModal.value = false
+  editingInstance.value = null
+}
+
+const handleInstanceSuccess = () => {
+  success(editingInstance.value ? 
+    t('compounds.instances.updateSuccess') : 
+    t('compounds.instances.createSuccess')
+  )
+}
+
+// Detail modal handlers
+const handleCompoundUpdated = (compound) => {
+  success(t('compounds.updateSuccess'))
+  // Compound list will automatically refresh via the composable
+}
+
+const handleCompoundDeleted = (compound) => {
+  showDetailModal.value = false
+  selectedCompoundId.value = null
+  // Success message already shown in the modal
 }
 
 // Import/Export handlers

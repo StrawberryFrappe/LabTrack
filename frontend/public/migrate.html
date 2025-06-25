@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabTrack - Compound Instance Migration</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f8fafc;
+        }
+        .button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #2563eb;
+        }
+        .button.danger {
+            background: #ef4444;
+        }
+        .button.danger:hover {
+            background: #dc2626;
+        }
+        .log {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            height: 300px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .status.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 LabTrack - Compound Instance Migration</h1>
+    
+    <div class="card">
+        <h2>Migration Overview</h2>
+        <p>This tool migrates your existing compound data to the new instance-based structure. This allows tracking multiple physical containers of the same compound across different storage locations.</p>
+        
+        <div class="status info">
+            <strong>What this migration does:</strong>
+            <ul>
+                <li>Creates compound instances from existing compound data</li>
+                <li>Updates transaction records to reference instances</li>
+                <li>Preserves all existing data and relationships</li>
+                <li>Provides rollback capability if needed</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Pre-Migration Check</h2>
+        <p>Let's verify your current data structure:</p>
+        <button class="button" onclick="checkCurrentData()">Check Current Data</button>
+        <div id="dataStatus"></div>
+    </div>
+
+    <div class="card">
+        <h2>Migration Controls</h2>
+        <button class="button" onclick="runMigration()">🚀 Start Migration</button>
+        <button class="button danger" onclick="rollbackMigration()">🔄 Rollback Migration</button>
+        <button class="button" onclick="exportLog()">📄 Export Log</button>
+        <button class="button" onclick="clearLog()">🗑️ Clear Log</button>
+    </div>
+
+    <div class="card">
+        <h2>Migration Log</h2>
+        <div id="migrationLog" class="log"></div>
+    </div>
+
+    <div class="card">
+        <h2>Post-Migration Verification</h2>
+        <p>After migration, verify the results:</p>
+        <button class="button" onclick="verifyMigration()">✅ Verify Migration</button>
+        <div id="verificationResults"></div>
+    </div>
+
+    <script src="../src/utils/migration.js"></script>
+    <script>
+        let migrationInstance = null;
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.getElementById('migrationLog');
+            const logLine = `[${timestamp}] ${message}\n`;
+            logElement.innerHTML += logLine;
+            logElement.scrollTop = logElement.scrollHeight;
+            
+            console.log(message);
+        }
+
+        function clearLog() {
+            document.getElementById('migrationLog').innerHTML = '';
+        }
+
+        function showStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        async function checkCurrentData() {
+            try {
+                log('🔍 Checking current data structure...');
+                
+                const compounds = await fetch('http://localhost:3001/compounds').then(r => r.json());
+                const instances = await fetch('http://localhost:3001/compoundInstances').then(r => r.json());
+                const transactions = await fetch('http://localhost:3001/transactions').then(r => r.json());
+                
+                const hasLegacyData = compounds.some(c => c.quantity !== undefined || c.location !== undefined);
+                const hasInstances = instances.length > 0;
+                
+                let status = '';
+                if (hasLegacyData && !hasInstances) {
+                    status = `
+                        <strong>✅ Ready for Migration</strong><br>
+                        Found ${compounds.length} compounds with legacy data structure.<br>
+                        No instances detected - migration can proceed safely.
+                    `;
+                } else if (hasInstances) {
+                    status = `
+                        <strong>⚠️ Instances Already Exist</strong><br>
+                        Found ${instances.length} compound instances.<br>
+                        Migration may have already been performed.
+                    `;
+                } else {
+                    status = `
+                        <strong>ℹ️ No Legacy Data Found</strong><br>
+                        Your system appears to already use the instance-based structure.
+                    `;
+                }
+                
+                showStatus('dataStatus', status, hasLegacyData && !hasInstances ? 'success' : 'info');
+                log(`📊 Data check complete: ${compounds.length} compounds, ${instances.length} instances, ${transactions.length} transactions`);
+                
+            } catch (error) {
+                log(`❌ Error checking data: ${error.message}`);
+                showStatus('dataStatus', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function runMigration() {
+            try {
+                log('🚀 Starting migration process...');
+                migrationInstance = new CompoundInstanceMigration();
+                
+                // Override the log method to use our UI
+                const originalLog = migrationInstance.log;
+                migrationInstance.log = (message) => {
+                    originalLog.call(migrationInstance, message);
+                    log(message);
+                };
+                
+                await migrationInstance.migrate();
+                log('🎉 Migration completed successfully!');
+                showStatus('verificationResults', 'Migration completed successfully!', 'success');
+                
+            } catch (error) {
+                log(`❌ Migration failed: ${error.message}`);
+                showStatus('verificationResults', `Migration failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function rollbackMigration() {
+            if (!migrationInstance) {
+                log('⚠️ No migration instance found. Cannot rollback.');
+                return;
+            }
+
+            try {
+                log('🔄 Starting rollback process...');
+                await migrationInstance.rollback();
+                log('✅ Rollback completed successfully!');
+                showStatus('verificationResults', 'Rollback completed successfully!', 'success');
+                
+            } catch (error) {
+                log(`❌ Rollback failed: ${error.message}`);
+                showStatus('verificationResults', `Rollback failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function verifyMigration() {
+            try {
+                log('🔍 Verifying migration results...');
+                
+                const compounds = await fetch('http://localhost:3001/compounds').then(r => r.json());
+                const instances = await fetch('http://localhost:3001/compoundInstances').then(r => r.json());
+                const transactions = await fetch('http://localhost:3001/transactions').then(r => r.json());
+                
+                const transactionsWithInstances = transactions.filter(t => t.instanceId);
+                const transactionsWithoutInstances = transactions.filter(t => !t.instanceId);
+                
+                let results = `
+                    <strong>📊 Migration Verification Results:</strong><br>
+                    • Compounds: ${compounds.length}<br>
+                    • Instances: ${instances.length}<br>
+                    • Transactions: ${transactions.length}<br>
+                    • Transactions with instances: ${transactionsWithInstances.length}<br>
+                    • Transactions without instances: ${transactionsWithoutInstances.length}<br>
+                `;
+                
+                if (instances.length > 0 && transactionsWithInstances.length === transactions.length) {
+                    results += '<br><strong>✅ Migration appears successful!</strong>';
+                    showStatus('verificationResults', results, 'success');
+                } else {
+                    results += '<br><strong>⚠️ Migration may be incomplete.</strong>';
+                    showStatus('verificationResults', results, 'error');
+                }
+                
+                log('✅ Verification complete');
+                
+            } catch (error) {
+                log(`❌ Verification failed: ${error.message}`);
+                showStatus('verificationResults', `Verification failed: ${error.message}`, 'error');
+            }
+        }
+
+        function exportLog() {
+            if (migrationInstance) {
+                log('📄 Exporting migration log...');
+                migrationInstance.exportLog();
+            } else {
+                log('⚠️ No migration data to export');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🏁 Migration tool loaded. Ready to begin.');
+            checkCurrentData();
+        });
+    </script>
+</body>
+</html>

@@ -18,6 +18,7 @@ export default {
   settings: settings.settings,
   common: common.common,
   search: common.search,
+  common: common.common,
   navigation: navigation.navigation,
   userMenu: userMenu.userMenu,
   validation: validation.validation

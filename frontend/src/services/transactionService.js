@@ -54,7 +54,6 @@ export const transactionService = {
    * Get Transactions by Compound
    * 
    * Fetches all transactions for a specific compound.
-   * Useful for showing transaction history on compound details.
    * 
    * @param {string} compoundId - The compound ID
    */
@@ -74,13 +73,35 @@ export const transactionService = {
   },
 
   /**
+   * Get Transactions by Instance
+   * 
+   * Fetches all transactions for a specific compound instance.
+   * 
+   * @param {string} instanceId - The instance ID
+   */
+  async getByInstance(instanceId) {
+    try {
+      const response = await api.get('/transactions', {
+        params: { 
+          instanceId,
+          _sort: 'timestamp',
+          _order: 'desc'
+        }
+      })
+      return response.data
+    } catch (error) {
+      throw new Error(`Failed to fetch instance transactions: ${error.message}`)
+    }
+  },
+
+  /**
    * Create New Transaction
    * 
-   * Records a new inventory transaction.
-   * Automatically calculates the effect on compound stock.
+   * Records a new inventory transaction with instance support.
    * 
    * @param {Object} transaction - Transaction data
    * @param {string} transaction.compoundId - Compound ID
+   * @param {string} transaction.instanceId - Instance ID (required)
    * @param {string} transaction.type - Transaction type
    * @param {number} transaction.quantity - Quantity (always positive)
    * @param {string} transaction.notes - Optional notes
@@ -88,6 +109,11 @@ export const transactionService = {
    */
   async create(transaction) {
     try {
+      // Validate required fields for instance-based transactions
+      if (!transaction.instanceId) {
+        throw new Error('Instance ID is required for all transactions')
+      }
+
       // Add metadata to transaction
       const enhancedTransaction = {
         ...transaction,
@@ -141,14 +167,60 @@ export const transactionService = {
   },
 
   /**
-   * Calculate Current Stock
+   * Calculate Current Stock for Instance
    * 
-   * Client-side calculation of current stock based on transactions.
-   * For production, this should be moved to backend for accuracy.
+   * Client-side calculation of current stock for a specific instance.
+   * 
+   * @param {string} instanceId - Instance ID
+   * @param {number} initialStock - Initial instance quantity
+   * @param {Array} transactions - Transaction history (optional)
+   */
+  async calculateInstanceStock(instanceId, initialStock = 0, transactions = null) {
+    try {
+      // Fetch transactions if not provided
+      if (!transactions) {
+        transactions = await this.getByInstance(instanceId)
+      }
+
+      // Calculate stock based on transaction types
+      let currentStock = initialStock
+      
+      for (const transaction of transactions) {
+        switch (transaction.type) {
+          case 'use':
+          case 'waste':
+            currentStock -= transaction.quantity
+            break
+          case 'restock':
+            currentStock += transaction.quantity
+            break
+          case 'adjust':
+            // Adjustment sets absolute quantity
+            currentStock = transaction.quantity
+            break
+          case 'transfer':
+            // For now, treat as use (decrease from current location)
+            currentStock -= transaction.quantity
+            break
+          default:
+            console.warn(`Unknown transaction type: ${transaction.type}`)
+        }
+      }
+
+      return Math.max(0, currentStock) // Prevent negative stock
+    } catch (error) {
+      throw new Error(`Failed to calculate instance stock: ${error.message}`)
+    }
+  },
+
+  /**
+   * Calculate Current Stock (Legacy - for compound total)
+   * 
+   * Calculates total stock across all instances of a compound.
    * 
    * @param {string} compoundId - Compound ID
-   * @param {number} initialStock - Initial compound quantity
-   * @param {Array} transactions - Transaction history (optional, will fetch if not provided)
+   * @param {number} initialStock - Initial compound quantity (legacy)
+   * @param {Array} transactions - Transaction history (optional)
    */
   async calculateCurrentStock(compoundId, initialStock = 0, transactions = null) {
     try {

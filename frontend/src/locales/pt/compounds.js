@@ -74,6 +74,43 @@ export default {
     // Stock and inventory
     currentStock: "Estoque Atual",
     lowStockWarning: "⚠️ Estoque baixo!",
+    totalStock: "Estoque Total",
+    acrossInstances: "{count} instância | {count} instâncias",
+    batch: "Lote",
+    
+    // Instance management
+    instances: {
+      title: "Instâncias de Composto",
+      description: "Recipientes físicos e suas localizações",
+      addNew: "Adicionar Nova Instância",
+      noInstances: "Nenhuma instância encontrada",
+      location: "Localização",
+      batchNumber: "Número do Lote",
+      quantity: "Quantidade",
+      expiryDate: "Data de Validade",
+      status: "Status",
+      actions: "Ações",
+      created: "Criado",
+      opened: "Aberto",
+      received: "Recebido",
+      statusActive: "Ativo",
+      statusUsedUp: "Esgotado",
+      statusExpired: "Vencido",
+      edit: "Editar Instância",
+      delete: "Excluir Instância",
+      deleteConfirm: "Tem certeza de que deseja excluir esta instância?",
+      search: "Pesquisar instâncias...",
+      openedHelp: "Deixe vazio se o recipiente ainda não foi aberto",
+      summary: {
+        totalInstances: "Total de Instâncias",
+        totalQuantity: "Quantidade Total",
+        locations: "Localizações",
+        expiringSoon: "Vencendo em Breve"
+      },
+      createSuccess: "Instância criada com sucesso",
+      updateSuccess: "Instância atualizada com sucesso",
+      deleteSuccess: "Instância excluída com sucesso"
+    },
     
     // Table headers
     tableHeaders: {
@@ -92,7 +129,9 @@ export default {
       delete: "Excluir",
       count: "Contar",
       view: "Ver",
-      recordTransaction: "Registrar Transação"
+      recordTransaction: "Registrar Transação",
+      viewInstances: "Ver Instâncias",
+      addInstance: "Adicionar Instância"
     },
     
     // Labels and prefixes
@@ -134,6 +173,23 @@ export default {
       expiringSoon: "Expirando Em Breve",
       flammable: "Inflamável",
       corrosive: "Corrosivo"
+    },
+
+    // Detail modal
+    detail: {
+      title: "Detalhes do Composto",
+      loading: "Carregando detalhes do composto...",
+      errorLoading: "Falha ao carregar detalhes do composto",
+      notFound: "Composto não encontrado",
+      compoundInfo: "Informações do Composto",
+      editCompound: "Editar Composto",
+      stockSummary: "Resumo do Estoque",
+      createTransaction: "Criar Transação",
+      deleteCompound: "Excluir Composto",
+      notes: "Notas",
+      notesPlaceholder: "Adicionar notas sobre este composto...",
+      loadingInstances: "Carregando instâncias...",
+      transactionFeatureComingSoon: "Recurso de transações em breve!"
     }
   }
 }

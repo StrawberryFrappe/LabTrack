@@ -1,5 +1,8 @@
 <template>
-  <Card>
+  <Card 
+    class="cursor-pointer hover:shadow-lg transition-shadow duration-200"
+    @click="handleCardClick"
+  >
     <template #header>
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold text-slate-900">{{ compound.name }}</h3>
@@ -107,7 +110,13 @@ const props = defineProps({
   }
 })
 
-defineEmits(['edit', 'scan', 'delete'])
+const emit = defineEmits(['edit', 'scan', 'delete', 'view-detail'])
+
+// Card click handler
+const handleCardClick = () => {
+  console.log('Card clicked, emitting view-detail with compound:', props.compound)
+  emit('view-detail', props.compound)
+}
 
 const { formatDate } = useFormat()
 

@@ -99,9 +99,12 @@
           v-for="compound in paginatedCompounds"
           :key="compound.id"
           :compound="compound"
+          :show-instances-preview="true"
           @edit="handleEdit"
-          @scan="handleScan"
           @delete="handleDelete"
+          @view-instances="handleViewInstances"
+          @add-instance="handleAddInstance"
+          @view-detail="handleViewDetail"
         />
       </div>
       <!-- List View (Table) -->
@@ -109,8 +112,10 @@
         v-else-if="viewMode === 'list'"
         :compounds="paginatedCompounds"
         @edit="handleEdit"
-        @scan="handleScan"
         @delete="handleDelete"
+        @view-instances="handleViewInstances"
+        @add-instance="handleAddInstance"
+        @view-detail="handleViewDetail"
       />
     </div>
 
@@ -186,7 +191,7 @@ const {
 const viewMode = ref('grid') // 'grid' or 'list'
 
 // Define events that this component can emit
-const emit = defineEmits(['edit', 'delete', 'scan'])
+const emit = defineEmits(['edit', 'delete', 'view-instances', 'add-instance', 'view-detail'])
 
 const handleEdit = (compound) => {
   emit('edit', compound)
@@ -196,7 +201,16 @@ const handleDelete = (compound) => {
   emit('delete', compound)
 }
 
-const handleScan = (compound) => {
-  emit('scan', compound)
+const handleViewInstances = (compound) => {
+  emit('view-instances', compound)
+}
+
+const handleAddInstance = (compound) => {
+  emit('add-instance', compound)
+}
+
+const handleViewDetail = (compound) => {
+  console.log('CompoundList handleViewDetail called with:', compound)
+  emit('view-detail', compound)
 }
 </script>

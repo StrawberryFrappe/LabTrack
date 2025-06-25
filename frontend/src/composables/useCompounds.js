@@ -16,6 +16,7 @@
 
 import { ref, computed } from 'vue'
 import { compoundService } from '../services/compoundService.js'
+import { useCompoundInstances } from './useCompoundInstances.js'
 
 // Shared state (singleton pattern)
 const compounds = ref([])
@@ -29,6 +30,9 @@ let advancedSearchComposable = null
 let isInitialized = false
 
 export function useCompounds(pagination = null, advancedSearch = null) {
+  // Get instance management functionality
+  const instanceComposable = useCompoundInstances()
+  
   // Set pagination composable if provided (from CompoundList)
   if (pagination) {
     paginationComposable = pagination
@@ -77,20 +81,23 @@ export function useCompounds(pagination = null, advancedSearch = null) {
   )
 
   const locations = computed(() => 
-    [...new Set(compounds.value.map(c => c.location))]
+    [...new Set(instanceComposable.instances.value.map(i => i.location).filter(Boolean))]
   )
 
   const lowStockItems = computed(() =>
-    compounds.value.filter(item => item.quantity < item.threshold)
+    compounds.value.filter(compound => {
+      const totalStock = instanceComposable.getTotalStockForCompound(compound.id)
+      return totalStock < compound.threshold
+    })
   )
 
   const expiringItems = computed(() => {
     const threeMonthsFromNow = new Date()
     threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() + 3)
     
-    return compounds.value.filter(item => {
-      if (!item.expiryDate) return false
-      const expiryDate = new Date(item.expiryDate)
+    return instanceComposable.instances.value.filter(instance => {
+      if (!instance.expiryDate || instance.status !== 'active') return false
+      const expiryDate = new Date(instance.expiryDate)
       return expiryDate <= threeMonthsFromNow
     })
   })
@@ -149,9 +156,10 @@ export function useCompounds(pagination = null, advancedSearch = null) {
 
     // Filter by location
     if (selectedLocation.value) {
-      filtered = filtered.filter(compound =>
-        compound.location === selectedLocation.value
-      )
+      filtered = filtered.filter(compound => {
+        const instances = instanceComposable.getInstancesForCompound(compound.id)
+        return instances.some(instance => instance.location === selectedLocation.value)
+      })
     }
 
     return filtered
@@ -181,35 +189,21 @@ export function useCompounds(pagination = null, advancedSearch = null) {
   }
 
   /**
-   * Update Compound Quantity
+   * Get Total Stock for Compound
    * 
-   * Updates the quantity of a compound (used during inventory counts).
-   * For production, this would sync with the backend.
+   * Returns the total stock across all instances of a compound.
    */
-  const updateCompoundQuantity = async (compoundId, newQuantity) => {
-    try {
-      // Find the compound locally
-      const compound = compounds.value.find(c => c.id === compoundId)
-      if (!compound) {
-        throw new Error('Compound not found')
-      }
+  const getTotalStockForCompound = (compoundId) => {
+    return instanceComposable.getTotalStockForCompound(compoundId)
+  }
 
-      // Update locally for immediate UI feedback (optimistic update)
-      // INSIGHT: This is speculative - assumes the API call will succeed
-      // Optimistic updates provide better UX but require rollback logic for failures
-      // The choice to update immediately trades consistency for perceived performance
-      compound.quantity = newQuantity
-
-      // TODO: In production, sync with backend
-      // await compoundService.update(compoundId, { quantity: newQuantity })
-      
-      // TODO: Create audit trail entry
-      // TODO: Send notification if quantity crosses threshold
-    } catch (err) {
-      error.value = 'Failed to update quantity: ' + err.message
-      // Reload data to ensure consistency
-      await loadCompounds()
-    }
+  /**
+   * Get Instance Summary for Compound
+   * 
+   * Returns instance summary data for a compound.
+   */
+  const getInstanceSummary = (compoundId) => {
+    return instanceComposable.getInstanceSummary(compoundId)
   }
 
   /**
@@ -340,13 +334,17 @@ export function useCompounds(pagination = null, advancedSearch = null) {
     // Methods
     loadCompounds,
     findCompound,
-    updateCompoundQuantity,
+    getTotalStockForCompound,
+    getInstanceSummary,
     addCompound: createCompound, // Alias for consistency
     createCompound,
     updateCompound,
     deleteCompound,
     resetFilters,
     resetPagination,
-    clearError
+    clearError,
+    
+    // Instance methods (delegated)
+    instanceComposable
   }
 }
