@@ -84,6 +84,12 @@ export default {
     importError: "Failed to import compounds. Please check the file format.",
     exportSuccess: "Compounds exported successfully",
     exportError: "Failed to export compounds. Please try again.",
-    unsupportedFileType: "Unsupported file type. Please use CSV or Excel files."
+    unsupportedFileType: "Unsupported file type. Please use CSV or Excel files.",
+    export: {
+      button: "Export Compounds",
+      success: "Successfully exported {count} compounds",
+      error: "Failed to export compounds",
+      noData: "No compounds to export"
+    }
   }
 }

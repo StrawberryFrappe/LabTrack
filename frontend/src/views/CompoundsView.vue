@@ -95,7 +95,7 @@ import { useAuth } from '@/composables/useAuth.js'
 import { useCompounds } from '@/composables/useCompounds.js'
 import { useToast } from '@/composables/useToast.js'
 import { useI18n } from 'vue-i18n'
-import { exportToCSV, exportToExcel, importFromCSV, importFromExcel } from '@/utils/importExport.js'
+import { exportToCSV, exportToExcel, exportCompounds, importFromCSV, importFromExcel } from '@/utils/importExport.js'
 
 const { t } = useI18n()
 const { isAdmin } = useAuth()
@@ -248,17 +248,18 @@ const handleImportCompounds = async () => {
   input.click()
 }
 
-const handleExportCompounds = () => {
+const handleExportCompounds = async () => {
   try {
-    const currentDate = new Date().toISOString().split('T')[0]
-    const filename = `compounds-${currentDate}`
-    
-    // For now, export as CSV. Could add modal to choose format
-    exportToCSV(compounds.value, `${filename}.csv`)
-    success(t('compounds.exportSuccess'))
+    if (compounds.value.length === 0) {
+      error(t('compounds.export.noData'))
+      return
+    }
+
+    await exportCompounds(compounds.value)
+    success(t('compounds.export.success', { count: compounds.value.length }))
   } catch (err) {
     console.error('Export failed:', err)
-    error(t('compounds.exportError'))
+    error(t('compounds.export.error'))
   }
 }
 </script>

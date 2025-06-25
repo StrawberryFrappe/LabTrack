@@ -336,7 +336,8 @@ export function useCompounds(pagination = null, advancedSearch = null) {
     expiringItems,
     filteredCompounds,
     paginatedCompounds,
-      // Methods
+    
+    // Methods
     loadCompounds,
     findCompound,
     updateCompoundQuantity,
