@@ -21,10 +21,9 @@
   ],
   "compounds": [
     {
-      "id": "1",
       "name": "Sodium Chloride",
       "casNumber": "7647-14-5",
-      "quantity": 500,
+      "quantity": 5,
       "unit": "g",
       "threshold": 100,
       "location": "Cabinet A1",
@@ -33,7 +32,8 @@
       "receivedDate": "2024-01-15",
       "supplier": "Sigma-Aldrich",
       "batchNumber": "NaCl-2024-001",
-      "synonyms": "Table salt, Rock salt"
+      "synonyms": "Table salt, Rock salt",
+      "id": "1"
     },
     {
       "name": "Hydrochloric Acid",
@@ -96,10 +96,9 @@
       "synonyms": "Synonym A, Synonym B"
     },
     {
-      "id": "13",
       "name": "Test Compound 13",
       "casNumber": "2208-66-0",
-      "quantity": 145,
+      "quantity": 101,
       "unit": "kg",
       "threshold": 73,
       "location": "Cold Storage",
@@ -108,7 +107,8 @@
       "receivedDate": "2023-09-20",
       "supplier": "Fisher Scientific",
       "batchNumber": "BATCH-2025-013",
-      "synonyms": "Synonym A, Synonym B"
+      "synonyms": "Synonym A, Synonym B",
+      "id": "13"
     },
     {
       "id": "14",

@@ -54,8 +54,8 @@ export function useCompounds(pagination = null, advancedSearch = null) {
     error.value = null
     
     try {
-      // For now, we load all compounds and handle pagination client-side
-      // TODO: Update to use server-side pagination when API supports it
+      // Client-side pagination implemented with usePagination composable
+      // Server-side pagination can be added when backend supports it
       compounds.value = await compoundService.getAll(options)
     } catch (err) {
       error.value = 'Failed to load compounds: ' + err.message
