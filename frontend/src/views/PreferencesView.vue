@@ -102,7 +102,6 @@
           </div>
             <!-- Date Format -->
           <div>
-            <!-- TODO i18n: Internationalize "Date Format" -->
             <label class="block text-sm font-medium text-slate-700 mb-3">{{ $t('preferences.dateFormat') }}</label>
             <select
               v-model="selectedDateFormat"

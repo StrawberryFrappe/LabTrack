@@ -3,6 +3,8 @@ import './style.css'
 import App from './App.vue'
 import router from './router'
 import i18n from './locales'
+import { setI18nInstance } from './utils/importExport.js'
+import { setAuthI18nInstance } from './services/authService.js'
 
 // ✅ COMPLETED: Vue Router setup
 //     - Router configured with authentication guards
@@ -33,6 +35,10 @@ app.use(router)
 
 // ✅ COMPLETED: i18n integration  
 app.use(i18n)
+
+// Initialize i18n for utility functions
+setI18nInstance(i18n)
+setAuthI18nInstance(i18n)
 
 // MODULARIZATION OPPORTUNITIES:
 // - Use Pinia when implementing complex state management (post-TRL3)

@@ -7,7 +7,7 @@ export default {
     editCompound: 'Editar Compuesto',
     create: 'Crear',
     import: 'Importar',
-    export: 'Exportar',
+    exportButton: 'Exportar',
     loading: 'Cargando compuestos...',
     errorLoading: 'Error al cargar compuestos',
     tryAgain: 'Intentar de nuevo',
@@ -33,6 +33,7 @@ export default {
     location: 'Ubicación',
     allLocations: 'Todas las ubicaciones',
     filtersActive: 'filtros activos',
+    clearFilters: 'Limpiar Filtros',
     status: 'Estado',
     actions: 'Acciones',
     edit: 'Editar',
@@ -117,6 +118,7 @@ export default {
     // Import/Export
     importSuccess: "Se importaron exitosamente {count} compuestos",
     importError: "Error al importar compuestos. Verifique el formato del archivo.",
+    importErrorsFound: "Importación completada con {count} errores. Revisa la consola para más detalles.",
     exportSuccess: "Compuestos exportados exitosamente",
     exportError: "Error al exportar compuestos. Intente de nuevo.",
     unsupportedFileType: "Tipo de archivo no soportado. Use archivos CSV o Excel.",
@@ -125,6 +127,12 @@ export default {
       success: "Se exportaron exitosamente {count} compuestos",
       error: "Error al exportar compuestos",
       noData: "No hay compuestos para exportar"
+    },
+    quickFilters: {
+      lowStock: "Stock Bajo",
+      expiringSoon: "Expiran Pronto",
+      flammable: "Inflamable", 
+      corrosive: "Corrosivo"
     }
   }
 }

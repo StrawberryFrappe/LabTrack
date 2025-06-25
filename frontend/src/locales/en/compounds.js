@@ -7,7 +7,7 @@ export default {
     editCompound: 'Edit Compound',
     create: 'Create',
     import: 'Import',
-    export: 'Export',
+    exportButton: 'Export',
     loading: 'Loading compounds...',
     errorLoading: 'Error loading compounds',
     tryAgain: 'Try Again',
@@ -33,6 +33,7 @@ export default {
     location: 'Location',
     allLocations: 'All locations',
     filtersActive: 'filters active',
+    clearFilters: 'Clear Filters',
     status: 'Status',
     actions: 'Actions',
     edit: 'Edit',
@@ -117,6 +118,7 @@ export default {
     // Import/Export
     importSuccess: "Successfully imported {count} compounds",
     importError: "Failed to import compounds. Please check the file format.",
+    importErrorsFound: "Import completed with {count} errors. Check console for details.",
     exportSuccess: "Compounds exported successfully",
     exportError: "Failed to export compounds. Please try again.",
     unsupportedFileType: "Unsupported file type. Please use CSV or Excel files.",
@@ -125,6 +127,12 @@ export default {
       success: "Successfully exported {count} compounds",
       error: "Failed to export compounds",
       noData: "No compounds to export"
+    },
+    quickFilters: {
+      lowStock: "Low Stock",
+      expiringSoon: "Expiring Soon", 
+      flammable: "Flammable",
+      corrosive: "Corrosive"
     }
   }
 }

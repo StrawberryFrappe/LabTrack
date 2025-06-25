@@ -52,7 +52,7 @@
               <div class="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span class="text-white text-lg">🧪</span>
               </div>
-              <h1 class="text-xl font-semibold text-slate-900">LabTrack</h1>
+              <h1 class="text-xl font-semibold text-slate-900">{{ $t('dashboard.appTitle') }}</h1>
             </div>
             <!-- Mobile close button -->
             <button
@@ -93,7 +93,7 @@
               <span class="mr-3 text-lg">{{ view.icon }}</span>
               {{ view.label }}
               <!-- TODO indicator for disabled features -->
-              <span v-if="view.disabled" class="ml-auto text-xs text-slate-400">Soon</span>
+              <span v-if="view.disabled" class="ml-auto text-xs text-slate-400">{{ $t('dashboard.soon') }}</span>
             </button>
           </nav>
         </div>
@@ -150,8 +150,8 @@
           
           <!-- Version Info -->
           <div class="text-xs text-slate-500 text-center">
-            <div>Version 1.0.0-beta</div>
-            <div class="mt-1">Lab Inventory System</div>
+            <div>{{ $t('dashboard.appVersion') }}</div>
+            <div class="mt-1">{{ $t('dashboard.appDescription') }}</div>
           </div>
         </div>
       </div>
@@ -198,11 +198,11 @@
           <!-- Low Stock Items -->
           <Card>
             <template #header>
-              <h3 class="text-lg font-semibold text-slate-900">Low Stock Items</h3>
+              <h3 class="text-lg font-semibold text-slate-900">{{ $t('dashboard.lowStock') }}</h3>
             </template>
             <div v-if="lowStockItems.length === 0" class="text-center py-8 text-slate-500">
               <div class="text-2xl mb-2">✅</div>
-              <p>All items are adequately stocked</p>
+              <p>{{ $t('dashboard.allItemsStocked') }}</p>
             </div>
             <div v-else class="space-y-3">
               <div 
@@ -228,11 +228,11 @@
           <!-- Expiring Items -->
           <Card>
             <template #header>
-              <h3 class="text-lg font-semibold text-slate-900">Expiring Soon</h3>
+              <h3 class="text-lg font-semibold text-slate-900">{{ $t('dashboard.expiring') }}</h3>
             </template>
             <div v-if="expiringItems.length === 0" class="text-center py-8 text-slate-500">
               <div class="text-2xl mb-2">📅</div>
-              <p>No items expiring in the next 3 months</p>
+              <p>{{ $t('dashboard.noItemsExpiring') }}</p>
             </div>
             <div v-else class="space-y-3">
               <div 
@@ -269,7 +269,7 @@
           <div class="space-y-6">
             <!-- Active Sessions -->
             <div v-if="activeSessions.length > 0">
-              <h3 class="text-lg font-semibold text-slate-900 mb-4">Active Count Sessions</h3>
+              <h3 class="text-lg font-semibold text-slate-900 mb-4">{{ $t('dashboard.activeCountSessions') }}</h3>
               <div class="space-y-4">
                 <CountSession
                   v-for="session in activeSessions"
@@ -284,7 +284,7 @@
             
             <!-- Recent Sessions -->
             <div v-if="completedSessions.length > 0">
-              <h3 class="text-lg font-semibold text-slate-900 mb-4">Recent Sessions</h3>
+              <h3 class="text-lg font-semibold text-slate-900 mb-4">{{ $t('dashboard.recentSessions') }}</h3>
               <div class="space-y-4">
                 <CountSession
                   v-for="session in completedSessions.slice(0, 3)"
@@ -298,7 +298,7 @@
             <!-- Create New Session -->
             <Card>
               <template #header>
-                <h3 class="text-lg font-semibold text-slate-900">Create New Count Session</h3>
+                <h3 class="text-lg font-semibold text-slate-900">{{ $t('dashboard.createNewCountSession') }}</h3>
               </template>
               <div class="space-y-4">
                 <Input

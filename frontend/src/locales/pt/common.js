@@ -27,7 +27,38 @@ export default {
     pleaseConfirm: "Por favor confirme esta ação",
     
     // Common values
-    notAvailable: "N/D"
+    notAvailable: "N/D",
+    
+    // Screen reader / accessibility
+    loading: "Carregando conteúdo, por favor aguarde...",
+    close: "Fechar",
+    
+    // Demo accounts
+    demoAccounts: "Contas de Demonstração:",
+    administrator: "Administrador",
+    visitor: "Visitante",
+    fullAccess: "Acesso completo",
+    readOnlyAccess: "Acesso somente leitura"
+  },
+  errors: {
+    // Authentication errors
+    invalidCredentials: 'Nome de usuário ou senha inválidos',
+    loginFailed: 'Falha no login. Por favor, tente novamente.',
+    sessionExpired: 'Sua sessão expirou. Por favor, faça login novamente.',
+    
+    // Import/Export errors
+    noWorksheetsFound: 'Nenhuma planilha encontrada no arquivo Excel',
+    failedToParseExcel: 'Falha ao analisar arquivo Excel: {message}',
+    failedToReadFile: 'Falha ao ler o arquivo',
+    failedToExportCompounds: 'Falha ao exportar compostos',
+    exportSaveError: 'Erro ao salvar arquivo',
+    exportFailed: 'Falha na exportação',
+    
+    // General errors
+    unexpectedError: 'Ocorreu um erro inesperado',
+    networkError: 'Erro de rede. Por favor, verifique sua conexão.',
+    fileNotSupported: 'Tipo de arquivo não suportado',
+    operationFailed: 'Operação falhou. Por favor, tente novamente.'
   },
   pagination: {
     itemsPerPage: 'Itens por página',

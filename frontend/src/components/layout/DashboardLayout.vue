@@ -62,7 +62,7 @@
               <div class="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span class="text-white text-lg">🧪</span>
               </div>
-              <h1 class="text-xl font-semibold text-slate-900">LabTrack</h1>
+              <h1 class="text-xl font-semibold text-slate-900">{{ $t('dashboard.appTitle') }}</h1>
             </div>
             <!-- Mobile close button -->
             <button
@@ -110,7 +110,7 @@
         <div class="mt-auto p-6 border-t border-slate-200">
           <!-- Version/Info Display -->          <div class="text-center">
             <div class="text-xs text-slate-500">
-              <p class="font-medium text-slate-600">LabTrack v1.0.0</p>
+              <p class="font-medium text-slate-600">{{ $t('dashboard.appTitle') }} {{ $t('dashboard.appVersion') }}</p>
               <p>{{ $t('dashboard.laboratoryManagement') }}</p>
             </div>
           </div>

@@ -27,7 +27,38 @@ export default {
     pleaseConfirm: "Please confirm this action",
     
     // Common values
-    notAvailable: "N/A"
+    notAvailable: "N/A",
+    
+    // Screen reader / accessibility
+    loading: "Loading content, please wait...",
+    close: "Close",
+    
+    // Demo accounts
+    demoAccounts: "Demo Accounts:",
+    administrator: "Administrator",
+    visitor: "Visitor", 
+    fullAccess: "Full access",
+    readOnlyAccess: "Read-only access"
+  },
+  errors: {
+    // Authentication errors
+    invalidCredentials: 'Invalid username or password',
+    loginFailed: 'Login failed. Please try again.',
+    sessionExpired: 'Your session has expired. Please log in again.',
+    
+    // Import/Export errors
+    noWorksheetsFound: 'No worksheets found in Excel file',
+    failedToParseExcel: 'Failed to parse Excel file: {message}',
+    failedToReadFile: 'Failed to read file',
+    failedToExportCompounds: 'Failed to export compounds',
+    exportSaveError: 'Error saving file',
+    exportFailed: 'Export failed',
+    
+    // General errors
+    unexpectedError: 'An unexpected error occurred',
+    networkError: 'Network error. Please check your connection.',
+    fileNotSupported: 'File type not supported',
+    operationFailed: 'Operation failed. Please try again.'
   },
   pagination: {
     itemsPerPage: 'Items per page',

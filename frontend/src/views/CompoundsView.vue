@@ -43,7 +43,7 @@
           variant="outline"
           @click="handleExportCompounds"
         >
-          {{ $t('compounds.export') }}
+          {{ $t('compounds.exportButton') }}
         </Button>
         <Button
           v-if="isAdmin"
@@ -224,7 +224,7 @@ const handleImportCompounds = async () => {
       }
       
       if (errors.length > 0) {
-        error(`Import completed with ${errors.length} errors. Check console for details.`)
+        error(t('compounds.importErrorsFound', { count: errors.length }))
         console.error('Import errors:', errors)
       }
       

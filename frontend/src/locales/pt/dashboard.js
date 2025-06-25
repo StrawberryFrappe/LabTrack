@@ -13,7 +13,7 @@ export default {
     locations: 'Localidades',
     storageLocations: 'Locais de armazenamento',
     allItemsStocked: 'Todos os itens têm estoque adequado',
-    noItemsExpiring: 'Nenhum item vencendo em breve',
+    noItemsExpiring: 'Nenhum item vencendo nos próximos 3 meses',
     remaining: 'restante',
     expires: 'Vence',
     days: 'dias',
@@ -25,6 +25,18 @@ export default {
     startCountSessionDesc: 'Começar contagem física do inventário',
     systemSettings: 'Configurações do Sistema',
     systemSettingsDesc: 'Configurar usuários e sistema',
-    laboratoryManagement: 'Gerenciamento de Laboratório'
+    laboratoryManagement: 'Gerenciamento de Laboratório',
+    
+    // App title and branding
+    appTitle: 'LabTrack',
+    appVersion: 'Versão 1.0.0-beta',
+    appDescription: 'Sistema de Inventário de Laboratório',
+    menuToggle: 'Alternar menu',
+    soon: 'Em breve',
+    
+    // Count sessions
+    activeCountSessions: 'Sessões de Contagem Ativas',
+    recentSessions: 'Sessões Recentes',
+    createNewCountSession: 'Criar Nova Sessão de Contagem'
   }
 }

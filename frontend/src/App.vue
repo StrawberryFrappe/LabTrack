@@ -32,7 +32,7 @@
     >
       <div class="text-center">
         <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto"></div>
-        <p class="mt-4 text-gray-600">Loading LabTrack...</p>
+        <p class="mt-4 text-gray-600">{{ $t('common.loading') }}</p>
       </div>
     </div>
 

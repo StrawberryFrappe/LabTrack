@@ -31,7 +31,7 @@
     </p>
     
     <!-- Screen reader text -->
-    <span class="sr-only">Loading content, please wait...</span>
+    <span class="sr-only">{{ $t('common.loading') }}</span>
   </div>
 </template>
 

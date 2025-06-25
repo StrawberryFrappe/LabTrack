@@ -1,9 +1,30 @@
 // Utility for CSV/Excel import/export
 // Uses papaparse for CSV and exceljs for Excel (secure replacement for xlsx)
-// The game
 import Papa from 'papaparse'
 import ExcelJS from 'exceljs'
 import { saveAs } from 'file-saver'
+import { useI18n } from 'vue-i18n'
+
+// Create a function to get translations outside of Vue components
+let getTranslation = null
+export function setI18nInstance(i18n) {
+  getTranslation = (key, params) => i18n.global.t(key, params)
+}
+
+// Helper function to get translated error messages
+function t(key, params) {
+  if (getTranslation) {
+    return getTranslation(key, params)
+  }
+  // Fallback to English if i18n is not available
+  const fallbacks = {
+    'errors.noWorksheetsFound': 'No worksheets found in Excel file',
+    'errors.failedToParseExcel': 'Failed to parse Excel file: {message}',
+    'errors.failedToReadFile': 'Failed to read file',
+    'errors.failedToExportCompounds': 'Failed to export compounds'
+  }
+  return fallbacks[key] || key
+}
 
 export function exportToCSV(data, filename = 'compounds.csv') {
   const csv = Papa.unparse(data)
@@ -81,7 +102,7 @@ export async function importFromExcel(file) {
         // Get first worksheet
         const worksheet = workbook.worksheets[0]
         if (!worksheet) {
-          reject(new Error('No worksheets found in Excel file'))
+          reject(new Error(t('errors.noWorksheetsFound')))
           return
         }
         
@@ -120,10 +141,10 @@ export async function importFromExcel(file) {
         
         resolve(jsonData)
       } catch (error) {
-        reject(new Error(`Failed to parse Excel file: ${error.message}`))
+        reject(new Error(t('errors.failedToParseExcel', { message: error.message })))
       }
     }
-    reader.onerror = () => reject(new Error('Failed to read file'))
+    reader.onerror = () => reject(new Error(t('errors.failedToReadFile')))
     reader.readAsArrayBuffer(file)
   })
 }
@@ -226,6 +247,6 @@ export const exportCompounds = async (compounds, filename = null) => {
     return true
   } catch (error) {
     console.error('Export failed:', error)
-    throw new Error('Failed to export compounds')
+    throw new Error(t('errors.failedToExportCompounds'))
   }
 }

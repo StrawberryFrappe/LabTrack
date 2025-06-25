@@ -13,7 +13,7 @@ export default {
     locations: 'Locations',
     storageLocations: 'Storage locations',
     allItemsStocked: 'All items are adequately stocked',
-    noItemsExpiring: 'No items expiring soon',
+    noItemsExpiring: 'No items expiring in the next 3 months',
     remaining: 'remaining',
     expires: 'Expires',
     days: 'days',
@@ -25,6 +25,18 @@ export default {
     startCountSessionDesc: 'Begin physical inventory counting',
     systemSettings: 'System Settings',
     systemSettingsDesc: 'Configure users and system',
-    laboratoryManagement: 'Laboratory Management'
+    laboratoryManagement: 'Laboratory Management',
+    
+    // App title and branding
+    appTitle: 'LabTrack',
+    appVersion: 'Version 1.0.0-beta',
+    appDescription: 'Lab Inventory System',
+    menuToggle: 'Toggle menu',
+    soon: 'Soon',
+    
+    // Count sessions
+    activeCountSessions: 'Active Count Sessions',
+    recentSessions: 'Recent Sessions',
+    createNewCountSession: 'Create New Count Session'
   }
 }
