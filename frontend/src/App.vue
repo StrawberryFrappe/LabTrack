@@ -71,12 +71,10 @@ const authLoading = ref(true)
  */
 onMounted(async () => {
   try {
-    // Simulate initial loading time for better UX
-    // In production, this could be used for:
-    // - Loading user preferences
-    // - Checking token validity
-    // - Loading critical app data
-    await new Promise(resolve => setTimeout(resolve, 500))
+    console.log('App initialization starting...')
+    // Removed timeout to debug loading issue
+    // await new Promise(resolve => setTimeout(resolve, 500))
+    console.log('App initialization completed')
     
     // TODO: Validate stored authentication token
     // TODO: Load user preferences and settings
@@ -87,6 +85,7 @@ onMounted(async () => {
     // TODO: Show error message to user
     // TODO: Provide recovery options
   } finally {
+    console.log('Setting authLoading to false')
     authLoading.value = false
   }
 })

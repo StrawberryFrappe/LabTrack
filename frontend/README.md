@@ -1,175 +1,109 @@
 # LabTrack Frontend - Vue.js Laboratory Management System
 
-A modern Vue.js web application for laboratory inventory and compound management, built with Vue 3, Vue Router, and comprehensive internationalization support.
+A modern Vue.js web application for laboratory inventory and compound management, built with Vue 3, Vite, and Tailwind CSS.
 
-## 🚀 Features
+## 🚀 Quick Start
 
-### **Current Release (v1.0.0 - TRL4+ Complete)**
-- **Vue 3 SPA Architecture**: Complete single-page application with Vue Router 4
-- **Internationalization (i18n)**: Support for English, Spanish, and Portuguese with persistent language preferences
-- **Authentication System**: Two-role system (Admin/Visitor) with JWT-ready token management
-- **Dashboard**: Real-time statistics and navigation with responsive design
-- **Compounds Management**: Full CRUD operations with advanced search and filtering
-- **Advanced Search System**: Query builder with AND/OR logic, saved searches, and 9 search operators
-- **Pagination System**: Optimized performance with configurable page sizes and URL state management
-- **Enhanced Validation**: Real-time validation with async uniqueness checks and cross-field validation
-- **Inventory System**: Count sessions and inventory management workflows
-- **Modern UI**: Tailwind CSS with responsive design and accessibility features
-- **User Preferences**: Comprehensive settings for theme, language, notifications, and display options
+### Prerequisites
+- Node.js 18+
+- npm or yarn
 
-### **🆕 Phase 2 TRL4 Enhancements**
-- **Performance Optimization**: Pagination system handling large datasets efficiently
-- **Enterprise Search**: Advanced query builder with complex filtering capabilities
-- **Production Validation**: Comprehensive validation system with real-time feedback
-- **Enhanced UX**: Visual validation indicators, loading states, and user feedback
-- **Accessibility**: ARIA compliance and screen reader support throughout
+### Installation & Development
+```bash
+# Install dependencies
+npm install
 
-## 🛠 Technology Stack
+# Start development server (includes API server)
+npm run dev
+```
+
+The application will be available at:
+- **Frontend**: http://localhost:5173
+- **API Server**: http://localhost:3001
+
+## 🏗 Technology Stack
 
 - **Vue 3**: Progressive JavaScript framework with Composition API
-- **Vue Router 4**: Client-side routing with navigation guards
-- **Vue I18n 9**: Internationalization with reactive language switching
-- **Vite**: Fast build tool and development server
+- **Vite**: Fast build tool and development server  
 - **Tailwind CSS**: Utility-first CSS framework
-- **Axios**: HTTP client for API integration
-- **JSON Server**: Mock backend for development
+- **Vue Router 4**: Client-side routing
+- **Vue I18n**: Internationalization (EN/ES/PT)
+- **JSON Server**: Development API server
 
 ## 📁 Project Structure
 
 ```
 src/
-├── components/         # Reusable Vue components
-│   ├── auth/          # Authentication components
-│   ├── compounds/     # Compound management (enhanced)
-│   ├── dashboard/     # Dashboard widgets
+├── components/         # Vue components organized by feature
+│   ├── auth/          # Login and authentication
+│   ├── compounds/     # Compound management (CRUD)
+│   ├── dashboard/     # Dashboard widgets and stats
 │   ├── inventory/     # Inventory management
-│   ├── layout/        # Layout components
-│   └── ui/            # Base UI components (enhanced)
+│   ├── layout/        # Application layout
+│   └── ui/            # Reusable UI components
 ├── composables/       # Vue composition functions
-│   ├── useCompounds.js      # Enhanced compound management
-│   ├── usePagination.js     # Pagination logic
-│   ├── useAdvancedSearch.js # Search query builder
-│   └── useValidation.js     # Validation system
-├── locales/           # Internationalization files (expanded)
+├── locales/           # Translation files (EN/ES/PT)
 ├── router/            # Vue Router configuration
-├── services/          # API and service layer
-├── views/             # Route component views
-└── data/              # Mock data and types (60+ test compounds)
+├── services/          # API integration layer
+├── views/             # Page-level components
+└── utils/             # Utility functions
 ```
 
-## 🚀 Getting Started
+## 🎯 Core Features
 
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
+- **Dashboard**: Overview with statistics and quick actions
+- **Compounds**: Full CRUD operations with search and filtering
+- **Inventory**: Count sessions and stock management
+- **Authentication**: Role-based access (Admin/Visitor)
+- **Internationalization**: Support for 3 languages
+- **Responsive Design**: Mobile-friendly interface
 
-### Installation
-```bash
-# Install dependencies
-npm install
+## 🛠 Development Guidelines
 
-# Start development server (includes JSON server)
-npm run dev
+### Code Standards
+- Use Vue 3 Composition API with `<script setup>` syntax
+- Apply Tailwind CSS utility classes for styling
+- Follow Vue.js best practices for component structure
+- Use modern ES6+ JavaScript features
+- **All user-facing text must be internationalized** - never hardcode strings
 
-# Start individual components
-npm run client  # Vite dev server only
-npm run server  # JSON server only
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
-
-## 📋 Development Status
-
-**Current Phase**: TRL4+ (Technology Development Complete)
-**Target**: Production-ready system with advanced features
-
-### ✅ Phase 2 TRL4 Completed (Recent)
-- **Pagination System**: High-performance pagination with URL state management
-- **Advanced Search**: Enterprise-grade query builder with saved searches
-- **Enhanced Validation**: Production-ready validation with real-time feedback
-- **Performance Optimization**: Optimized for large datasets (tested with 60+ compounds)
-- **Accessibility**: Full ARIA compliance and screen reader support
-- **Enhanced UI/UX**: Professional-grade user interface with validation feedback
-
-### ✅ Foundation Complete
-- Vue 3 SPA with router-based navigation
-- Complete internationalization system (EN/ES/PT)
-- Authentication and authorization framework
-- Dashboard with real-time statistics
-- Enhanced compound browsing and filtering
-- Inventory count session management
-- Responsive UI with accessibility features
-- Development tooling and build pipeline
-
-### 🎯 Phase 3 (Current Priority)
-- Complete CRUD modal integration
-- Inventory system workflow completion
-- Data import/export with enhanced validation
-- Toast notification system
-- Production backend integration
+### Component Architecture
+- Keep components focused and reusable
+- Use composables for shared logic
+- Maintain responsive design with Tailwind utilities
+- Follow accessibility best practices
 
 ## 📚 Documentation
 
-- [TODO Roadmap](./TODO.md) - Updated development roadmap and status
-- [Phase 2 TRL4 Completion](./TASK2_ADVANCED_SEARCH_COMPLETED.md) - Advanced search implementation
-- [Validation System](./TASK3_VALIDATION_COMPLETED.md) - Enhanced validation documentation
-- [Internationalization Guide](./INTERNATIONALIZATION.md) - Complete i18n implementation details
-- [Migration Guide](./MIGRATION.md) - Backend integration roadmap
+For detailed project information:
+- **[TODO.md](./TODO.md)** - Development roadmap and timeline
+- **[STATUS.md](./STATUS.md)** - Detailed functionality status
+- **[INTERNATIONALIZATION.md](./INTERNATIONALIZATION.md)** - i18n implementation guide
 
-## 🏗 Architecture
+## 🔧 Available Scripts
 
-### Enhanced Component Architecture
-- **Composition API**: All components use `<script setup>` syntax
-- **Service Layer**: Dedicated services for API communication
-- **Composables**: Reactive state management with Vue composables
-- **Modular Design**: Feature-based component organization
+```bash
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run preview    # Preview production build
+npm run client     # Start only frontend (Vite)
+npm run server     # Start only API server (JSON Server)
+```
 
-### State Management
-- **Authentication**: Persistent login with localStorage
-- **User Preferences**: Language, theme, and app settings
-- **Reactive Data**: Vue's reactive system for real-time updates
-- **API Integration**: Axios-based service layer with error handling
+## 🌐 Authentication
 
-### Routing & Navigation
-- **Protected Routes**: Authentication guards for secure areas
-- **Role-Based Access**: Admin/Visitor permission system
-- **Lazy Loading**: Route-level code splitting for performance
-- **Navigation Guards**: Automatic redirects and access control
+Default development credentials:
+- **Admin**: admin / admin123
+- **Visitor**: visitor / visitor123
 
-## 🌐 Internationalization
+## 📝 Getting Help
 
-Supports three languages with complete UI translation:
-- **English** (en) - Default
-- **Spanish** (es) - Complete translation
-- **Portuguese** (pt) - Brazilian Portuguese
-
-Language preference is automatically saved and restored across sessions.
-
-## 🔧 Development
-
-### Code Style
-- Vue 3 Composition API with `<script setup>`
-- Tailwind CSS for styling (no custom CSS)
-- ES6+ JavaScript features
-- Component-first architecture
-- Responsive design principles
-
-### Build System
-- **Vite**: Fast development and optimized production builds
-- **PostCSS**: Tailwind processing
-- **Code Splitting**: Automatic route-based chunks
-- **Asset Optimization**: Automatic asset bundling and optimization
-
-## 📝 License
-
-This project is part of the LabTrack laboratory management system.
+1. Check the [STATUS.md](./STATUS.md) for feature implementation details
+2. Review [TODO.md](./TODO.md) for known issues and roadmap
+3. Examine existing components for patterns and examples
+4. All components are well-documented with inline comments
 
 ---
 
-**Version**: v0.2.0  
-**Framework**: Vue 3 + Vite  
+**Framework**: Vue 3 + Vite + Tailwind CSS  
 **Last Updated**: June 2025

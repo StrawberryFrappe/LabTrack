@@ -5,39 +5,20 @@
     size="lg"
     @close="handleClose"
   >
-    <CompoundForm
-      :form-data="formData"
-      :errors="validationErrors"
-      @update:formData="formData = $event"
-      @validate="handleValidation"
+    <CompoundFormEnhanced
+      :compound="props.compound"
+      :is-edit-mode="isEditMode"
+      @submit="handleSubmit"
+      @cancel="handleClose"
     />
 
-    <template #footer>
-      <Button
-        variant="outline"
-        @click="handleClose"
-        :disabled="loading"
-      >
-        {{ $t('common.cancel') }}
-      </Button>
-      <Button
-        variant="primary"
-        @click="handleSubmit"
-        :disabled="loading || !isFormValid"
-      >
-        <LoadingSpinner v-if="loading" class="w-4 h-4 mr-2" />
-        {{ isEditMode ? $t('common.save') : $t('compounds.create') }}
-      </Button>
-    </template>
   </BaseModal>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed } from 'vue'
 import BaseModal from '../ui/BaseModal.vue'
-import CompoundForm from './CompoundForm.vue'
-import Button from '../ui/Button.vue'
-import LoadingSpinner from '../ui/LoadingSpinner.vue'
+import CompoundFormEnhanced from './CompoundFormEnhanced.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -59,29 +40,6 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'submit', 'close'])
 
-// Local state
-const validationErrors = ref({})
-const isFormValid = ref(false)
-
-// Create default form data structure
-const createDefaultFormData = () => ({
-  name: '',
-  casNumber: '',
-  quantity: 0,
-  unit: '',
-  threshold: 0,
-  location: '',
-  hazardClass: '',
-  expiryDate: '',
-  receivedDate: '',
-  supplier: '',
-  batchNumber: '',
-  synonyms: ''
-})
-
-// Form data management
-const formData = ref(createDefaultFormData())
-
 const localModelValue = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)
@@ -95,18 +53,10 @@ const modalTitle = computed(() => {
     : t('compounds.addCompound')
 })
 
-// Handle validation from CompoundForm
-const handleValidation = (errors) => {
-  validationErrors.value = errors
-  isFormValid.value = Object.keys(errors).length === 0
-}
-
-// Handle form submission
-const handleSubmit = () => {
-  if (!isFormValid.value) return
-  
+// Handle form submission from enhanced form
+const handleSubmit = (formData) => {
   emit('submit', {
-    ...formData.value,
+    ...formData,
     id: props.compound?.id
   })
 }
@@ -117,24 +67,6 @@ const handleClose = () => {
   emit('update:modelValue', false)
 }
 
-// Reset form when modal opens/closes or compound changes
-watch([() => props.modelValue, () => props.compound], ([isOpen, compound]) => {
-  if (isOpen) {
-    if (compound) {
-      // Edit mode - populate form with compound data
-      formData.value = {
-        ...createDefaultFormData(),
-        ...compound
-      }
-    } else {
-      // Add mode - reset to default values
-      formData.value = createDefaultFormData()
-    }
-    // Clear validation errors
-    validationErrors.value = {}
-    isFormValid.value = false
-  }
-}, { immediate: true })
 </script>
 
 /**
