@@ -36,7 +36,7 @@ The application will be available at:
 src/
 ├── components/         # Vue components organized by feature
 │   ├── auth/          # Login and authentication
-│   ├── compounds/     # Compound management (CRUD)
+│   ├── compounds/     # Compound management (CRUD, detail views)
 │   ├── dashboard/     # Dashboard widgets and stats
 │   ├── inventory/     # Inventory management
 │   ├── layout/        # Application layout
@@ -52,7 +52,10 @@ src/
 ## 🎯 Core Features
 
 - **Dashboard**: Overview with statistics and quick actions
-- **Compounds**: Full CRUD operations with search and filtering
+- **Compounds**: Full CRUD operations with search, filtering, and detailed view
+  - Compound detail modal with comprehensive information display
+  - Instance management with creation, editing, and tracking
+  - Interactive compound cards and table views
 - **Inventory**: Count sessions and stock management
 - **Authentication**: Role-based access (Admin/Visitor)
 - **Internationalization**: Support for 3 languages
@@ -106,4 +109,4 @@ Default development credentials:
 ---
 
 **Framework**: Vue 3 + Vite + Tailwind CSS  
-**Last Updated**: June 2025
+**Last Updated**: January 2025
