@@ -3,6 +3,9 @@ export default {
     title: 'Compound Management',
     description: 'Manage your laboratory\'s chemical inventory',
     addNew: 'Add New Compound',
+    addCompound: 'Add Compound',
+    editCompound: 'Edit Compound',
+    create: 'Create',
     import: 'Import',
     export: 'Export',
     loading: 'Loading compounds...',
@@ -62,6 +65,22 @@ export default {
     batchNumberPlaceholder: "Enter batch number",
     synonyms: "Synonyms",
     synonymsPlaceholder: "Enter synonyms (comma separated)",
-    synonymsHelp: "Separate synonyms with commas (e.g. Acetone, Dimethyl ketone)"
+    synonymsHelp: "Separate synonyms with commas (e.g. Acetone, Dimethyl ketone)",
+
+    // CRUD Operations
+    createSuccess: "Compound created successfully",
+    updateSuccess: "Compound updated successfully", 
+    deleteSuccess: "Compound deleted successfully",
+    saveError: "Failed to save compound. Please try again.",
+    deleteError: "Failed to delete compound. Please try again.",
+    deleteConfirmTitle: "Delete Compound",
+    deleteConfirm: "Are you sure you want to delete '{name}'? This action cannot be undone.",
+    
+    // Import/Export
+    importSuccess: "Successfully imported {count} compounds",
+    importError: "Failed to import compounds. Please check the file format.",
+    exportSuccess: "Compounds exported successfully",
+    exportError: "Failed to export compounds. Please try again.",
+    unsupportedFileType: "Unsupported file type. Please use CSV or Excel files."
   }
 }

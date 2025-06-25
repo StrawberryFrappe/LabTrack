@@ -16,6 +16,8 @@ export default {
     warning: 'Aviso',
     info: 'Informação',
     username: "Usuário",
-    password: "Senha"
+    password: "Senha",
+    confirm: "Confirmar",
+    close: "Fechar"
   }
 }

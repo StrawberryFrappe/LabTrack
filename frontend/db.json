@@ -19,7 +19,38 @@
       "createdAt": "2024-01-01T00:00:00.000Z"
     }
   ],
-  "compounds": [],
+  "compounds": [
+    {
+      "id": "1",
+      "name": "Sodium Chloride",
+      "casNumber": "7647-14-5",
+      "quantity": 500,
+      "unit": "g",
+      "threshold": 100,
+      "location": "Cabinet A1",
+      "hazardClass": "Non-hazardous",
+      "expiryDate": "2025-12-31",
+      "receivedDate": "2024-01-15",
+      "supplier": "Sigma-Aldrich",
+      "batchNumber": "NaCl-2024-001",
+      "synonyms": "Table salt, Rock salt"
+    },
+    {
+      "name": "Hydrochloric Acid",
+      "casNumber": "7647-01-0",
+      "quantity": 25,
+      "unit": "ml",
+      "threshold": 50,
+      "location": "Acid Cabinet",
+      "hazardClass": "Non-hazardous",
+      "expiryDate": "2025-06-30",
+      "receivedDate": "2024-02-01",
+      "supplier": "Fisher Scientific",
+      "batchNumber": "HCl-2024-002",
+      "synonyms": "Muriatic acid",
+      "id": "2"
+    }
+  ],
   "countSessions": [
     {
       "id": "1",

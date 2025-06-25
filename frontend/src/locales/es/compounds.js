@@ -3,6 +3,9 @@ export default {
     title: 'Gestión de Compuestos',
     description: 'Gestiona el inventario químico de tu laboratorio',
     addNew: 'Agregar Nuevo Compuesto',
+    addCompound: 'Agregar Compuesto',
+    editCompound: 'Editar Compuesto',
+    create: 'Crear',
     import: 'Importar',
     export: 'Exportar',
     loading: 'Cargando compuestos...',
@@ -62,6 +65,22 @@ export default {
     batchNumberPlaceholder: "Ingrese el número de lote",
     synonyms: "Sinónimos",
     synonymsPlaceholder: "Ingrese sinónimos (separados por comas)",
-    synonymsHelp: "Separe los sinónimos con comas (ej. Acetona, Dimetil cetona)"
+    synonymsHelp: "Separe los sinónimos con comas (ej. Acetona, Dimetil cetona)",
+    
+    // CRUD Operations
+    createSuccess: "Compuesto creado exitosamente",
+    updateSuccess: "Compuesto actualizado exitosamente", 
+    deleteSuccess: "Compuesto eliminado exitosamente",
+    saveError: "Error al guardar el compuesto. Por favor intente de nuevo.",
+    deleteError: "Error al eliminar el compuesto. Por favor intente de nuevo.",
+    deleteConfirmTitle: "Eliminar Compuesto",
+    deleteConfirm: "¿Está seguro que desea eliminar '{name}'? Esta acción no se puede deshacer.",
+    
+    // Import/Export
+    importSuccess: "Se importaron exitosamente {count} compuestos",
+    importError: "Error al importar compuestos. Verifique el formato del archivo.",
+    exportSuccess: "Compuestos exportados exitosamente",
+    exportError: "Error al exportar compuestos. Intente de nuevo.",
+    unsupportedFileType: "Tipo de archivo no soportado. Use archivos CSV o Excel."
   }
 }
