@@ -183,30 +183,20 @@ const quickFilters = [
     key: 'lowStock',
     icon: '📉',
     action: () => {
-      // Switch to advanced mode and set up low stock filter
-      if (!isAdvancedMode.value) {
-        toggleAdvancedMode()
-      }
-      // Clear existing conditions and add low stock condition
-      // Note: This will be handled by the advanced search composable
-      // For now, clear simple filters
       searchQuery.value = ''
       selectedHazardClass.value = ''
       selectedLocation.value = ''
+      // TODO: Apply low stock logic when advanced search integration is complete
     }
   },
   {
     key: 'expiringSoon',
     icon: '⏰',
     action: () => {
-      // Switch to advanced mode for complex date filtering
-      if (!isAdvancedMode.value) {
-        toggleAdvancedMode()
-      }
-      // Clear simple filters
       searchQuery.value = ''
       selectedHazardClass.value = ''
       selectedLocation.value = ''
+      // TODO: Apply expiring soon logic
     }
   },
   {

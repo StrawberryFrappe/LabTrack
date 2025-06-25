@@ -149,7 +149,7 @@
  * - Uses usePagination composable for pagination state
  * - Integrates with useCompounds for data management
  * - Event-driven pattern for better separation of concerns
- * - Shared state pattern for consistent data across components
+ * - Maintains existing component interfaces
  */
 import { ref } from 'vue'
 import CompoundCard from './CompoundCard.vue'
@@ -159,7 +159,6 @@ import Badge from '@/components/ui/Badge.vue'
 import PaginationControls from '@/components/ui/PaginationControls.vue'
 import { useCompounds } from '@/composables/useCompounds'
 import { usePagination } from '@/composables/usePagination'
-import { useAdvancedSearch } from '@/composables/useAdvancedSearch'
 
 // Initialize pagination
 const pagination = usePagination({
@@ -167,10 +166,7 @@ const pagination = usePagination({
   pageSizeOptions: [10, 25, 50, 100]
 })
 
-// Initialize advanced search
-const advancedSearch = useAdvancedSearch()
-
-// Initialize compounds with pagination and advanced search support
+// Initialize compounds with pagination support
 const { 
   filteredCompounds, 
   paginatedCompounds,
@@ -180,7 +176,7 @@ const {
   loading, 
   error, 
   loadCompounds 
-} = useCompounds(pagination, advancedSearch)
+} = useCompounds(pagination)
 
 // View mode state
 const viewMode = ref('grid') // 'grid' or 'list'

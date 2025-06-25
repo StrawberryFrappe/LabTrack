@@ -7,44 +7,68 @@
  * Key Features:
  * - Reactive compound data with real-time filtering
  * - Loading states and error handling
- * - Search and filter functionality
+ * - Search and filter functionality with pagination support
  * - CRUD operations ready for API integration
  * - Helper methods for common operations
+ * 
+ * Uses singleton pattern to ensure consistent state across components
  */
 
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { compoundService } from '../services/compoundService.js'
 
-export function useCompounds() {
-  // State management
-  const compounds = ref([])
-  const searchQuery = ref('')
-  const selectedHazardClass = ref('')
-  const selectedLocation = ref('')
-  const loading = ref(false)
-  const error = ref(null)
+// Shared state (singleton pattern)
+const compounds = ref([])
+const searchQuery = ref('')
+const selectedHazardClass = ref('')
+const selectedLocation = ref('')
+const loading = ref(false)
+const error = ref(null)
+let paginationComposable = null
+let advancedSearchComposable = null
+let isInitialized = false
+
+export function useCompounds(pagination = null, advancedSearch = null) {
+  // Set pagination composable if provided (from CompoundList)
+  if (pagination) {
+    paginationComposable = pagination
+  }
+  
+  // Set advanced search composable if provided
+  if (advancedSearch) {
+    advancedSearchComposable = advancedSearch
+  }
   /**
    * Load Compounds from API
    * 
-   * Fetches all compounds from the backend.
+   * Fetches all compounds from the backend with optional pagination parameters.
    * Called automatically when composable is used.
    * 
-   * INSIGHT: This is speculative - assumes standard REST API patterns
-   * The choice to auto-load on mount may not be optimal for large datasets
-   * but provides immediate data availability for the proof-of-concept phase
+   * @param {Object} options - Optional parameters for pagination and filtering
+   * @param {number} options.page - Page number (1-based)
+   * @param {number} options.limit - Number of items per page
+   * @param {string} options.search - Search query
    */
-  const loadCompounds = async () => {
+  const loadCompounds = async (options = {}) => {
     loading.value = true
     error.value = null
     
     try {
-      compounds.value = await compoundService.getAll()
+      // For now, we load all compounds and handle pagination client-side
+      // TODO: Update to use server-side pagination when API supports it
+      compounds.value = await compoundService.getAll(options)
     } catch (err) {
       error.value = 'Failed to load compounds: ' + err.message
       console.error('Failed to load compounds:', err)
     } finally {
       loading.value = false
     }
+  }
+
+  // Initialize data on first use
+  if (!isInitialized) {
+    isInitialized = true
+    loadCompounds()
   }
 
   // Computed properties for dynamic data
@@ -74,15 +98,46 @@ export function useCompounds() {
   const filteredCompounds = computed(() => {
     let filtered = compounds.value
 
+    // Use advanced search if available and active
+    if (advancedSearchComposable?.isAdvancedMode?.value) {
+      return advancedSearchComposable.filterCompounds(filtered)
+    }
+    
+    // Otherwise use simple filtering (backward compatible)
     // Text search across multiple fields
     if (searchQuery.value) {
       const query = searchQuery.value.toLowerCase()
-      filtered = filtered.filter(compound =>
-        compound.name.toLowerCase().includes(query) ||
-        (compound.casNumber && compound.casNumber.toLowerCase().includes(query)) ||
-        (compound.synonyms && compound.synonyms.toLowerCase().includes(query)) ||
-        compound.supplier.toLowerCase().includes(query)
-      )
+      
+      // Check if regex mode is enabled via advanced search
+      const isRegex = advancedSearchComposable?.isRegexMode?.value
+      
+      if (isRegex) {
+        try {
+          const regex = new RegExp(searchQuery.value, 'i')
+          filtered = filtered.filter(compound =>
+            regex.test(compound.name) ||
+            (compound.casNumber && regex.test(compound.casNumber)) ||
+            (compound.synonyms && regex.test(compound.synonyms)) ||
+            regex.test(compound.supplier)
+          )
+        } catch (error) {
+          // Invalid regex, fall back to simple search
+          console.warn('Invalid regex pattern:', error)
+          filtered = filtered.filter(compound =>
+            compound.name.toLowerCase().includes(query) ||
+            (compound.casNumber && compound.casNumber.toLowerCase().includes(query)) ||
+            (compound.synonyms && compound.synonyms.toLowerCase().includes(query)) ||
+            compound.supplier.toLowerCase().includes(query)
+          )
+        }
+      } else {
+        filtered = filtered.filter(compound =>
+          compound.name.toLowerCase().includes(query) ||
+          (compound.casNumber && compound.casNumber.toLowerCase().includes(query)) ||
+          (compound.synonyms && compound.synonyms.toLowerCase().includes(query)) ||
+          compound.supplier.toLowerCase().includes(query)
+        )
+      }
     }
 
     // Filter by hazard class
@@ -97,7 +152,17 @@ export function useCompounds() {
       filtered = filtered.filter(compound =>
         compound.location === selectedLocation.value
       )
-    }    return filtered
+    }
+
+    return filtered
+  })
+
+  // Get paginated compounds if pagination composable is provided
+  const paginatedCompounds = computed(() => {
+    if (paginationComposable) {
+      return paginationComposable.getPaginatedItems(filteredCompounds.value)
+    }
+    return filteredCompounds.value
   })
 
   /**
@@ -219,6 +284,32 @@ export function useCompounds() {
   }
 
   /**
+   * Reset Filters and Pagination
+   * 
+   * Clears all filters and resets pagination to first page.
+   */
+  const resetFilters = () => {
+    searchQuery.value = ''
+    selectedHazardClass.value = ''
+    selectedLocation.value = ''
+    
+    if (paginationComposable) {
+      paginationComposable.reset()
+    }
+  }
+
+  /**
+   * Reset Pagination Only
+   * 
+   * Resets pagination to first page (used when filters change).
+   */
+  const resetPagination = () => {
+    if (paginationComposable) {
+      paginationComposable.reset()
+    }
+  }
+
+  /**
    * Clear Error Message
    * 
    * Helper to clear error messages (useful for dismissing error alerts).
@@ -226,11 +317,6 @@ export function useCompounds() {
   const clearError = () => {
     error.value = null
   }
-
-  // Auto-load compounds when composable is first used
-  onMounted(() => {
-    loadCompounds()
-  })
 
   return {
     // State
@@ -249,6 +335,7 @@ export function useCompounds() {
     lowStockItems,
     expiringItems,
     filteredCompounds,
+    paginatedCompounds,
       // Methods
     loadCompounds,
     findCompound,
@@ -257,6 +344,8 @@ export function useCompounds() {
     createCompound,
     updateCompound,
     deleteCompound,
+    resetFilters,
+    resetPagination,
     clearError
   }
 }
