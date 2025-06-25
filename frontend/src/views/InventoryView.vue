@@ -6,15 +6,29 @@
   count history.
   
   Features:
-  - Create new count sessions
-  - Manage active count sessions
-  - View completed count history
-  - Barcode scanning integration
+  - Create new count sessions ⏳ PARTIAL
+  - Manage active count sessions ⏳ PARTIAL
+  - View completed count history ✅ BASIC
+  - Manual count entry (no barcode for TRL3) 
   
-  TODO: Add count session templates
-  TODO: Implement bulk count operations
-  TODO: Add count variance analysis
-  TODO: Implement count scheduling
+  🚨 TRL3 CRITICAL TODOS - WEEK 2-3 PRIORITY:
+  1. TODO TRL3-CRITICAL: Complete CountSession.vue workflow implementation
+  2. TODO TRL3-CRITICAL: Finish CountEntryModal.vue for manual count entry
+  3. TODO TRL3-CRITICAL: Implement count discrepancy detection and reporting
+  4. TODO TRL3-CRITICAL: Connect to useInventoryCount.js composable completely
+  5. TODO TRL3-CRITICAL: Add count session persistence and management
+  
+  📋 TRL3 SECONDARY TODOS:
+  - TODO TRL3: Add count session templates for common areas
+  - TODO TRL3: Implement basic count variance analysis
+  - TODO TRL3: Add count reports (PDF/Excel export)
+  - TODO TRL3: Implement count scheduling (weekly/monthly)
+  
+  🔧 POST-TRL3 FEATURES (DEFERRED):
+  - TODO FUTURE: Barcode scanning integration 
+  - TODO FUTURE: Bulk count operations
+  - TODO FUTURE: Mobile-optimized count interface
+  - TODO FUTURE: Real-time count collaboration
 -->
 
 <template>
@@ -160,4 +174,20 @@ const handleCompleteSession = async (sessionId) => {
     // TODO: Show error notification
   }
 }
+
+// TODO TRL3-CRITICAL: Complete inventory count workflow integration
+// Key integration points needed:
+// 1. Complete count session creation workflow
+// 2. Implement manual count entry via CountEntryModal
+// 3. Add count completion and discrepancy reporting
+// 4. Connect all operations to useInventoryCount composable
+// 5. Add count reports and export functionality
+
+// TODO TRL3-CRITICAL: Fix missing workflow connections
+// Current status: Components exist but not fully integrated
+// - CountSession.vue: Basic structure ✅, workflow incomplete ❌
+// - CountEntryModal.vue: Exists but not connected ❌  
+// - useInventoryCount.js: Partial implementation ❌
+// - Count persistence: Not implemented ❌
+// - Discrepancy logic: Exists but not integrated ❌
 </script>
