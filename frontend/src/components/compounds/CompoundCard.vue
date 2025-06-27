@@ -97,11 +97,13 @@ import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
 import { useFormat } from '@/utils/format.js'
-import { useInventory } from '@/composables/useInventory'
+import { useInventory } from '@/composables/useInventory.js'
+import { useHazardStyles } from '@/composables/useHazardStyles.js'
 
 const { t } = useI18n()
 const router = useRouter()
 const { calculateCurrentStock } = useInventory()
+const { getHazardVariant } = useHazardStyles()
 
 const props = defineProps({
   compound: {
@@ -143,10 +145,7 @@ const stockPercentage = computed(() =>
 )
 
 const hazardBadgeVariant = computed(() => {
-  const hazard = props.compound.hazardClass.toLowerCase()
-  if (hazard.includes('toxic') || hazard.includes('carcinogenic')) return 'destructive'
-  if (hazard.includes('flammable') || hazard.includes('corrosive')) return 'warning'
-  return 'secondary'
+  return getHazardVariant(props.compound.hazardClass)
 })
 
 const stockStatusClasses = computed(() => [

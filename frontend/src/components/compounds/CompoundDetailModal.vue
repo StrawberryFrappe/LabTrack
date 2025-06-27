@@ -398,14 +398,16 @@ import Input from '@/components/ui/Input.vue'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
 import InstanceFormModal from './InstanceFormModal.vue'
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
-import { useCompounds } from '@/composables/useCompounds'
-import { useCompoundInstances } from '@/composables/useCompoundInstances'
-import { useToast } from '@/composables/useToast'
+import { useCompounds } from '@/composables/useCompounds.js'
+import { useCompoundInstances } from '@/composables/useCompoundInstances.js'
+import { useToast } from '@/composables/useToast.js'
+import { useHazardStyles } from '@/composables/useHazardStyles.js'
 import { useFormat } from '@/utils/format.js'
 
 const { t } = useI18n()
 const toast = useToast()
 const { formatDate } = useFormat()
+const { getHazardVariant } = useHazardStyles()
 const compoundsComposable = useCompounds()
 const instancesComposable = useCompoundInstances()
 
@@ -484,10 +486,7 @@ const expiringSoonCount = computed(() => {
 
 const hazardBadgeVariant = computed(() => {
   if (!compound.value) return 'secondary'
-  const hazard = compound.value.hazardClass.toLowerCase()
-  if (hazard.includes('toxic') || hazard.includes('carcinogenic')) return 'destructive'
-  if (hazard.includes('flammable') || hazard.includes('corrosive')) return 'warning'
-  return 'secondary'
+  return getHazardVariant(compound.value.hazardClass)
 })
 
 const stockStatusClasses = computed(() => {

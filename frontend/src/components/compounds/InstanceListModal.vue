@@ -179,11 +179,13 @@ import Button from '@/components/ui/Button.vue'
 import Input from '@/components/ui/Input.vue'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
-import { useCompoundInstances } from '@/composables/useCompoundInstances'
+import { useCompoundInstances } from '@/composables/useCompoundInstances.js'
+import { useHazardStyles } from '@/composables/useHazardStyles.js'
 import { useFormat } from '@/utils/format.js'
 
 const { t } = useI18n()
 const { formatDate } = useFormat()
+const { getHazardVariant } = useHazardStyles()
 const instanceComposable = useCompoundInstances()
 
 const props = defineProps({
@@ -249,10 +251,7 @@ const filteredInstances = computed(() => {
 
 const hazardBadgeVariant = computed(() => {
   if (!props.compound) return 'secondary'
-  const hazard = props.compound.hazardClass.toLowerCase()
-  if (hazard.includes('toxic') || hazard.includes('carcinogenic')) return 'destructive'
-  if (hazard.includes('flammable') || hazard.includes('corrosive')) return 'warning'
-  return 'secondary'
+  return getHazardVariant(props.compound.hazardClass)
 })
 
 // Methods
