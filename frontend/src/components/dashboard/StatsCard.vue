@@ -19,7 +19,7 @@
 <script setup>
 import { computed } from 'vue'
 import Card from '@/components/ui/Card.vue'
-import { useFormat } from '@/utils/format'
+import { useFormat } from '@/utils/format.js'
 
 const props = defineProps({
   title: {

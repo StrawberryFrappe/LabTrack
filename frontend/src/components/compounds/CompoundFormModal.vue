@@ -17,7 +17,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import BaseModal from '../ui/BaseModal.vue'
+import BaseModal from '@/components/ui/BaseModal.vue'
 import CompoundFormEnhanced from './CompoundFormEnhanced.vue'
 import { useI18n } from 'vue-i18n'
 

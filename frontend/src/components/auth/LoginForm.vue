@@ -135,7 +135,7 @@
 <script setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuth } from '../../composables/useAuth.js'
+import { useAuth } from '@/composables/useAuth.js'
 
 // Router for navigation
 const router = useRouter()

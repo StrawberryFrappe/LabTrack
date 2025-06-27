@@ -96,7 +96,7 @@ import { useI18n } from 'vue-i18n'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
-import { useFormat } from '@/utils/format'
+import { useFormat } from '@/utils/format.js'
 
 const { t } = useI18n()
 

@@ -223,8 +223,8 @@
 
 <script setup>
 import { computed, watch } from 'vue'
-import Input from '../ui/Input.vue'
-import ErrorMessage from '../ui/ErrorMessage.vue'
+import Input from '@/components/ui/Input.vue'
+import ErrorMessage from '@/components/ui/ErrorMessage.vue'
 
 const props = defineProps({
   formData: {

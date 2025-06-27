@@ -180,7 +180,7 @@ import Input from '@/components/ui/Input.vue'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 import { useCompoundInstances } from '@/composables/useCompoundInstances'
-import { useFormat } from '@/utils/format'
+import { useFormat } from '@/utils/format.js'
 
 const { t } = useI18n()
 const { formatDate } = useFormat()

@@ -147,20 +147,28 @@
       </table>
     </div>
     
+    <!-- Empty State -->
+    <EmptyState
+      v-if="compounds.length === 0"
+      :title="$t('compounds.noCompoundsFound')"
+      :description="$t('compounds.tryAdjustingFilters')"
+      icon="📋"
+      :show-actions="false"
+    />
+    
     <!-- TODO: Add pagination component here -->
-    <div v-if="compounds.length === 0" class="px-4 sm:px-6 py-12 text-center">
-      <div class="text-slate-400 text-lg mb-2">📋</div>
-      <h3 class="text-lg font-medium text-slate-900 mb-2">{{ $t('compounds.noCompoundsFound') }}</h3>
-      <p class="text-slate-500">{{ $t('compounds.tryAdjustingFilters') }}</p>
-    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useHazardStyles } from '@/composables/useHazardStyles'
+import EmptyState from '@/components/ui/EmptyState.vue'
 
 const { t } = useI18n()
+const { getHazardClasses } = useHazardStyles()
+
 // TODO: Import proper icon components when available
 // import { PencilIcon, QrCodeIcon, EllipsisVerticalIcon } from '@heroicons/vue/24/outline'
 
@@ -172,24 +180,6 @@ const props = defineProps({
 })
 
 defineEmits(['edit', 'view-instances', 'delete', 'view-detail'])
-
-// TODO: Move this to a shared utility or composable
-const getHazardClasses = (hazard) => {
-  const hazardStyles = {
-    'Non-hazardous': 'bg-green-100 text-green-800',
-    'Flammable': 'bg-red-100 text-red-800',
-    'Toxic': 'bg-purple-100 text-purple-800',
-    'Toxic, Flammable': 'bg-red-200 text-red-900',
-    'Corrosive': 'bg-orange-100 text-orange-800',
-    'Oxidizing': 'bg-yellow-100 text-yellow-800',
-    'Explosive': 'bg-red-200 text-red-900',
-    'Carcinogenic': 'bg-pink-100 text-pink-800',
-    'Carcinogenic, Flammable': 'bg-pink-200 text-pink-900',
-    default: 'bg-slate-100 text-slate-800'
-  }
-  
-  return hazardStyles[hazard] || hazardStyles.default
-}
 
 // TODO: Implement sorting functionality
 const sortBy = (column) => {

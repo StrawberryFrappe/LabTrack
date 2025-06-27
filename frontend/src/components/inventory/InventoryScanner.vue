@@ -117,6 +117,9 @@ import Button from '@/components/ui/Button.vue'
 import Input from '@/components/ui/Input.vue'
 import Badge from '@/components/ui/Badge.vue'
 import CountEntryModal from './CountEntryModal.vue'
+import { useHazardStyles } from '@/composables/useHazardStyles'
+
+const { getHazardVariant } = useHazardStyles()
 import { useCompounds } from '@/composables/useCompounds'
 
 const { findCompound } = useCompounds()
@@ -136,11 +139,7 @@ const discrepancy = computed(() => {
 
 const hazardBadgeVariant = computed(() => {
   if (!scannedItem.value) return 'secondary'
-  
-  const hazard = scannedItem.value.hazardClass.toLowerCase()
-  if (hazard.includes('toxic') || hazard.includes('carcinogenic')) return 'destructive'
-  if (hazard.includes('flammable') || hazard.includes('corrosive')) return 'warning'
-  return 'secondary'
+  return getHazardVariant(scannedItem.value.hazardClass)
 })
 
 const discrepancyClasses = computed(() => ({

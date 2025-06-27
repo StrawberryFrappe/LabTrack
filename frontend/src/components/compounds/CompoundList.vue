@@ -86,11 +86,13 @@
       </div>
     </div>
     <!-- Empty state -->
-    <div v-else-if="filteredCompounds.length === 0 && !loading" class="text-center py-12">
-      <div class="text-slate-400 text-lg mb-2">🔍</div>
-      <h3 class="text-lg font-medium text-slate-900 mb-2">{{$t('compounds.noCompoundsFound')}}</h3>
-      <p class="text-slate-500">{{$t('compounds.tryAdjustingFilters')}}</p>
-    </div>
+    <EmptyState
+      v-else-if="filteredCompounds.length === 0 && !loading"
+      :title="$t('compounds.noCompoundsFound')"
+      :description="$t('compounds.tryAdjustingFilters')"
+      icon="🔍"
+      :show-actions="false"
+    />
     <!-- Content based on view mode -->
     <div v-else-if="!loading && !error">
       <!-- Grid View (Cards) -->
@@ -162,6 +164,7 @@ import CompoundTable from './CompoundTable.vue'
 import CompoundFilters from './CompoundFilters.vue'
 import Badge from '@/components/ui/Badge.vue'
 import PaginationControls from '@/components/ui/PaginationControls.vue'
+import EmptyState from '@/components/ui/EmptyState.vue'
 import { useCompounds } from '@/composables/useCompounds'
 import { usePagination } from '@/composables/usePagination'
 import { useAdvancedSearch } from '@/composables/useAdvancedSearch'

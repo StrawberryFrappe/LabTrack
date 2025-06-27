@@ -7,17 +7,13 @@
     </div>
     
     <!-- Empty State -->
-    <div 
+    <EmptyState
       v-else-if="transactions.length === 0"
-      class="text-center py-8 text-slate-500"
-    >
-      <div class="text-lg font-medium mb-2">
-        {{ $t('inventorySessions.history.noTransactions') }}
-      </div>
-      <p class="text-sm">
-        {{ $t('inventorySessions.history.noTransactionsSubtext') }}
-      </p>
-    </div>
+      :title="$t('inventorySessions.history.noTransactions')"
+      :description="$t('inventorySessions.history.noTransactionsSubtext')"
+      icon="📋"
+      :show-actions="false"
+    />
     
     <!-- Transaction List -->
     <div v-else class="space-y-2">
@@ -124,6 +120,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
 import Button from '@/components/ui/Button.vue'
 import Badge from '@/components/ui/Badge.vue'
 import PaginationControls from '@/components/ui/PaginationControls.vue'
+import EmptyState from '@/components/ui/EmptyState.vue'
 
 // Icons
 import { 

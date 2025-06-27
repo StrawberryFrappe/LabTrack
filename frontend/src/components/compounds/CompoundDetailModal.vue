@@ -401,7 +401,7 @@ import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 import { useCompounds } from '@/composables/useCompounds'
 import { useCompoundInstances } from '@/composables/useCompoundInstances'
 import { useToast } from '@/composables/useToast'
-import { useFormat } from '@/utils/format'
+import { useFormat } from '@/utils/format.js'
 
 const { t } = useI18n()
 const toast = useToast()

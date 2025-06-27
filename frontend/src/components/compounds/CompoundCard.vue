@@ -96,7 +96,7 @@ import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
-import { useFormat } from '@/utils/format'
+import { useFormat } from '@/utils/format.js'
 import { useInventory } from '@/composables/useInventory'
 
 const { t } = useI18n()
