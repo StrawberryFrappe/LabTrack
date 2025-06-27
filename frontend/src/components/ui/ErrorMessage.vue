@@ -69,7 +69,7 @@
           class="inline-flex text-gray-400 hover:text-gray-600 transition-colors"
           :class="closeButtonClass"
         >
-          <span class="sr-only">Close</span>
+          <span class="sr-only">{{ $t('common.close') }}</span>
           <span class="text-lg">✕</span>
         </button>
       </div>

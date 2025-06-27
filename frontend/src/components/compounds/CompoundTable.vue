@@ -2,7 +2,7 @@
     <!-- Table Header -->
     <div class="px-4 sm:px-6 py-4 border-b border-slate-200 bg-slate-50">
       <div class="flex items-center justify-between">
-        <h3 class="text-sm font-medium text-slate-900">Compounds List</h3>
+        <h3 class="text-sm font-medium text-slate-900">{{ $t('compounds.title') }}</h3>
         <div class="text-xs text-slate-500">
           {{ compounds.length }} compound{{ compounds.length !== 1 ? 's' : '' }}
         </div>
@@ -17,28 +17,28 @@
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
               <!-- TODO: Add sorting functionality -->
               <button @click="sortBy('name')" class="hover:text-slate-700 transition-colors">
-                Name
+                {{ $t('compounds.tableHeaders.name') }}
                 <!-- TODO: Add sort indicators -->
               </button>
             </th>            <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider hidden md:table-cell">
-              CAS Number
+              {{ $t('compounds.tableHeaders.casNumber') }}
             </th>
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Supplier
+              {{ $t('compounds.tableHeaders.supplier') }}
             </th>
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
               <button @click="sortBy('quantity')" class="hover:text-slate-700 transition-colors">
-                Quantity
+                {{ $t('compounds.tableHeaders.quantity') }}
               </button>
             </th>
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider hidden lg:table-cell">
-              Location
+              {{ $t('compounds.tableHeaders.location') }}
             </th>
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider hidden sm:table-cell">
-              Hazards
+              {{ $t('compounds.tableHeaders.hazards') }}
             </th>
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Actions
+              {{ $t('compounds.tableHeaders.actions') }}
             </th>
           </tr>
         </thead>
@@ -46,19 +46,20 @@
           <tr 
             v-for="compound in compounds" 
             :key="compound.id"
-            class="hover:bg-slate-50 transition-colors"
+            class="hover:bg-slate-50 transition-colors cursor-pointer"
+            @click="$emit('view-detail', compound)"
           >
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap">              <div>
                 <div class="text-sm font-medium text-slate-900">{{ compound.name }}</div>
-                <div class="text-xs text-slate-500">ID: {{ compound.id }}</div>
+                <div class="text-xs text-slate-500">{{ $t('compounds.labels.id') }}: {{ compound.id }}</div>
                 <!-- Show CAS number on mobile when hidden -->
                 <div class="text-xs text-slate-500 md:hidden mt-1">
-                  CAS: {{ compound.casNumber }}
+                  {{ $t('compounds.labels.cas') }}: {{ compound.casNumber }}
                 </div>
               </div>
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-slate-900 hidden md:table-cell">
-              {{ compound.casNumber || 'N/A' }}
+              {{ compound.casNumber || $t('common.notAvailable') }}
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
               <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -72,7 +73,7 @@
               <!-- TODO: Add visual quantity indicator (low stock warning) -->
               <div v-if="compound.minQuantity && compound.quantity <= compound.minQuantity" 
                    class="text-xs text-red-600 font-medium">
-                ⚠️ Low stock!
+                {{ $t('compounds.lowStockWarning') }}
               </div>
               <!-- Show location on mobile when hidden -->
               <div class="text-xs text-slate-500 lg:hidden mt-1">
@@ -92,21 +93,26 @@
               </div>
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2" @click.stop>
+                <button
+                  @click="$emit('view-detail', compound)"
+                  class="text-slate-600 hover:text-slate-900 transition-colors p-1 rounded hover:bg-slate-50"
+                  :title="`View ${compound.name} details`"
+                >
+                  👁️
+                </button>
                 <button
                   @click="$emit('edit', compound)"
                   class="text-blue-600 hover:text-blue-900 transition-colors p-1 rounded hover:bg-blue-50"
                   :title="`Edit ${compound.name}`"
                 >
-                  <!-- TODO: Use proper icon component -->
                   ✏️
                 </button>
                 <button
-                  @click="$emit('scan', compound)"
+                  @click="$emit('view-instances', compound)"
                   class="text-green-600 hover:text-green-900 transition-colors p-1 rounded hover:bg-green-50"
-                  :title="`Scan ${compound.name} for inventory`"
+                  :title="`View ${compound.name} instances`"
                 >
-                  <!-- TODO: Use proper icon component -->
                   📱
                 </button>
                 <button
@@ -144,14 +150,17 @@
     <!-- TODO: Add pagination component here -->
     <div v-if="compounds.length === 0" class="px-4 sm:px-6 py-12 text-center">
       <div class="text-slate-400 text-lg mb-2">📋</div>
-      <h3 class="text-lg font-medium text-slate-900 mb-2">No compounds to display</h3>
-      <p class="text-slate-500">Start by adding your first compound.</p>
+      <h3 class="text-lg font-medium text-slate-900 mb-2">{{ $t('compounds.noCompoundsFound') }}</h3>
+      <p class="text-slate-500">{{ $t('compounds.tryAdjustingFilters') }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 // TODO: Import proper icon components when available
 // import { PencilIcon, QrCodeIcon, EllipsisVerticalIcon } from '@heroicons/vue/24/outline'
 
@@ -162,7 +171,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['edit', 'scan', 'delete'])
+defineEmits(['edit', 'view-instances', 'delete', 'view-detail'])
 
 // TODO: Move this to a shared utility or composable
 const getHazardClasses = (hazard) => {

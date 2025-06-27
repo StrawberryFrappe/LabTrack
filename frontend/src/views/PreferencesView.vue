@@ -34,12 +34,6 @@
 
 <template>
   <div class="space-y-8">    <!-- Page Header -->
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="text-2xl font-bold text-slate-900">{{ $t('preferences.title') }}</h1>
-        <p class="text-slate-600 mt-1">{{ $t('preferences.description') }}</p>
-      </div>
-    </div>
     
     <!-- Preferences Content -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">      <!-- Appearance Settings -->
@@ -108,7 +102,6 @@
           </div>
             <!-- Date Format -->
           <div>
-            <!-- TODO i18n: Internationalize "Date Format" -->
             <label class="block text-sm font-medium text-slate-700 mb-3">{{ $t('preferences.dateFormat') }}</label>
             <select
               v-model="selectedDateFormat"

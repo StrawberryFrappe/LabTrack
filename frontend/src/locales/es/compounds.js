@@ -3,8 +3,11 @@ export default {
     title: 'Gestión de Compuestos',
     description: 'Gestiona el inventario químico de tu laboratorio',
     addNew: 'Agregar Nuevo Compuesto',
+    addCompound: 'Agregar Compuesto',
+    editCompound: 'Editar Compuesto',
+    create: 'Crear',
     import: 'Importar',
-    export: 'Exportar',
+    exportButton: 'Exportar',
     loading: 'Cargando compuestos...',
     errorLoading: 'Error al cargar compuestos',
     tryAgain: 'Intentar de nuevo',
@@ -25,8 +28,12 @@ export default {
     filters: 'Filtros',
     category: 'Categoría',
     hazardLevel: 'Nivel de Peligro',
-    hazardClass: 'Clase de peligro',
+    hazardClass: 'Clase de Peligro',
+    allHazardClasses: 'Todas las clases de peligro',
     location: 'Ubicación',
+    allLocations: 'Todas las ubicaciones',
+    filtersActive: 'filtros activos',
+    clearFilters: 'Limpiar Filtros',
     status: 'Estado',
     actions: 'Acciones',
     edit: 'Editar',
@@ -62,6 +69,88 @@ export default {
     batchNumberPlaceholder: "Ingrese el número de lote",
     synonyms: "Sinónimos",
     synonymsPlaceholder: "Ingrese sinónimos (separados por comas)",
-    synonymsHelp: "Separe los sinónimos con comas (ej. Acetona, Dimetil cetona)"
+    synonymsHelp: "Separe los sinónimos con comas (ej. Acetona, Dimetil cetona)",
+    
+    // Stock and inventory
+    currentStock: "Stock Actual",
+    lowStockWarning: "⚠️ ¡Stock bajo!",
+    
+    // Table headers
+    tableHeaders: {
+      name: "Nombre",
+      casNumber: "Número CAS",
+      supplier: "Proveedor", 
+      quantity: "Cantidad",
+      location: "Ubicación",
+      hazards: "Peligros",
+      actions: "Acciones"
+    },
+    
+    // Action buttons
+    actions: {
+      edit: "Editar",
+      delete: "Eliminar",
+      count: "Contar",
+      view: "Ver",
+      recordTransaction: "Registrar Transacción"
+    },
+    
+    // Labels and prefixes
+    labels: {
+      id: "ID",
+      cas: "CAS",
+      casNumber: "Número CAS",
+      batch: "Lote",
+      location: "Ubicación",
+      supplier: "Proveedor",
+      expires: "Vence",
+      threshold: "Umbral"
+    },
+    
+    // CRUD Operations
+    createSuccess: "Compuesto creado exitosamente",
+    updateSuccess: "Compuesto actualizado exitosamente", 
+    deleteSuccess: "Compuesto eliminado exitosamente",
+    saveError: "Error al guardar el compuesto. Por favor intente de nuevo.",
+    deleteError: "Error al eliminar el compuesto. Por favor intente de nuevo.",
+    deleteConfirmTitle: "Eliminar Compuesto",
+    deleteConfirm: "¿Está seguro que desea eliminar '{name}'? Esta acción no se puede deshacer.",
+    
+    // Import/Export
+    importSuccess: "Se importaron exitosamente {count} compuestos",
+    importError: "Error al importar compuestos. Verifique el formato del archivo.",
+    importErrorsFound: "Importación completada con {count} errores. Revisa la consola para más detalles.",
+    exportSuccess: "Compuestos exportados exitosamente",
+    exportError: "Error al exportar compuestos. Intente de nuevo.",
+    unsupportedFileType: "Tipo de archivo no soportado. Use archivos CSV o Excel.",
+    export: {
+      button: "Exportar Compuestos",
+      success: "Se exportaron exitosamente {count} compuestos",
+      error: "Error al exportar compuestos",
+      noData: "No hay compuestos para exportar"
+    },
+    quickFilters: {
+      lowStock: "Stock Bajo",
+      expiringSoon: "Expiran Pronto",
+      flammable: "Inflamable", 
+      corrosive: "Corrosivo"
+    },
+
+    // Detail modal
+    detail: {
+      title: "Detalles del Compuesto",
+      loading: "Cargando detalles del compuesto...",
+      errorLoading: "Error al cargar detalles del compuesto",
+      notFound: "Compuesto no encontrado",
+      compoundInfo: "Información del Compuesto",
+      editCompound: "Editar Compuesto",
+      stockSummary: "Resumen de Stock",
+      createTransaction: "Crear Transacción",
+      deleteCompound: "Eliminar Compuesto",
+      notes: "Notas",
+      notesPlaceholder: "Agregar notas sobre este compuesto...",
+      loadingInstances: "Cargando instancias...",
+      transactionFeatureComingSoon: "¡Función de transacciones próximamente!"
+    }
   }
 }

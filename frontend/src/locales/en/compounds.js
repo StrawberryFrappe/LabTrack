@@ -3,8 +3,11 @@ export default {
     title: 'Compound Management',
     description: 'Manage your laboratory\'s chemical inventory',
     addNew: 'Add New Compound',
+    addCompound: 'Add Compound',
+    editCompound: 'Edit Compound',
+    create: 'Create',
     import: 'Import',
-    export: 'Export',
+    exportButton: 'Export',
     loading: 'Loading compounds...',
     errorLoading: 'Error loading compounds',
     tryAgain: 'Try Again',
@@ -26,7 +29,11 @@ export default {
     category: 'Category',
     hazardLevel: 'Hazard Level',
     hazardClass: 'Hazard Class',
+    allHazardClasses: 'All hazard classes',
     location: 'Location',
+    allLocations: 'All locations',
+    filtersActive: 'filters active',
+    clearFilters: 'Clear Filters',
     status: 'Status',
     actions: 'Actions',
     edit: 'Edit',
@@ -62,6 +69,127 @@ export default {
     batchNumberPlaceholder: "Enter batch number",
     synonyms: "Synonyms",
     synonymsPlaceholder: "Enter synonyms (comma separated)",
-    synonymsHelp: "Separate synonyms with commas (e.g. Acetone, Dimethyl ketone)"
+    synonymsHelp: "Separate synonyms with commas (e.g. Acetone, Dimethyl ketone)",
+    
+    // Stock and inventory
+    currentStock: "Current Stock",
+    lowStockWarning: "⚠️ Low stock!",
+    totalStock: "Total Stock",
+    acrossInstances: "{count} instance | {count} instances",
+    batch: "Batch",
+    
+    // Instance management
+    instances: {
+      title: "Compound Instances",
+      description: "Physical containers and their locations",
+      addNew: "Add New Instance",
+      noInstances: "No instances found",
+      location: "Location",
+      batchNumber: "Batch Number",
+      quantity: "Quantity",
+      expiryDate: "Expiry Date",
+      status: "Status",
+      actions: "Actions",
+      created: "Created",
+      opened: "Opened",
+      received: "Received",
+      statusActive: "Active",
+      statusUsedUp: "Used Up",
+      statusExpired: "Expired",
+      edit: "Edit Instance",
+      delete: "Delete Instance",
+      deleteConfirm: "Are you sure you want to delete this instance?",
+      search: "Search instances...",
+      openedHelp: "Leave empty if container hasn't been opened yet",
+      summary: {
+        totalInstances: "Total Instances",
+        totalQuantity: "Total Quantity",
+        locations: "Locations",
+        expiringSoon: "Expiring Soon"
+      },
+      createSuccess: "Instance created successfully",
+      updateSuccess: "Instance updated successfully",
+      deleteSuccess: "Instance deleted successfully"
+    },
+    
+    // Table headers
+    tableHeaders: {
+      name: "Name",
+      casNumber: "CAS Number", 
+      supplier: "Supplier",
+      quantity: "Quantity",
+      location: "Location",
+      hazards: "Hazards",
+      actions: "Actions"
+    },
+    
+    // Action buttons
+    actions: {
+      edit: "Edit",
+      delete: "Delete",
+      count: "Count",
+      view: "View",
+      recordTransaction: "Record Transaction",
+      viewInstances: "View Instances",
+      addInstance: "Add Instance"
+    },
+    
+    // Labels and prefixes
+    labels: {
+      id: "ID",
+      cas: "CAS",
+      casNumber: "CAS Number",
+      batch: "Batch",
+      location: "Location",
+      supplier: "Supplier",
+      expires: "Expires",
+      threshold: "Threshold"
+    },
+
+    // CRUD Operations
+    createSuccess: "Compound created successfully",
+    updateSuccess: "Compound updated successfully", 
+    deleteSuccess: "Compound deleted successfully",
+    saveError: "Failed to save compound. Please try again.",
+    deleteError: "Failed to delete compound. Please try again.",
+    deleteConfirmTitle: "Delete Compound",
+    deleteConfirm: "Are you sure you want to delete '{name}'? This action cannot be undone.",
+    
+    // Import/Export
+    importSuccess: "Successfully imported {count} compounds",
+    importError: "Failed to import compounds. Please check the file format.",
+    importErrorsFound: "Import completed with {count} errors. Check console for details.",
+    exportSuccess: "Compounds exported successfully",
+    exportError: "Failed to export compounds. Please try again.",
+    unsupportedFileType: "Unsupported file type. Please use CSV or Excel files.",
+    export: {
+      button: "Export Compounds",
+      success: "Successfully exported {count} compounds",
+      error: "Failed to export compounds",
+      noData: "No compounds to export"
+    },
+    quickFilters: {
+      lowStock: "Low Stock",
+      expiringSoon: "Expiring Soon", 
+      flammable: "Flammable",
+      corrosive: "Corrosive"
+    },
+
+    // Detail modal
+    detail: {
+      title: "Compound Details",
+      loading: "Loading compound details...",
+      errorLoading: "Failed to load compound details",
+      notFound: "Compound not found",
+      compoundInfo: "Compound Information",
+      editCompound: "Edit Compound",
+      stockSummary: "Stock Summary",
+      createTransaction: "Create Transaction",
+      deleteCompound: "Delete Compound",
+      notes: "Notes",
+      notesPlaceholder: "Add notes about this compound...",
+      loadingInstances: "Loading instances...",
+      transactionFeatureComingSoon: "Transaction feature coming soon!"
+    }
   }
 }

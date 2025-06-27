@@ -18,6 +18,25 @@
 
 import api from './api.js'
 
+// Import utility to get i18n translations outside Vue components
+let getTranslation = null
+export function setAuthI18nInstance(i18n) {
+  getTranslation = (key, params) => i18n.global.t(key, params)
+}
+
+// Helper function to get translated error messages
+function t(key, params) {
+  if (getTranslation) {
+    return getTranslation(key, params)
+  }
+  // Fallback to English if i18n is not available
+  const fallbacks = {
+    'errors.invalidCredentials': 'Invalid username or password',
+    'errors.loginFailed': 'Login failed. Please try again.'
+  }
+  return fallbacks[key] || key
+}
+
 export const authService = {
   /**
    * Login User
@@ -41,7 +60,7 @@ export const authService = {
       )
       
       if (!user) {
-        throw new Error('Invalid username or password')
+        throw new Error(t('errors.invalidCredentials'))
       }      // FOR DEVELOPMENT: Generate a simple token
       // INSIGHT: This is highly speculative - real production would use JWT from backend
       // The choice to base64 encode user info creates a readable "token" for development
@@ -67,10 +86,10 @@ export const authService = {
       return { token, user }
     } catch (error) {
       // Make error messages user-friendly
-      if (error.message === 'Invalid username or password') {
+      if (error.message === t('errors.invalidCredentials')) {
         throw error
       }
-      throw new Error('Login failed. Please try again.')
+      throw new Error(t('errors.loginFailed'))
     }
   },
 

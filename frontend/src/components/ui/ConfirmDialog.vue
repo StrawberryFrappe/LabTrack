@@ -1,7 +1,7 @@
 <template>
   <BaseModal
     v-model="localModelValue"
-    :title="title"
+    :title="displayTitle"
     size="sm"
     :close-on-overlay-click="false"
     @close="$emit('close')"
@@ -28,7 +28,7 @@
         @click="handleCancel"
         :disabled="loading"
       >
-        {{ cancelText }}
+        {{ displayCancelText }}
       </Button>
       <Button
         :variant="confirmVariant"
@@ -36,7 +36,7 @@
         :disabled="loading"
       >
         <LoadingSpinner v-if="loading" class="w-4 h-4 mr-2" />
-        {{ confirmText }}
+        {{ displayConfirmText }}
       </Button>
     </template>
   </BaseModal>
@@ -44,9 +44,12 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import BaseModal from './BaseModal.vue'
 import Button from './Button.vue'
 import LoadingSpinner from './LoadingSpinner.vue'
+
+const { t } = useI18n()
 
 // Icons as inline components to avoid external dependencies
 const WarningIcon = {
@@ -83,7 +86,7 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: 'Confirm Action'
+    default: ''
   },
   message: {
     type: String,
@@ -96,11 +99,11 @@ const props = defineProps({
   },
   confirmText: {
     type: String,
-    default: 'Confirm'
+    default: ''
   },
   cancelText: {
     type: String,
-    default: 'Cancel'
+    default: ''
   },
   loading: {
     type: Boolean,
@@ -150,6 +153,19 @@ const iconClass = computed(() => {
 
 const confirmVariant = computed(() => {
   return props.type === 'danger' ? 'destructive' : 'primary'
+})
+
+// Computed properties for display text with fallbacks
+const displayTitle = computed(() => {
+  return props.title || t('common.confirmAction')
+})
+
+const displayConfirmText = computed(() => {
+  return props.confirmText || t('common.confirmActionText')
+})
+
+const displayCancelText = computed(() => {
+  return props.cancelText || t('common.cancelActionText')
 })
 
 const handleConfirm = () => {

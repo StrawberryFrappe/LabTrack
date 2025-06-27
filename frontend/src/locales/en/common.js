@@ -16,6 +16,147 @@ export default {
     warning: 'Warning',
     info: 'Information',
     username: "Username",
-    password: "Password"
-  }
+    password: "Password",
+    confirm: "Confirm",
+    close: "Close",
+    
+    // Dialog common text
+    confirmAction: "Confirm Action",
+    confirmActionText: "Confirm",
+    cancelActionText: "Cancel",
+    pleaseConfirm: "Please confirm this action",
+    
+    // Common values
+    notAvailable: "N/A",
+    
+    // Screen reader / accessibility
+    loading: "Loading content, please wait...",
+    close: "Close",
+    
+    // Demo accounts
+    demoAccounts: "Demo Accounts:",
+    administrator: "Administrator",
+    visitor: "Visitor", 
+    fullAccess: "Full access",
+    readOnlyAccess: "Read-only access"
+  },
+  errors: {
+    // Authentication errors
+    invalidCredentials: 'Invalid username or password',
+    loginFailed: 'Login failed. Please try again.',
+    sessionExpired: 'Your session has expired. Please log in again.',
+    
+    // Import/Export errors
+    noWorksheetsFound: 'No worksheets found in Excel file',
+    failedToParseExcel: 'Failed to parse Excel file: {message}',
+    failedToReadFile: 'Failed to read file',
+    failedToExportCompounds: 'Failed to export compounds',
+    exportSaveError: 'Error saving file',
+    exportFailed: 'Export failed',
+    
+    // General errors
+    unexpectedError: 'An unexpected error occurred',
+    networkError: 'Network error. Please check your connection.',
+    fileNotSupported: 'File type not supported',
+    operationFailed: 'Operation failed. Please try again.'
+  },
+  pagination: {
+    itemsPerPage: 'Items per page',
+    showing: 'Showing',
+    to: 'to',
+    of: 'of',
+    results: 'results',
+    noResults: 'No results found',
+    previous: 'Previous',
+    next: 'Next',
+    firstPage: 'First page',
+    lastPage: 'Last page',
+    nextPage: 'Next page',
+    previousPage: 'Previous page',
+    goToPage: 'Go to page',
+    page: 'Page',
+    pageOf: 'Page {current} of {total}'
+  },
+  search: {
+    queryBuilder: 'Search Query Builder',
+    switchToSimple: 'Switch to Simple Search',
+    switchToAdvanced: 'Switch to Advanced Search',
+    simplePlaceholder: 'Search compounds by name, CAS number, supplier...',
+    toggleRegex: 'Toggle regex mode',
+    regexHelp: 'Regex mode enabled. Use regular expressions for pattern matching.',
+    field: 'Field',
+    operator: 'Operator',
+    value: 'Value',
+    and: 'AND',
+    or: 'OR',
+    addCondition: 'Add Condition',
+    removeCondition: 'Remove condition',
+    clear: 'Clear',
+    saveSearch: 'Save Search',
+    saveSearchTitle: 'Save Search Query',
+    searchName: 'Search Name',
+    enterSearchName: 'Enter a name for this search',
+    savedSearches: 'Saved Searches',
+    recentSearches: 'Recent Searches',
+    created: 'Created',
+    lastUsed: 'Last used',
+    loadSearch: 'Load search',
+    deleteSearch: 'Delete search',
+    noSavedSearches: 'No Saved Searches',
+    noSavedSearchesDescription: 'Create advanced searches and save them for quick access.',
+    quickFilters: 'Quick Filters',
+    fields: {
+      name: 'Compound Name',
+      casNumber: 'CAS Number',
+      synonyms: 'Synonyms',
+      supplier: 'Supplier',
+      location: 'Location',
+      hazardClass: 'Hazard Class',
+      quantity: 'Quantity',
+      threshold: 'Threshold',
+      expiryDate: 'Expiry Date',
+      receivedDate: 'Received Date',
+      batchNumber: 'Batch Number'
+    },
+    operators: {
+      contains: 'Contains',
+      equals: 'Equals',
+      startsWith: 'Starts with',
+      endsWith: 'Ends with',
+      greaterThan: 'Greater than',
+      lessThan: 'Less than',
+      between: 'Between',
+      isEmpty: 'Is empty',
+      isNotEmpty: 'Is not empty'
+    },
+    quickFilters: {
+      lowStock: 'Low Stock Items',
+      expiringSoon: 'Expiring Soon',
+      flammable: 'Flammable Compounds',
+      corrosive: 'Corrosive Compounds',
+      recentlyReceived: 'Recently Received'
+    }
+  },
+  validation: {
+    required: 'This field is required',
+    minLength: 'Must be at least {min} characters',
+    maxLength: 'Must be no more than {max} characters',
+    email: 'Please enter a valid email address',
+    casNumber: 'Please enter a valid CAS number (e.g., 123-45-6)',
+    casNumberHelp: 'CAS Registry Number format: XXX-XX-X',
+    positiveNumber: 'Must be a positive number',
+    nonNegativeNumber: 'Must be zero or positive',
+    futureDate: 'Date must be in the future',
+    pastDate: 'Date must be in the past or today',
+    url: 'Please enter a valid URL',
+    uniqueCompoundName: 'A compound with this name already exists',
+    uniqueCasNumber: 'A compound with this CAS number already exists',
+    expiryAfterReceived: 'Expiry date must be after received date',
+    thresholdLessThanQuantity: 'Reorder threshold must be less than current quantity',
+    validating: 'Validating...',
+    formValid: 'Form is valid',
+    error: 'Validation error occurred',
+    thresholdHelp: 'Minimum quantity before reordering is needed',
+    expiryDateHelp: 'Date when the compound expires'
+  },
 }

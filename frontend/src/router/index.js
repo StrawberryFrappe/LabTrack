@@ -42,6 +42,7 @@ const DashboardLayout = () => import('../components/layout/DashboardLayout.vue')
 const DashboardHome = () => import('../views/DashboardHome.vue')
 const CompoundsView = () => import('../views/CompoundsView.vue')
 const InventoryView = () => import('../views/InventoryView.vue')
+const InventorySessionsView = () => import('../views/InventorySessionsView.vue')
 const SettingsView = () => import('../views/SettingsView.vue')
 const PreferencesView = () => import('../views/PreferencesView.vue')
 
@@ -88,6 +89,15 @@ const routes = [
         meta: { 
           requiresAuth: true,
           title: 'Inventory - LabTrack'
+        }
+      },
+      {
+        path: 'inventory-sessions',
+        name: 'InventorySessions',
+        component: InventorySessionsView,
+        meta: { 
+          requiresAuth: true,
+          title: 'Inventory Sessions - LabTrack'
         }
       },
       {

@@ -16,6 +16,147 @@ export default {
     warning: 'Aviso',
     info: 'Informação',
     username: "Usuário",
-    password: "Senha"
-  }
+    password: "Senha",
+    confirm: "Confirmar",
+    close: "Fechar",
+    
+    // Dialog common text
+    confirmAction: "Confirmar Ação",
+    confirmActionText: "Confirmar",
+    cancelActionText: "Cancelar",
+    pleaseConfirm: "Por favor confirme esta ação",
+    
+    // Common values
+    notAvailable: "N/D",
+    
+    // Screen reader / accessibility
+    loading: "Carregando conteúdo, por favor aguarde...",
+    close: "Fechar",
+    
+    // Demo accounts
+    demoAccounts: "Contas de Demonstração:",
+    administrator: "Administrador",
+    visitor: "Visitante",
+    fullAccess: "Acesso completo",
+    readOnlyAccess: "Acesso somente leitura"
+  },
+  errors: {
+    // Authentication errors
+    invalidCredentials: 'Nome de usuário ou senha inválidos',
+    loginFailed: 'Falha no login. Por favor, tente novamente.',
+    sessionExpired: 'Sua sessão expirou. Por favor, faça login novamente.',
+    
+    // Import/Export errors
+    noWorksheetsFound: 'Nenhuma planilha encontrada no arquivo Excel',
+    failedToParseExcel: 'Falha ao analisar arquivo Excel: {message}',
+    failedToReadFile: 'Falha ao ler o arquivo',
+    failedToExportCompounds: 'Falha ao exportar compostos',
+    exportSaveError: 'Erro ao salvar arquivo',
+    exportFailed: 'Falha na exportação',
+    
+    // General errors
+    unexpectedError: 'Ocorreu um erro inesperado',
+    networkError: 'Erro de rede. Por favor, verifique sua conexão.',
+    fileNotSupported: 'Tipo de arquivo não suportado',
+    operationFailed: 'Operação falhou. Por favor, tente novamente.'
+  },
+  pagination: {
+    itemsPerPage: 'Itens por página',
+    showing: 'Mostrando',
+    to: 'a',
+    of: 'de',
+    results: 'resultados',
+    noResults: 'Nenhum resultado encontrado',
+    previous: 'Anterior',
+    next: 'Próximo',
+    firstPage: 'Primeira página',
+    lastPage: 'Última página',
+    nextPage: 'Próxima página',
+    previousPage: 'Página anterior',
+    goToPage: 'Ir para a página',
+    page: 'Página',
+    pageOf: 'Página {current} de {total}'
+  },
+  search: {
+    queryBuilder: 'Construtor de Consultas',
+    switchToSimple: 'Mudar para Busca Simples',
+    switchToAdvanced: 'Mudar para Busca Avançada',
+    simplePlaceholder: 'Buscar compostos por nome, número CAS, fornecedor...',
+    toggleRegex: 'Alternar modo regex',
+    regexHelp: 'Modo regex habilitado. Use expressões regulares para correspondência de padrões.',
+    field: 'Campo',
+    operator: 'Operador',
+    value: 'Valor',
+    and: 'E',
+    or: 'OU',
+    addCondition: 'Adicionar Condição',
+    removeCondition: 'Remover condição',
+    clear: 'Limpar',
+    saveSearch: 'Salvar Busca',
+    saveSearchTitle: 'Salvar Consulta de Busca',
+    searchName: 'Nome da Busca',
+    enterSearchName: 'Digite um nome para esta busca',
+    savedSearches: 'Buscas Salvas',
+    recentSearches: 'Buscas Recentes',
+    created: 'Criado',
+    lastUsed: 'Último uso',
+    loadSearch: 'Carregar busca',
+    deleteSearch: 'Excluir busca',
+    noSavedSearches: 'Nenhuma Busca Salva',
+    noSavedSearchesDescription: 'Crie buscas avançadas e salve-as para acesso rápido.',
+    quickFilters: 'Filtros Rápidos',
+    fields: {
+      name: 'Nome do Composto',
+      casNumber: 'Número CAS',
+      synonyms: 'Sinônimos',
+      supplier: 'Fornecedor',
+      location: 'Localização',
+      hazardClass: 'Classe de Perigo',
+      quantity: 'Quantidade',
+      threshold: 'Limite',
+      expiryDate: 'Data de Validade',
+      receivedDate: 'Data de Recebimento',
+      batchNumber: 'Número do Lote'
+    },
+    operators: {
+      contains: 'Contém',
+      equals: 'Igual a',
+      startsWith: 'Começa com',
+      endsWith: 'Termina com',
+      greaterThan: 'Maior que',
+      lessThan: 'Menor que',
+      between: 'Entre',
+      isEmpty: 'Está vazio',
+      isNotEmpty: 'Não está vazio'
+    },
+    quickFilters: {
+      lowStock: 'Itens com Estoque Baixo',
+      expiringSoon: 'Vencendo em Breve',
+      flammable: 'Compostos Inflamáveis',
+      corrosive: 'Compostos Corrosivos',
+      recentlyReceived: 'Recebidos Recentemente'
+    }
+  },
+  validation: {
+    required: 'Este campo é obrigatório',
+    minLength: 'Deve ter pelo menos {min} caracteres',
+    maxLength: 'Deve ter no máximo {max} caracteres',
+    email: 'Por favor insira um email válido',
+    casNumber: 'Por favor insira um número CAS válido (ex: 123-45-6)',
+    casNumberHelp: 'Formato do número CAS: XXX-XX-X',
+    positiveNumber: 'Deve ser um número positivo',
+    nonNegativeNumber: 'Deve ser zero ou positivo',
+    futureDate: 'A data deve ser no futuro',
+    pastDate: 'A data deve ser no passado ou hoje',
+    url: 'Por favor insira uma URL válida',
+    uniqueCompoundName: 'Já existe um composto com este nome',
+    uniqueCasNumber: 'Já existe um composto com este número CAS',
+    expiryAfterReceived: 'A data de validade deve ser após a data de recebimento',
+    thresholdLessThanQuantity: 'O limite de reordenação deve ser menor que a quantidade atual',
+    validating: 'Validando...',
+    formValid: 'O formulário é válido',
+    error: 'Ocorreu um erro de validação',
+    thresholdHelp: 'Quantidade mínima antes que seja necessário reordenar',
+    expiryDateHelp: 'Data quando o composto expira'
+  },
 }

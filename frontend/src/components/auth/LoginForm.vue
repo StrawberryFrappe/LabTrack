@@ -2,7 +2,19 @@
   Login Form Component
   
   This is the main login interface for the LabTrack application.
-  It provides a clean, accessible form for user authentication.
+          <p class="font-medium text-gray-700">{{ $t('common.demoAccounts') }}</p>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div class="bg-blue-50 p-2 rounded">
+              <p class="font-semibold text-blue-800">{{ $t('common.administrator') }}</p>
+              <p class="text-blue-600">admin / admin</p>
+              <p class="text-blue-500 text-xs">{{ $t('common.fullAccess') }}</p>
+            </div>
+            <div class="bg-green-50 p-2 rounded">
+              <p class="font-semibold text-green-800">{{ $t('common.visitor') }}</p>
+              <p class="text-green-600">visitor / visitor</p>
+              <p class="text-green-500 text-xs">{{ $t('common.readOnlyAccess') }}</p>
+            </div>
+          </div>clean, accessible form for user authentication.
   
   Features:
   - Simple username/password authentication
@@ -101,17 +113,17 @@
 
         <!-- Demo Account Information -->
         <div class="text-xs text-gray-500 text-center space-y-1 border-t border-gray-200 pt-4">
-          <p class="font-medium text-gray-700">Demo Accounts:</p>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <div class="bg-blue-50 rounded p-2">
-              <p class="font-semibold text-blue-800">Administrator</p>
+          <p class="font-medium text-gray-700">{{ $t('common.demoAccounts') }}</p>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div class="bg-blue-50 p-2 rounded">
+              <p class="font-semibold text-blue-800">{{ $t('common.administrator') }}</p>
               <p class="text-blue-600">admin / admin</p>
-              <p class="text-blue-500 text-xs">Full access</p>
+              <p class="text-blue-500 text-xs">{{ $t('common.fullAccess') }}</p>
             </div>
-            <div class="bg-green-50 rounded p-2">
-              <p class="font-semibold text-green-800">Visitor</p>
+            <div class="bg-green-50 p-2 rounded">
+              <p class="font-semibold text-green-800">{{ $t('common.visitor') }}</p>
               <p class="text-green-600">visitor / visitor</p>
-              <p class="text-green-500 text-xs">Read-only access</p>
+              <p class="text-green-500 text-xs">{{ $t('common.readOnlyAccess') }}</p>
             </div>
           </div>
         </div>

@@ -125,19 +125,6 @@ export function useInventoryCount() {
     throw new Error('Not implemented')
   }
 
-  // TODO: Implement barcode scanning functionality
-  const startBarcodeScanning = async () => {
-    // TODO: Initialize camera/scanner
-    // TODO: Handle camera permissions
-    throw new Error('Not implemented')
-  }
-
-  const stopBarcodeScanning = () => {
-    // TODO: Stop camera/scanner
-    // TODO: Release camera resources
-    throw new Error('Not implemented')
-  }
-
   // TODO: Implement session templates
   const createSessionTemplate = (templateData) => {
     // TODO: Create reusable session templates
@@ -179,8 +166,6 @@ export function useInventoryCount() {
     pauseSession,
     resumeSession,
     deleteSession,
-    startBarcodeScanning,
-    stopBarcodeScanning,
     createSessionTemplate,
     applySessionTemplate,
     generateSessionReport,

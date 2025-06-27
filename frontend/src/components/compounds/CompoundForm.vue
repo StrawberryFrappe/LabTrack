@@ -8,7 +8,8 @@
         </label>
         <Input
           id="compound-name"
-          v-model="formData.name"
+          :model-value="formData.name"
+          @update:model-value="updateField('name', $event)"
           :placeholder="$t('compounds.namePlaceholder')"
           :error="errors.name"
           required
@@ -22,7 +23,8 @@
         </label>
         <Input
           id="cas-number"
-          v-model="formData.casNumber"
+          :model-value="formData.casNumber"
+          @update:model-value="updateField('casNumber', $event)"
           :placeholder="$t('compounds.casPlaceholder')"
           :error="errors.casNumber"
         />
@@ -38,7 +40,8 @@
         </label>
         <Input
           id="quantity"
-          v-model.number="formData.quantity"
+          :model-value="formData.quantity"
+          @update:model-value="updateField('quantity', Number($event))"
           type="number"
           min="0"
           step="0.01"
@@ -55,7 +58,8 @@
         </label>
         <select
           id="unit"
-          v-model="formData.unit"
+          :value="formData.unit"
+          @input="updateField('unit', $event.target.value)"
           class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           :class="{ 'border-red-500': errors.unit }"
           required
@@ -79,7 +83,8 @@
         </label>
         <Input
           id="threshold"
-          v-model.number="formData.threshold"
+          :model-value="formData.threshold"
+          @update:model-value="updateField('threshold', Number($event))"
           type="number"
           min="0"
           step="0.01"
@@ -98,7 +103,8 @@
         </label>
         <Input
           id="location"
-          v-model="formData.location"
+          :model-value="formData.location"
+          @update:model-value="updateField('location', $event)"
           :placeholder="$t('compounds.locationPlaceholder')"
           :error="errors.location"
           required
@@ -112,7 +118,8 @@
         </label>
         <select
           id="hazard-class"
-          v-model="formData.hazardClass"
+          :value="formData.hazardClass"
+          @input="updateField('hazardClass', $event.target.value)"
           class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           :class="{ 'border-red-500': errors.hazardClass }"
         >
@@ -138,7 +145,8 @@
         </label>
         <Input
           id="expiry-date"
-          v-model="formData.expiryDate"
+          :model-value="formData.expiryDate"
+          @update:model-value="updateField('expiryDate', $event)"
           type="date"
           :error="errors.expiryDate"
         />
@@ -151,7 +159,8 @@
         </label>
         <Input
           id="received-date"
-          v-model="formData.receivedDate"
+          :model-value="formData.receivedDate"
+          @update:model-value="updateField('receivedDate', $event)"
           type="date"
           :error="errors.receivedDate"
         />
@@ -167,7 +176,8 @@
         </label>
         <Input
           id="supplier"
-          v-model="formData.supplier"
+          :model-value="formData.supplier"
+          @update:model-value="updateField('supplier', $event)"
           :placeholder="$t('compounds.supplierPlaceholder')"
           :error="errors.supplier"
         />
@@ -180,7 +190,8 @@
         </label>
         <Input
           id="batch-number"
-          v-model="formData.batchNumber"
+          :model-value="formData.batchNumber"
+          @update:model-value="updateField('batchNumber', $event)"
           :placeholder="$t('compounds.batchNumberPlaceholder')"
           :error="errors.batchNumber"
         />
@@ -195,7 +206,8 @@
       </label>
       <textarea
         id="synonyms"
-        v-model="formData.synonyms"
+        :value="formData.synonyms"
+        @input="updateField('synonyms', $event.target.value)"
         rows="3"
         class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         :class="{ 'border-red-500': errors.synonyms }"
@@ -225,7 +237,38 @@ const props = defineProps({
   }
 })
 
+/**
+ * Compound Form Component
+ * 
+ * Comprehensive form for compound data entry with validation.
+ * Updated to work with modal workflows and proper data flow.
+ * 
+ * ✅ ENHANCED FEATURES:
+ * - Real-time validation with immediate feedback
+ * - Proper reactive data handling via emit patterns
+ * - Field-specific validation rules (CAS format, required fields)
+ * - Internationalized labels and error messages
+ * - Support for all compound properties
+ * 
+ * Data Flow:
+ * - Receives formData as prop (read-only)
+ * - Emits update:formData for all changes
+ * - Emits validate with current error state
+ * - Parent handles persistence and API calls
+ */
 const emit = defineEmits(['update:formData', 'validate'])
+
+// Create local reactive copy of form data
+const localFormData = computed({
+  get: () => props.formData,
+  set: (value) => emit('update:formData', value)
+})
+
+// Helper to update individual fields
+const updateField = (field, value) => {
+  const updated = { ...props.formData, [field]: value }
+  emit('update:formData', updated)
+}
 
 // Basic validation
 const validateForm = () => {
@@ -257,5 +300,5 @@ const validateForm = () => {
 }
 
 // Watch for changes and validate
-watch(() => props.formData, validateForm, { deep: true })
+watch(() => props.formData, validateForm, { deep: true, immediate: true })
 </script>

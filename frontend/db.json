@@ -17,9 +17,44 @@
       "name": "Lab Visitor",
       "email": "visitor@lab.com",
       "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "username": "strawberry",
+      "password": "frappe",
+      "role": "admin",
+      "name": "Strawberry Admin",
+      "email": "j.saez18@ufromail.cl",
+      "createdAt": "2024-01-01T00:00:000Z"
     }
   ],
-  "compounds": [],
+  "compounds": [
+    {
+      "id": "2",
+      "name": "Hydrochloric Acid",
+      "casNumber": "7647-01-0",
+      "threshold": 50,
+      "hazardClass": "Corrosive",
+      "supplier": "Fisher Scientific",
+      "synonyms": "Muriatic acid",
+      "notes": "General lab reagent for pH adjustment"
+    }
+  ],
+  "compoundInstances": [
+    {
+      "id": "inst-2-1",
+      "compoundId": "2",
+      "batchNumber": "HCl-2024-002",
+      "quantity": 25,
+      "unit": "ml",
+      "location": "Acid Cabinet",
+      "expiryDate": "2025-06-30",
+      "receivedDate": "2024-02-01",
+      "openedDate": null,
+      "status": "active",
+      "createdAt": "2024-02-01T00:00:00.000Z"
+    }
+  ],
   "countSessions": [
     {
       "id": "1",
@@ -36,5 +71,8 @@
       "notes": "Found 3 expired chemicals that need disposal",
       "createdAt": "2024-01-15T00:00:00.000Z"
     }
+  ],
+  "transactions": [
+    
   ]
 }

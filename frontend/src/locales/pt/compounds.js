@@ -3,8 +3,11 @@ export default {
     title: 'Gerenciamento de Compostos',
     description: 'Gerencie o inventário químico do seu laboratório',
     addNew: 'Adicionar Novo Composto',
+    addCompound: 'Adicionar Composto',
+    editCompound: 'Editar Composto',
+    create: 'Criar',
     import: 'Importar',
-    export: 'Exportar',
+    exportButton: 'Exportar',
     loading: 'Carregando compostos...',
     errorLoading: 'Erro ao carregar compostos',
     tryAgain: 'Tentar novamente',
@@ -25,8 +28,12 @@ export default {
     filters: 'Filtros',
     category: 'Categoria',
     hazardLevel: 'Nível de Perigo',
-    hazardClass: 'Classe de perigo',
+    hazardClass: 'Classe de Perigo',
+    allHazardClasses: 'Todas as classes de perigo',
     location: 'Localização',
+    allLocations: 'Todas as localizações',
+    filtersActive: 'filtros ativos',
+    clearFilters: 'Limpar Filtros',
     status: 'Status',
     actions: 'Ações',
     edit: 'Editar',
@@ -62,6 +69,127 @@ export default {
     batchNumberPlaceholder: "Insira o número do lote",
     synonyms: "Sinônimos",
     synonymsPlaceholder: "Insira sinônimos (separados por vírgula)",
-    synonymsHelp: "Separe os sinônimos com vírgulas (ex. Acetona, Dimetil cetona)"
+    synonymsHelp: "Separe os sinônimos com vírgulas (ex. Acetona, Dimetil cetona)",
+    
+    // Stock and inventory
+    currentStock: "Estoque Atual",
+    lowStockWarning: "⚠️ Estoque baixo!",
+    totalStock: "Estoque Total",
+    acrossInstances: "{count} instância | {count} instâncias",
+    batch: "Lote",
+    
+    // Instance management
+    instances: {
+      title: "Instâncias de Composto",
+      description: "Recipientes físicos e suas localizações",
+      addNew: "Adicionar Nova Instância",
+      noInstances: "Nenhuma instância encontrada",
+      location: "Localização",
+      batchNumber: "Número do Lote",
+      quantity: "Quantidade",
+      expiryDate: "Data de Validade",
+      status: "Status",
+      actions: "Ações",
+      created: "Criado",
+      opened: "Aberto",
+      received: "Recebido",
+      statusActive: "Ativo",
+      statusUsedUp: "Esgotado",
+      statusExpired: "Vencido",
+      edit: "Editar Instância",
+      delete: "Excluir Instância",
+      deleteConfirm: "Tem certeza de que deseja excluir esta instância?",
+      search: "Pesquisar instâncias...",
+      openedHelp: "Deixe vazio se o recipiente ainda não foi aberto",
+      summary: {
+        totalInstances: "Total de Instâncias",
+        totalQuantity: "Quantidade Total",
+        locations: "Localizações",
+        expiringSoon: "Vencendo em Breve"
+      },
+      createSuccess: "Instância criada com sucesso",
+      updateSuccess: "Instância atualizada com sucesso",
+      deleteSuccess: "Instância excluída com sucesso"
+    },
+    
+    // Table headers
+    tableHeaders: {
+      name: "Nome",
+      casNumber: "Número CAS",
+      supplier: "Fornecedor",
+      quantity: "Quantidade", 
+      location: "Local",
+      hazards: "Perigos",
+      actions: "Ações"
+    },
+    
+    // Action buttons
+    actions: {
+      edit: "Editar",
+      delete: "Excluir",
+      count: "Contar",
+      view: "Ver",
+      recordTransaction: "Registrar Transação",
+      viewInstances: "Ver Instâncias",
+      addInstance: "Adicionar Instância"
+    },
+    
+    // Labels and prefixes
+    labels: {
+      id: "ID",
+      cas: "CAS", 
+      casNumber: "Número CAS",
+      batch: "Lote",
+      location: "Local",
+      supplier: "Fornecedor",
+      expires: "Expira",
+      threshold: "Limite"
+    },
+
+    // CRUD Operations
+    createSuccess: "Composto criado com sucesso",
+    updateSuccess: "Composto atualizado com sucesso", 
+    deleteSuccess: "Composto excluído com sucesso",
+    saveError: "Falha ao salvar o composto. Tente novamente.",
+    deleteError: "Falha ao excluir o composto. Tente novamente.",
+    deleteConfirmTitle: "Excluir Composto",
+    deleteConfirm: "Tem certeza de que deseja excluir '{name}'? Esta ação não pode ser desfeita.",
+    
+    // Import/Export
+    importSuccess: "Importados com sucesso {count} compostos",
+    importError: "Falha ao importar compostos. Verifique o formato do arquivo.",
+    importErrorsFound: "Importação concluída com {count} erros. Verifique o console para mais detalhes.",
+    exportSuccess: "Compostos exportados com sucesso",
+    exportError: "Falha ao exportar compostos. Tente novamente.",
+    unsupportedFileType: "Tipo de arquivo não suportado. Use arquivos CSV ou Excel.",
+    export: {
+      button: "Exportar Compostos",
+      success: "Exportados com sucesso {count} compostos",
+      error: "Erro ao exportar compostos",
+      noData: "Nenhum composto para exportar"
+    },
+    quickFilters: {
+      lowStock: "Estoque Baixo",
+      expiringSoon: "Expirando Em Breve",
+      flammable: "Inflamável",
+      corrosive: "Corrosivo"
+    },
+
+    // Detail modal
+    detail: {
+      title: "Detalhes do Composto",
+      loading: "Carregando detalhes do composto...",
+      errorLoading: "Falha ao carregar detalhes do composto",
+      notFound: "Composto não encontrado",
+      compoundInfo: "Informações do Composto",
+      editCompound: "Editar Composto",
+      stockSummary: "Resumo do Estoque",
+      createTransaction: "Criar Transação",
+      deleteCompound: "Excluir Composto",
+      notes: "Notas",
+      notesPlaceholder: "Adicionar notas sobre este composto...",
+      loadingInstances: "Carregando instâncias...",
+      transactionFeatureComingSoon: "Recurso de transações em breve!"
+    }
   }
 }

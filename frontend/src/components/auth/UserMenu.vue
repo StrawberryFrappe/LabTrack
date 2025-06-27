@@ -127,7 +127,7 @@
           >
             <span class="flex items-center">
               <span class="mr-3">🚪</span>
-              {{ loading ? 'Signing out...' : 'Sign out' }}
+              {{ loading ? $t('userMenu.signingOut') : $t('userMenu.signOut') }}
             </span>
           </button>
         </div>

@@ -21,8 +21,8 @@
     <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-slate-900">Settings</h1>
-        <p class="text-slate-600 mt-1">Manage system configuration and preferences</p>
+        <h1 class="text-2xl font-bold text-slate-900">{{ $t('settings.title') }}</h1>
+        <p class="text-slate-600 mt-1">{{ $t('settings.description') }}</p>
       </div>
     </div>
     
@@ -31,14 +31,14 @@
       <!-- User Management -->
       <Card>
         <template #header>
-          <h3 class="text-lg font-semibold text-slate-900">User Management</h3>
+          <h3 class="text-lg font-semibold text-slate-900">{{ $t('settings.userManagement.title') }}</h3>
         </template>
         <div class="space-y-4">
-          <p class="text-slate-600">Manage user accounts and permissions</p>
+          <p class="text-slate-600">{{ $t('settings.userManagement.description') }}</p>
           <!-- TRL3: User management interface placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">👥</div>
-            <p>User management interface coming soon</p>
+            <p>{{ $t('settings.userManagement.comingSoon') }}</p>
           </div>
         </div>
       </Card>
@@ -46,14 +46,14 @@
       <!-- System Configuration -->
       <Card>
         <template #header>
-          <h3 class="text-lg font-semibold text-slate-900">System Configuration</h3>
+          <h3 class="text-lg font-semibold text-slate-900">{{ $t('settings.systemConfig.title') }}</h3>
         </template>
         <div class="space-y-4">
-          <p class="text-slate-600">Configure system-wide settings</p>
+          <p class="text-slate-600">{{ $t('settings.systemConfig.description') }}</p>
           <!-- TRL3: System configuration options placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">⚙️</div>
-            <p>System configuration coming soon</p>
+            <p>{{ $t('settings.systemConfig.comingSoon') }}</p>
           </div>
         </div>
       </Card>
@@ -61,14 +61,14 @@
       <!-- Lab Settings -->
       <Card>
         <template #header>
-          <h3 class="text-lg font-semibold text-slate-900">Laboratory Settings</h3>
+          <h3 class="text-lg font-semibold text-slate-900">{{ $t('settings.labSettings.title') }}</h3>
         </template>
         <div class="space-y-4">
-          <p class="text-slate-600">Configure lab-specific settings</p>
+          <p class="text-slate-600">{{ $t('settings.labSettings.description') }}</p>
           <!-- TRL3: Lab settings interface placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">🧪</div>
-            <p>Lab settings interface coming soon</p>
+            <p>{{ $t('settings.labSettings.comingSoon') }}</p>
           </div>
         </div>
       </Card>
@@ -76,14 +76,14 @@
       <!-- Data Management -->
       <Card>
         <template #header>
-          <h3 class="text-lg font-semibold text-slate-900">Data Management</h3>
+          <h3 class="text-lg font-semibold text-slate-900">{{ $t('settings.dataManagement.title') }}</h3>
         </template>
         <div class="space-y-4">
-          <p class="text-slate-600">Export, import, and backup data</p>
+          <p class="text-slate-600">{{ $t('settings.dataManagement.description') }}</p>
           <!-- TRL3: Data management tools placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">💾</div>
-            <p>Data management tools coming soon</p>
+            <p>{{ $t('settings.dataManagement.comingSoon') }}</p>
           </div>
         </div>
       </Card>

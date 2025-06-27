@@ -1,34 +1,46 @@
 <template>
   <BaseModal
     v-model="isOpen"
-    :title="compound ? `Count: ${compound.name}` : 'Count Entry'"
+    :title="compound ? `${$t('inventory.countEntry')}: ${compound.name}` : $t('inventory.countEntry')"
     size="sm"
     @close="handleCancel"
   >
     <form @submit.prevent="handleConfirm">
       <div class="space-y-4">
         <div v-if="compound" class="space-y-1">
-          <div class="text-sm text-slate-600">CAS: {{ compound.casNumber }}</div>
-          <div class="text-sm text-slate-600">Location: {{ compound.location }}</div>
-          <div class="text-sm text-slate-600">Expected: {{ compound.quantity }} {{ compound.unit }}</div>
+          <div class="text-sm text-slate-600">{{ $t('inventory.cas') }}: {{ compound.casNumber }}</div>
+          <div class="text-sm text-slate-600">{{ $t('inventory.location') }}: {{ compound.location }}</div>
+          <div class="text-sm text-slate-600">{{ $t('inventory.expected') }}: {{ compound.quantity }} {{ compound.unit }}</div>
         </div>
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">{{$t('inventory.countedQuantity')}}</label>
+          <label class="block text-sm font-medium text-slate-700 mb-1">{{ $t('inventory.countedQuantity') }}</label>
           <Input
             v-model.number="localCount"
             type="number"
             min="0"
+            :placeholder="$t('inventory.countedQuantityPlaceholder')"
             class="w-full"
             required
           />
         </div>
         <div v-if="discrepancy !== 0" class="p-2 rounded text-sm" :class="discrepancyClass">
-          Discrepancy: <span>{{ discrepancy > 0 ? '+' : '' }}{{ discrepancy }} {{ compound.unit }}</span>
+          {{ $t('inventory.discrepancyFound') }}: 
+          <span>{{ discrepancy > 0 ? '+' : '' }}{{ discrepancy }} {{ compound.unit }}</span>
+          <span class="ml-2 font-medium">
+            ({{ discrepancy > 0 ? $t('inventory.overageFound') : $t('inventory.shortageFound') }})
+          </span>
+        </div>
+        <div v-else-if="compound" class="p-2 rounded text-sm bg-green-50 text-green-700">
+          {{ $t('inventory.noDiscrepancy') }}
         </div>
       </div>
       <div class="flex justify-end gap-2 mt-6">
-        <Button variant="outline" type="button" @click="handleCancel">Cancel</Button>
-        <Button variant="primary" type="submit">Confirm</Button>
+        <Button variant="outline" type="button" @click="handleCancel">
+          {{ $t('inventory.cancelCountAction') }}
+        </Button>
+        <Button variant="primary" type="submit">
+          {{ $t('inventory.confirmCountAction') }}
+        </Button>
       </div>
     </form>
   </BaseModal>
@@ -36,9 +48,12 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import Button from '@/components/ui/Button.vue'
 import Input from '@/components/ui/Input.vue'
+
+const { t } = useI18n()
 
 const props = defineProps({
   modelValue: Boolean,
