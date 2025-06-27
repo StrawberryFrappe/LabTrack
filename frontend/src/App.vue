@@ -55,7 +55,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useAuth } from './composables/useAuth.js'
+import { useAuth } from '@/composables/useAuth.js'
 
 // Get authentication state and methods
 const { loading } = useAuth()

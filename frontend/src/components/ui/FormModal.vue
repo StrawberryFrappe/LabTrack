@@ -36,9 +36,9 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue'
-import BaseModal from './BaseModal.vue'
-import Button from './Button.vue'
-import LoadingSpinner from './LoadingSpinner.vue'
+import BaseModal from '@/components/ui/BaseModal.vue'
+import Button from '@/components/ui/Button.vue'
+import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
 
 const props = defineProps({
   modelValue: {

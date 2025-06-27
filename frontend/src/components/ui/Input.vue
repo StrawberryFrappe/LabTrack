@@ -89,7 +89,7 @@
  * - Debounced validation support
  */
 import { computed, ref } from 'vue'
-import ValidationMessages from './ValidationMessages.vue'
+import ValidationMessages from '@/components/ui/ValidationMessages.vue'
 
 const props = defineProps({
   modelValue: {

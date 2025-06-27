@@ -116,11 +116,11 @@ import Card from '@/components/ui/Card.vue'
 import Button from '@/components/ui/Button.vue'
 import Input from '@/components/ui/Input.vue'
 import Badge from '@/components/ui/Badge.vue'
-import CountEntryModal from './CountEntryModal.vue'
-import { useHazardStyles } from '@/composables/useHazardStyles'
+import CountEntryModal from '@/components/inventory/CountEntryModal.vue'
+import { useHazardStyles } from '@/composables/useHazardStyles.js'
 
 const { getHazardVariant } = useHazardStyles()
-import { useCompounds } from '@/composables/useCompounds'
+import { useCompounds } from '@/composables/useCompounds.js'
 
 const { findCompound } = useCompounds()
 

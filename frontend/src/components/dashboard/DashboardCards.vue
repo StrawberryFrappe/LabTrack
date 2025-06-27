@@ -35,7 +35,7 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-import StatsCard from './StatsCard.vue'
+import StatsCard from '@/components/dashboard/StatsCard.vue'
 import { useCompounds } from '@/composables/useCompounds'
 
 // i18n

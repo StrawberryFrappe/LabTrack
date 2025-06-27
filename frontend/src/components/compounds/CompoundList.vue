@@ -165,9 +165,9 @@ import CompoundFilters from './CompoundFilters.vue'
 import Badge from '@/components/ui/Badge.vue'
 import PaginationControls from '@/components/ui/PaginationControls.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
-import { useCompounds } from '@/composables/useCompounds'
-import { usePagination } from '@/composables/usePagination'
-import { useAdvancedSearch } from '@/composables/useAdvancedSearch'
+import { useCompounds } from '@/composables/useCompounds.js'
+import { usePagination } from '@/composables/usePagination.js'
+import { useAdvancedSearch } from '@/composables/useAdvancedSearch.js'
 
 // Initialize pagination
 const pagination = usePagination({

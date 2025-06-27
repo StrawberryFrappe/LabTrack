@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import Button from './Button.vue'
+import Button from '@/components/ui/Button.vue'
 
 defineProps({
   title: {
