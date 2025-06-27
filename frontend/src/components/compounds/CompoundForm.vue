@@ -1,304 +1,472 @@
 <template>
   <div class="space-y-6">
+    <!-- Form-level validation messages -->
+    <ValidationMessages 
+      v-if="formErrors.length > 0"
+      :errors="formErrors"
+      class="bg-red-50 border border-red-200 rounded-lg p-4"
+    />
+    
     <!-- Basic Information -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label for="compound-name" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.name')}} *
-        </label>
-        <Input
-          id="compound-name"
-          :model-value="formData.name"
-          @update:model-value="updateField('name', $event)"
-          :placeholder="$t('compounds.namePlaceholder')"
-          :error="errors.name"
-          required
-        />
-        <ErrorMessage v-if="errors.name" :message="errors.name" />
-      </div>
+      <Input
+        v-model="formData.name"
+        :label="$t('compounds.name')"
+        :placeholder="$t('compounds.namePlaceholder')"
+        :required="true"
+        :errors="getFieldErrors('name')"
+        :validating="getFieldState('name').isValidating"
+        :is-valid="isFieldValid('name')"
+        :is-touched="getFieldState('name').isTouched"
+        @validate="validateField('name', $event)"
+        @blur="touchField('name')"
+      />
 
-      <div>
-        <label for="cas-number" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.casNumber')}}
-        </label>
-        <Input
-          id="cas-number"
-          :model-value="formData.casNumber"
-          @update:model-value="updateField('casNumber', $event)"
-          :placeholder="$t('compounds.casPlaceholder')"
-          :error="errors.casNumber"
-        />
-        <ErrorMessage v-if="errors.casNumber" :message="errors.casNumber" />
-      </div>
+      <Input
+        v-model="formData.casNumber"
+        :label="$t('compounds.casNumber')"
+        :placeholder="$t('compounds.casPlaceholder')"
+        :help-text="$t('validation.casNumberHelp')"
+        :errors="getFieldErrors('casNumber')"
+        :validating="getFieldState('casNumber').isValidating"
+        :is-valid="isFieldValid('casNumber')"
+        :is-touched="getFieldState('casNumber').isTouched"
+        @validate="validateField('casNumber', $event)"
+        @blur="touchField('casNumber')"
+      />
     </div>
 
     <!-- Quantity and Location -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div>
-        <label for="quantity" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.quantity')}} *
-        </label>
-        <Input
-          id="quantity"
-          :model-value="formData.quantity"
-          @update:model-value="updateField('quantity', Number($event))"
-          type="number"
-          min="0"
-          step="0.01"
-          :placeholder="$t('compounds.quantityPlaceholder')"
-          :error="errors.quantity"
-          required
-        />
-        <ErrorMessage v-if="errors.quantity" :message="errors.quantity" />
-      </div>
+      <Input
+        v-model="formData.quantity"
+        type="number"
+        step="0.01"
+        min="0"
+        :label="$t('compounds.quantity')"
+        :placeholder="$t('compounds.quantityPlaceholder')"
+        :required="true"
+        :errors="getFieldErrors('quantity')"
+        :validating="getFieldState('quantity').isValidating"
+        :is-valid="isFieldValid('quantity')"
+        :is-touched="getFieldState('quantity').isTouched"
+        @validate="validateField('quantity', $event)"
+        @blur="touchField('quantity')"
+      />
 
-      <div>
-        <label for="unit" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.unit')}} *
+      <div class="space-y-2">
+        <label class="block text-sm font-medium text-slate-700">
+          {{ $t('compounds.unit') }}
+          <span class="text-red-500 ml-1">*</span>
         </label>
         <select
-          id="unit"
-          :value="formData.unit"
-          @input="updateField('unit', $event.target.value)"
-          class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          :class="{ 'border-red-500': errors.unit }"
-          required
+          v-model="formData.unit"
+          :class="[
+            'flex h-10 w-full rounded-md border bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+            getValidationClasses('unit')
+          ]"
+          @change="validateField('unit', $event.target.value); touchField('unit')"
         >
-          <option value="">{{$t('compounds.unitSelect')}}</option>
-          <option value="g">{{$t('compounds.unit.g')}}</option>
-          <option value="kg">{{$t('compounds.unit.kg')}}</option>
-          <option value="ml">{{$t('compounds.unit.ml')}}</option>
-          <option value="l">{{$t('compounds.unit.l')}}</option>
-          <option value="mg">{{$t('compounds.unit.mg')}}</option>
-          <option value="μg">{{$t('compounds.unit.μg')}}</option>
-          <option value="mol">{{$t('compounds.unit.mol')}}</option>
-          <option value="mmol">{{$t('compounds.unit.mmol')}}</option>
+          <option value="">{{ $t('compounds.unitSelect') }}</option>
+          <option value="g">{{ $t('compounds.unit.g') }}</option>
+          <option value="kg">{{ $t('compounds.unit.kg') }}</option>
+          <option value="ml">{{ $t('compounds.unit.ml') }}</option>
+          <option value="l">{{ $t('compounds.unit.l') }}</option>
+          <option value="mg">{{ $t('compounds.unit.mg') }}</option>
+          <option value="μg">{{ $t('compounds.unit.μg') }}</option>
+          <option value="mol">{{ $t('compounds.unit.mol') }}</option>
+          <option value="mmol">{{ $t('compounds.unit.mmol') }}</option>
         </select>
-        <ErrorMessage v-if="errors.unit" :message="errors.unit" />
+        <ValidationMessages 
+          :errors="getFieldErrors('unit')"
+          :validating="getFieldState('unit').isValidating"
+        />
       </div>
 
-      <div>
-        <label for="threshold" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.reorderThreshold')}}
-        </label>
-        <Input
-          id="threshold"
-          :model-value="formData.threshold"
-          @update:model-value="updateField('threshold', Number($event))"
-          type="number"
-          min="0"
-          step="0.01"
-          :placeholder="$t('compounds.thresholdPlaceholder')"
-          :error="errors.threshold"
-        />
-        <ErrorMessage v-if="errors.threshold" :message="errors.threshold" />
-      </div>
+      <Input
+        v-model="formData.threshold"
+        type="number"
+        step="0.01"
+        min="0"
+        :label="$t('compounds.reorderThreshold')"
+        :placeholder="$t('compounds.thresholdPlaceholder')"
+        :help-text="$t('validation.thresholdHelp')"
+        :errors="getFieldErrors('threshold')"
+        :validating="getFieldState('threshold').isValidating"
+        :is-valid="isFieldValid('threshold')"
+        :is-touched="getFieldState('threshold').isTouched"
+        @validate="validateField('threshold', $event)"
+        @blur="touchField('threshold')"
+      />
     </div>
 
     <!-- Location and Hazard -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label for="location" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.location')}} *
-        </label>
-        <Input
-          id="location"
-          :model-value="formData.location"
-          @update:model-value="updateField('location', $event)"
-          :placeholder="$t('compounds.locationPlaceholder')"
-          :error="errors.location"
-          required
-        />
-        <ErrorMessage v-if="errors.location" :message="errors.location" />
-      </div>
+      <Input
+        v-model="formData.location"
+        :label="$t('compounds.location')"
+        :placeholder="$t('compounds.locationPlaceholder')"
+        :required="true"
+        :errors="getFieldErrors('location')"
+        :validating="getFieldState('location').isValidating"
+        :is-valid="isFieldValid('location')"
+        :is-touched="getFieldState('location').isTouched"
+        @validate="validateField('location', $event)"
+        @blur="touchField('location')"
+      />
 
-      <div>
-        <label for="hazard-class" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.hazardClass')}}
+      <div class="space-y-2">
+        <label class="block text-sm font-medium text-slate-700">
+          {{ $t('compounds.hazardClass') }}
         </label>
         <select
-          id="hazard-class"
-          :value="formData.hazardClass"
-          @input="updateField('hazardClass', $event.target.value)"
-          class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          :class="{ 'border-red-500': errors.hazardClass }"
+          v-model="formData.hazardClass"
+          :class="[
+            'flex h-10 w-full rounded-md border bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+            getValidationClasses('hazardClass')
+          ]"
+          @change="validateField('hazardClass', $event.target.value); touchField('hazardClass')"
         >
-          <option value="">{{$t('compounds.hazardClassSelect')}}</option>
-          <option value="Non-hazardous">{{$t('compounds.hazardClassNonHazardous')}}</option>
-          <option value="Flammable">{{$t('compounds.hazardClassFlammable')}}</option>
-          <option value="Corrosive">{{$t('compounds.hazardClassCorrosive')}}</option>
-          <option value="Toxic">{{$t('compounds.hazardClassToxic')}}</option>
-          <option value="Oxidizing">{{$t('compounds.hazardClassOxidizing')}}</option>
-          <option value="Explosive">{{$t('compounds.hazardClassExplosive')}}</option>
-          <option value="Carcinogenic">{{$t('compounds.hazardClassCarcinogenic')}}</option>
-          <option value="Radioactive">{{$t('compounds.hazardClassRadioactive')}}</option>
+          <option value="">{{ $t('compounds.hazardClassSelect') }}</option>
+          <option value="Non-hazardous">{{ $t('compounds.hazardClassNonHazardous') }}</option>
+          <option value="Flammable">{{ $t('compounds.hazardClassFlammable') }}</option>
+          <option value="Corrosive">{{ $t('compounds.hazardClassCorrosive') }}</option>
+          <option value="Toxic">{{ $t('compounds.hazardClassToxic') }}</option>
+          <option value="Oxidizing">{{ $t('compounds.hazardClassOxidizing') }}</option>
+          <option value="Explosive">{{ $t('compounds.hazardClassExplosive') }}</option>
+          <option value="Carcinogenic">{{ $t('compounds.hazardClassCarcinogenic') }}</option>
+          <option value="Radioactive">{{ $t('compounds.hazardClassRadioactive') }}</option>
         </select>
-        <ErrorMessage v-if="errors.hazardClass" :message="errors.hazardClass" />
       </div>
     </div>
 
     <!-- Dates -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label for="expiry-date" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.expiryDate')}}
-        </label>
-        <Input
-          id="expiry-date"
-          :model-value="formData.expiryDate"
-          @update:model-value="updateField('expiryDate', $event)"
-          type="date"
-          :error="errors.expiryDate"
-        />
-        <ErrorMessage v-if="errors.expiryDate" :message="errors.expiryDate" />
-      </div>
+      <Input
+        v-model="formData.receivedDate"
+        type="date"
+        :label="$t('compounds.receivedDate')"
+        :errors="getFieldErrors('receivedDate')"
+        :validating="getFieldState('receivedDate').isValidating"
+        :is-valid="isFieldValid('receivedDate')"
+        :is-touched="getFieldState('receivedDate').isTouched"
+        @validate="validateField('receivedDate', $event)"
+        @blur="touchField('receivedDate')"
+      />
 
-      <div>
-        <label for="received-date" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.receivedDate')}}
-        </label>
-        <Input
-          id="received-date"
-          :model-value="formData.receivedDate"
-          @update:model-value="updateField('receivedDate', $event)"
-          type="date"
-          :error="errors.receivedDate"
-        />
-        <ErrorMessage v-if="errors.receivedDate" :message="errors.receivedDate" />
-      </div>
+      <Input
+        v-model="formData.expiryDate"
+        type="date"
+        :label="$t('compounds.expiryDate')"
+        :help-text="$t('validation.expiryDateHelp')"
+        :errors="getFieldErrors('expiryDate')"
+        :validating="getFieldState('expiryDate').isValidating"
+        :is-valid="isFieldValid('expiryDate')"
+        :is-touched="getFieldState('expiryDate').isTouched"
+        @validate="validateField('expiryDate', $event)"
+        @blur="touchField('expiryDate')"
+      />
     </div>
 
-    <!-- Supplier Information -->
+    <!-- Additional Information -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label for="supplier" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.supplier')}}
-        </label>
-        <Input
-          id="supplier"
-          :model-value="formData.supplier"
-          @update:model-value="updateField('supplier', $event)"
-          :placeholder="$t('compounds.supplierPlaceholder')"
-          :error="errors.supplier"
-        />
-        <ErrorMessage v-if="errors.supplier" :message="errors.supplier" />
-      </div>
+      <Input
+        v-model="formData.supplier"
+        :label="$t('compounds.supplier')"
+        :placeholder="$t('compounds.supplierPlaceholder')"
+        :errors="getFieldErrors('supplier')"
+        :validating="getFieldState('supplier').isValidating"
+        :is-valid="isFieldValid('supplier')"
+        :is-touched="getFieldState('supplier').isTouched"
+        @validate="validateField('supplier', $event)"
+        @blur="touchField('supplier')"
+      />
 
-      <div>
-        <label for="batch-number" class="block text-sm font-medium text-slate-700 mb-2">
-          {{$t('compounds.batchNumber')}}
-        </label>
-        <Input
-          id="batch-number"
-          :model-value="formData.batchNumber"
-          @update:model-value="updateField('batchNumber', $event)"
-          :placeholder="$t('compounds.batchNumberPlaceholder')"
-          :error="errors.batchNumber"
-        />
-        <ErrorMessage v-if="errors.batchNumber" :message="errors.batchNumber" />
-      </div>
+      <Input
+        v-model="formData.batchNumber"
+        :label="$t('compounds.batchNumber')"
+        :placeholder="$t('compounds.batchNumberPlaceholder')"
+        :errors="getFieldErrors('batchNumber')"
+        :validating="getFieldState('batchNumber').isValidating"
+        :is-valid="isFieldValid('batchNumber')"
+        :is-touched="getFieldState('batchNumber').isTouched"
+        @validate="validateField('batchNumber', $event)"
+        @blur="touchField('batchNumber')"
+      />
     </div>
 
     <!-- Synonyms -->
     <div>
-      <label for="synonyms" class="block text-sm font-medium text-slate-700 mb-2">
-        {{$t('compounds.synonyms')}}
-      </label>
-      <textarea
-        id="synonyms"
-        :value="formData.synonyms"
-        @input="updateField('synonyms', $event.target.value)"
-        rows="3"
-        class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        :class="{ 'border-red-500': errors.synonyms }"
+      <Input
+        v-model="formData.synonyms"
+        :label="$t('compounds.synonyms')"
         :placeholder="$t('compounds.synonymsPlaceholder')"
+        :help-text="$t('compounds.synonymsHelp')"
+        :errors="getFieldErrors('synonyms')"
+        :validating="getFieldState('synonyms').isValidating"
+        :is-valid="isFieldValid('synonyms')"
+        :is-touched="getFieldState('synonyms').isTouched"
+        @validate="validateField('synonyms', $event)"
+        @blur="touchField('synonyms')"
       />
-      <p class="text-xs text-slate-500 mt-1">
-        {{$t('compounds.synonymsHelp')}}
-      </p>
-      <ErrorMessage v-if="errors.synonyms" :message="errors.synonyms" />
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex items-center justify-between pt-6 border-t border-slate-200">
+      <div class="text-sm text-slate-600">
+        <span v-if="hasValidationInProgress" class="flex items-center">
+          <svg class="w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {{ $t('validation.validating') }}
+        </span>
+        <span v-else-if="isFormValid" class="flex items-center text-green-600">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {{ $t('validation.formValid') }}
+        </span>
+      </div>
+      
+      <div class="flex gap-3">
+        <Button 
+          variant="secondary" 
+          @click="resetForm"
+          :disabled="hasValidationInProgress"
+        >
+          {{ $t('common.reset') }}
+        </Button>
+        
+        <Button 
+          @click="handleSubmit"
+          :disabled="!isFormValid || hasValidationInProgress"
+        >
+          {{ isEditMode ? $t('common.save') : $t('compounds.create') }}
+        </Button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, watch } from 'vue'
+/**
+ * Enhanced Compound Form with Validation
+ * 
+ * Provides a comprehensive form for creating and editing compounds with
+ * real-time validation, visual feedback, and accessibility features.
+ * 
+ * Features:
+ * - Real-time field validation with debouncing
+ * - Cross-field validation (e.g., expiry after received date)
+ * - Async validation for unique constraints
+ * - Visual validation indicators
+ * - Accessible form controls
+ * - Internationalized error messages
+ * - Form-level error handling
+ */
+import { ref, reactive, computed, watch, onMounted } from 'vue'
 import Input from '@/components/ui/Input.vue'
-import ErrorMessage from '@/components/ui/ErrorMessage.vue'
+import Button from '@/components/ui/Button.vue'
+import ValidationMessages from '@/components/ui/ValidationMessages.vue'
+import { useValidation } from '@/composables/useValidation'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
-  formData: {
-    type: Object,
-    required: true
-  },
-  errors: {
+  compound: {
     type: Object,
     default: () => ({})
+  },
+  isEditMode: {
+    type: Boolean,
+    default: false
   }
 })
 
-/**
- * Compound Form Component
- * 
- * Comprehensive form for compound data entry with validation.
- * Updated to work with modal workflows and proper data flow.
- * 
- * ✅ ENHANCED FEATURES:
- * - Real-time validation with immediate feedback
- * - Proper reactive data handling via emit patterns
- * - Field-specific validation rules (CAS format, required fields)
- * - Internationalized labels and error messages
- * - Support for all compound properties
- * 
- * Data Flow:
- * - Receives formData as prop (read-only)
- * - Emits update:formData for all changes
- * - Emits validate with current error state
- * - Parent handles persistence and API calls
- */
-const emit = defineEmits(['update:formData', 'validate'])
+const emit = defineEmits(['submit', 'cancel'])
+const { t } = useI18n()
 
-// Create local reactive copy of form data
-const localFormData = computed({
-  get: () => props.formData,
-  set: (value) => emit('update:formData', value)
+// Initialize validation
+const validation = useValidation('compound-form')
+
+const {
+  registerField,
+  validateField,
+  validateForm,
+  touchField,
+  resetValidation,
+  getFieldState,
+  getFieldErrors,
+  hasFieldErrors,
+  isFieldValid,
+  isFormValid,
+  hasValidationInProgress,
+  getValidationClasses,
+  formErrors
+} = validation
+
+// Form data
+const formData = reactive({
+  name: '',
+  casNumber: '',
+  quantity: '',
+  unit: '',
+  threshold: '',
+  location: '',
+  hazardClass: '',
+  receivedDate: '',
+  expiryDate: '',
+  supplier: '',
+  batchNumber: '',
+  synonyms: ''
 })
 
-// Helper to update individual fields
-const updateField = (field, value) => {
-  const updated = { ...props.formData, [field]: value }
-  emit('update:formData', updated)
+// Register validation rules for each field
+onMounted(() => {
+  // Name field - required with async uniqueness validation
+  registerField('name', [
+    'required',
+    { name: 'minLength', params: { min: 2 } },
+    { name: 'maxLength', params: { max: 100 } },
+    { 
+      name: 'uniqueCompoundName', 
+      async: true, 
+      currentId: props.compound?.id,
+      message: 'validation.uniqueCompoundName'
+    }
+  ])
+
+  // CAS Number - format validation with async uniqueness validation
+  registerField('casNumber', [
+    'casNumber',
+    { 
+      name: 'uniqueCasNumber', 
+      async: true, 
+      currentId: props.compound?.id,
+      message: 'validation.uniqueCasNumber'
+    }
+  ])
+
+  // Quantity - required, positive number
+  registerField('quantity', [
+    'required',
+    'positiveNumber'
+  ])
+
+  // Unit - required
+  registerField('unit', ['required'])
+
+  // Threshold - non-negative number
+  registerField('threshold', ['nonNegativeNumber'])
+
+  // Location - required
+  registerField('location', [
+    'required',
+    { name: 'minLength', params: { min: 2 } },
+    { name: 'maxLength', params: { max: 50 } }
+  ])
+
+  // Hazard class - no specific validation (optional)
+  registerField('hazardClass', [])
+
+  // Received date - should be in the past
+  registerField('receivedDate', ['pastDate'])
+
+  // Expiry date - should be in the future
+  registerField('expiryDate', ['futureDate'])
+
+  // Supplier
+  registerField('supplier', [
+    { name: 'maxLength', params: { max: 100 } }
+  ])
+
+  // Batch number
+  registerField('batchNumber', [
+    { name: 'maxLength', params: { max: 50 } }
+  ])
+
+  // Synonyms
+  registerField('synonyms', [
+    { name: 'maxLength', params: { max: 500 } }
+  ])
+
+  // Initialize form data if editing
+  if (props.isEditMode && props.compound) {
+    Object.assign(formData, props.compound)
+  }
+})
+
+// Watch for form data changes to trigger validation
+watch(() => formData.name, (value) => {
+  if (getFieldState('name').isTouched) {
+    validateField('name', value)
+  }
+})
+
+watch(() => formData.casNumber, (value) => {
+  if (getFieldState('casNumber').isTouched) {
+    validateField('casNumber', value)
+  }
+})
+
+watch(() => formData.quantity, (value) => {
+  if (getFieldState('quantity').isTouched) {
+    validateField('quantity', value)
+  }
+})
+
+watch(() => formData.unit, (value) => {
+  if (getFieldState('unit').isTouched) {
+    validateField('unit', value)
+  }
+})
+
+watch(() => formData.threshold, (value) => {
+  if (getFieldState('threshold').isTouched) {
+    validateField('threshold', value)
+  }
+})
+
+watch(() => formData.location, (value) => {
+  if (getFieldState('location').isTouched) {
+    validateField('location', value)
+  }
+})
+
+watch(() => formData.receivedDate, (value) => {
+  if (getFieldState('receivedDate').isTouched) {
+    validateField('receivedDate', value)
+  }
+})
+
+watch(() => formData.expiryDate, (value) => {
+  if (getFieldState('expiryDate').isTouched) {
+    validateField('expiryDate', value)
+  }
+})
+
+// Handle form submission
+const handleSubmit = async () => {
+  // Validate entire form
+  const isValid = await validateForm(formData, true)
+  
+  if (isValid) {
+    emit('submit', { ...formData })
+  }
 }
 
-// Basic validation
-const validateForm = () => {
-  const errors = {}
+// Reset form
+const resetForm = () => {
+  // Reset validation state
+  resetValidation()
   
-  if (!props.formData.name?.trim()) {
-    errors.name = 'Compound name is required'
+  // Reset form data
+  if (props.isEditMode && props.compound) {
+    Object.assign(formData, props.compound)
+  } else {
+    Object.keys(formData).forEach(key => {
+      formData[key] = ''
+    })
   }
-  
-  if (!props.formData.quantity || props.formData.quantity < 0) {
-    errors.quantity = 'Valid quantity is required'
-  }
-  
-  if (!props.formData.unit?.trim()) {
-    errors.unit = 'Unit is required'
-  }
-  
-  if (!props.formData.location?.trim()) {
-    errors.location = 'Storage location is required'
-  }
-  
-  // CAS number format validation (optional but should be valid if provided)
-  if (props.formData.casNumber && !/^\d{2,7}-\d{2}-\d$/.test(props.formData.casNumber)) {
-    errors.casNumber = 'Invalid CAS number format (should be like 123-45-6)'
-  }
-  
-  emit('validate', errors)
-  return Object.keys(errors).length === 0
 }
-
-// Watch for changes and validate
-watch(() => props.formData, validateForm, { deep: true, immediate: true })
 </script>

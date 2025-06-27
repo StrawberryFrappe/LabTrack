@@ -5,7 +5,7 @@
     size="lg"
     @close="handleClose"
   >
-    <CompoundFormEnhanced
+    <CompoundForm
       :compound="props.compound"
       :is-edit-mode="isEditMode"
       @submit="handleSubmit"
@@ -18,7 +18,7 @@
 <script setup>
 import { computed } from 'vue'
 import BaseModal from '@/components/ui/BaseModal.vue'
-import CompoundFormEnhanced from './CompoundFormEnhanced.vue'
+import CompoundForm from './CompoundForm.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
