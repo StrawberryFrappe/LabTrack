@@ -87,9 +87,9 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-700">
-                {{ $t('compounds.labels.supplier') }}
+                {{ $t('compounds.labels.unit') }}
               </label>
-              <p class="mt-1 text-sm text-slate-900">{{ compound.supplier || '-' }}</p>
+              <p class="mt-1 text-sm text-slate-900">{{ compound.unit || '-' }}</p>
             </div>
           </div>
           <div class="space-y-4">

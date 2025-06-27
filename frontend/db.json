@@ -34,8 +34,8 @@
       "name": "Hydrochloric Acid",
       "casNumber": "7647-01-0",
       "threshold": 50,
+      "unit": "ml",
       "hazardClass": "Corrosive",
-      "supplier": "Fisher Scientific",
       "synonyms": "Muriatic acid",
       "notes": "General lab reagent for pH adjustment"
     }
@@ -46,7 +46,6 @@
       "compoundId": "2",
       "batchNumber": "HCl-2024-002",
       "quantity": 25,
-      "unit": "ml",
       "location": "Acid Cabinet",
       "expiryDate": "2025-06-30",
       "receivedDate": "2024-02-01",

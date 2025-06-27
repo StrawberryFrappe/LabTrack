@@ -17,8 +17,8 @@
           <span class="ml-2 font-mono">{{ compound.casNumber }}</span>
         </div>
         <div>
-          <span class="text-slate-500">{{ $t('compounds.labels.batch') }}:</span>
-          <span class="ml-2 font-mono">{{ compound.batchNumber }}</span>
+          <span class="text-slate-500">{{ $t('compounds.labels.umbral') }}:</span>
+          <span class="ml-2 font-mono">{{ compound.threshold }}</span>
         </div>
         <div>
           <span class="text-slate-500">{{ $t('compounds.labels.location') }}:</span>

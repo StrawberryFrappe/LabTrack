@@ -37,23 +37,7 @@
     </div>
 
     <!-- Quantity and Location -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Input
-        v-model="formData.quantity"
-        type="number"
-        step="0.01"
-        min="0"
-        :label="$t('compounds.quantity')"
-        :placeholder="$t('compounds.quantityPlaceholder')"
-        :required="true"
-        :errors="getFieldErrors('quantity')"
-        :validating="getFieldState('quantity').isValidating"
-        :is-valid="isFieldValid('quantity')"
-        :is-touched="getFieldState('quantity').isTouched"
-        @validate="validateField('quantity', $event)"
-        @blur="touchField('quantity')"
-      />
-
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="space-y-2">
         <label class="block text-sm font-medium text-slate-700">
           {{ $t('compounds.unit') }}
@@ -100,21 +84,8 @@
       />
     </div>
 
-    <!-- Location and Hazard -->
+    <!-- Synonims and Hazard -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Input
-        v-model="formData.location"
-        :label="$t('compounds.location')"
-        :placeholder="$t('compounds.locationPlaceholder')"
-        :required="true"
-        :errors="getFieldErrors('location')"
-        :validating="getFieldState('location').isValidating"
-        :is-valid="isFieldValid('location')"
-        :is-touched="getFieldState('location').isTouched"
-        @validate="validateField('location', $event)"
-        @blur="touchField('location')"
-      />
-
       <div class="space-y-2">
         <label class="block text-sm font-medium text-slate-700">
           {{ $t('compounds.hazardClass') }}
@@ -138,65 +109,6 @@
           <option value="Radioactive">{{ $t('compounds.hazardClassRadioactive') }}</option>
         </select>
       </div>
-    </div>
-
-    <!-- Dates -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Input
-        v-model="formData.receivedDate"
-        type="date"
-        :label="$t('compounds.receivedDate')"
-        :errors="getFieldErrors('receivedDate')"
-        :validating="getFieldState('receivedDate').isValidating"
-        :is-valid="isFieldValid('receivedDate')"
-        :is-touched="getFieldState('receivedDate').isTouched"
-        @validate="validateField('receivedDate', $event)"
-        @blur="touchField('receivedDate')"
-      />
-
-      <Input
-        v-model="formData.expiryDate"
-        type="date"
-        :label="$t('compounds.expiryDate')"
-        :help-text="$t('validation.expiryDateHelp')"
-        :errors="getFieldErrors('expiryDate')"
-        :validating="getFieldState('expiryDate').isValidating"
-        :is-valid="isFieldValid('expiryDate')"
-        :is-touched="getFieldState('expiryDate').isTouched"
-        @validate="validateField('expiryDate', $event)"
-        @blur="touchField('expiryDate')"
-      />
-    </div>
-
-    <!-- Additional Information -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Input
-        v-model="formData.supplier"
-        :label="$t('compounds.supplier')"
-        :placeholder="$t('compounds.supplierPlaceholder')"
-        :errors="getFieldErrors('supplier')"
-        :validating="getFieldState('supplier').isValidating"
-        :is-valid="isFieldValid('supplier')"
-        :is-touched="getFieldState('supplier').isTouched"
-        @validate="validateField('supplier', $event)"
-        @blur="touchField('supplier')"
-      />
-
-      <Input
-        v-model="formData.batchNumber"
-        :label="$t('compounds.batchNumber')"
-        :placeholder="$t('compounds.batchNumberPlaceholder')"
-        :errors="getFieldErrors('batchNumber')"
-        :validating="getFieldState('batchNumber').isValidating"
-        :is-valid="isFieldValid('batchNumber')"
-        :is-touched="getFieldState('batchNumber').isTouched"
-        @validate="validateField('batchNumber', $event)"
-        @blur="touchField('batchNumber')"
-      />
-    </div>
-
-    <!-- Synonyms -->
-    <div>
       <Input
         v-model="formData.synonyms"
         :label="$t('compounds.synonyms')"
