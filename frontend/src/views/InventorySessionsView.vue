@@ -21,29 +21,7 @@
       </div>
     </div>
 
-    <!-- Quick Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <Card>
-        <div class="text-center p-4">
-          <div class="text-2xl font-bold text-blue-600">{{ todayTransactions }}</div>
-          <div class="text-sm text-slate-600">{{ $t('inventorySessions.history.today') }}</div>
-        </div>
-      </Card>
-      
-      <Card>
-        <div class="text-center p-4">
-          <div class="text-2xl font-bold text-green-600">{{ weekTransactions }}</div>
-          <div class="text-sm text-slate-600">{{ $t('inventorySessions.history.thisWeek') }}</div>
-        </div>
-      </Card>
-      
-      <Card>
-        <div class="text-center p-4">
-          <div class="text-2xl font-bold text-purple-600">{{ totalTransactions }}</div>
-          <div class="text-sm text-slate-600">{{ $t('inventorySessions.history.total') }}</div>
-        </div>
-      </Card>
-    </div>
+    
 
     <!-- Main Content Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -65,7 +43,28 @@
       </div>
 
       <!-- Transaction History (Right Column) -->
-      <div class="lg:col-span-2">
+      <div class="lg:col-span-2 space-y-6">
+        <!-- Quick Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card>
+            <div class="text-center p-2">
+              <div class="text-2xl font-bold text-blue-600">{{ todayTransactions }}</div>
+              <div class="text-sm text-slate-600">{{ $t('inventorySessions.history.today') }}</div>
+            </div>
+          </Card>  
+          <Card>
+            <div class="text-center p-2">
+              <div class="text-2xl font-bold text-green-600">{{ weekTransactions }}</div>
+              <div class="text-sm text-slate-600">{{ $t('inventorySessions.history.thisWeek') }}</div>
+            </div>
+          </Card>  
+          <Card>
+            <div class="text-center p-2">
+              <div class="text-2xl font-bold text-purple-600">{{ totalTransactions }}</div>
+              <div class="text-sm text-slate-600">{{ $t('inventorySessions.history.total') }}</div>
+            </div>
+          </Card>
+        </div>
         <Card>
           <template #header>
             <div class="flex items-center justify-between">
