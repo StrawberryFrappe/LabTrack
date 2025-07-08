@@ -24,15 +24,9 @@
               {{ $t('compounds.tableHeaders.casNumber') }}
             </th>
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-              {{ $t('compounds.tableHeaders.supplier') }}
-            </th>
-            <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
               <button @click="sortBy('quantity')" class="hover:text-slate-700 transition-colors">
                 {{ $t('compounds.tableHeaders.quantity') }}
               </button>
-            </th>
-            <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider hidden lg:table-cell">
-              {{ $t('compounds.tableHeaders.location') }}
             </th>
             <th class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider hidden sm:table-cell">
               {{ $t('compounds.tableHeaders.hazards') }}
@@ -60,11 +54,6 @@
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-slate-900 hidden md:table-cell">
               {{ compound.casNumber || $t('common.notAvailable') }}
-            </td>
-            <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                {{ compound.supplier }}
-              </span>
             </td>
             <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-slate-900">

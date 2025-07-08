@@ -45,8 +45,18 @@ export default {
     casPlaceholder: "Ingrese el número CAS (ej. 123-45-6)",
     quantity: "Cantidad",
     quantityPlaceholder: "Ingrese la cantidad",
-    unit: "Unidad",
-    unitSelect: "Seleccione unidad",
+    unit: "Unidad Preferida",
+    unitSelect: "Seleccione unidad preferida",
+    units: {
+      g: "gramos (g)",
+      kg: "kilogramos (kg)",
+      ml: "mililitros (ml)", 
+      l: "litros (L)",
+      mg: "miligramos (mg)",
+      μg: "microgramos (μg)",
+      mol: "moles (mol)",
+      mmol: "milimoles (mmol)"
+    },
     reorderThreshold: "Umbral de reposición",
     thresholdPlaceholder: "Ingrese el umbral de reposición",
     location: "Ubicación",
@@ -74,6 +84,45 @@ export default {
     // Stock and inventory
     currentStock: "Stock Actual",
     lowStockWarning: "⚠️ ¡Stock bajo!",
+    totalStock: "Stock Total",
+    acrossInstances: "{count} instancia | {count} instancias",
+    batch: "Lote",
+    
+    // Instance management
+    instances: {
+      title: "Instancias de Compuesto",
+      description: "Contenedores físicos y sus ubicaciones",
+      addNew: "Agregar Nueva Instancia",
+      noInstances: "No se encontraron instancias",
+      location: "Ubicación",
+      batchNumber: "Número de Lote",
+      quantity: "Cantidad",
+      unit: "Unidad",
+      unitSelect: "Seleccionar unidad",
+      expiryDate: "Fecha de Caducidad",
+      status: "Estado",
+      actions: "Acciones",
+      created: "Creado",
+      opened: "Abierto",
+      received: "Recibido",
+      statusActive: "Activo",
+      statusUsedUp: "Agotado",
+      statusExpired: "Caducado",
+      edit: "Editar Instancia",
+      delete: "Eliminar Instancia",
+      deleteConfirm: "¿Está seguro de que desea eliminar esta instancia?",
+      search: "Buscar instancias...",
+      openedHelp: "Deje vacío si el contenedor no ha sido abierto aún",
+      summary: {
+        totalInstances: "Total de Instancias",
+        totalQuantity: "Cantidad Total",
+        locations: "Ubicaciones",
+        expiringSoon: "Expiran Pronto"
+      },
+      createSuccess: "Instancia creada exitosamente",
+      updateSuccess: "Instancia actualizada exitosamente",
+      deleteSuccess: "Instancia eliminada exitosamente"
+    },
     
     // Table headers
     tableHeaders: {
@@ -103,6 +152,8 @@ export default {
       batch: "Lote",
       location: "Ubicación",
       supplier: "Proveedor",
+      unit: "Unidad Preferida",
+      hazardClass: "Clase de Peligro",
       expires: "Vence",
       threshold: "Umbral"
     },

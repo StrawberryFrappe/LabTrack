@@ -20,14 +20,6 @@
           <span class="text-slate-500">{{ $t('compounds.labels.umbral') }}:</span>
           <span class="ml-2 font-mono">{{ compound.threshold }}</span>
         </div>
-        <div>
-          <span class="text-slate-500">{{ $t('compounds.labels.location') }}:</span>
-          <span class="ml-2">{{ compound.location }}</span>
-        </div>
-        <div>
-          <span class="text-slate-500">{{ $t('compounds.labels.supplier') }}:</span>
-          <span class="ml-2">{{ compound.supplier }}</span>
-        </div>
       </div>
       
       <div class="pt-3 border-t border-slate-200">
@@ -50,13 +42,6 @@
         <div class="flex justify-between text-xs text-slate-500 mt-1">
           <span>{{ $t('compounds.labels.threshold') }}: {{ compound.threshold }} {{ compound.unit }}</span>
           <span>{{ stockPercentage.toFixed(0) }}%</span>
-        </div>
-      </div>
-      
-      <div class="pt-3 border-t border-slate-200">
-        <div class="flex items-center justify-between text-sm">
-          <span class="text-slate-500">{{ $t('compounds.labels.expires') }}:</span>
-          <span :class="expiryClasses">{{ formatDate(compound.expiryDate) }}</span>
         </div>
       </div>
     </div>

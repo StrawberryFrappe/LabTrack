@@ -71,136 +71,130 @@
         </div>
 
         <!-- View Mode -->
-        <div v-if="!isEditing" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-slate-700">
-                {{ $t('compounds.labels.name') }}
-              </label>
-              <p class="mt-1 text-sm text-slate-900">{{ compound.name }}</p>
+        <div v-if="!isEditing" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-slate-700">
+                  {{ $t('compounds.labels.name') }}
+                </label>
+                <p class="mt-1 text-sm text-slate-900">{{ compound.name }}</p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">
+                  {{ $t('compounds.labels.casNumber') }}
+                </label>
+                <p class="mt-1 text-sm text-slate-900 font-mono">{{ compound.casNumber || '-' }}</p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">
+                  {{ $t('compounds.labels.unit') }}
+                </label>
+                <p class="mt-1 text-sm text-slate-900">{{ compound.unit || '-' }}</p>
+              </div>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700">
-                {{ $t('compounds.labels.casNumber') }}
-              </label>
-              <p class="mt-1 text-sm text-slate-900 font-mono">{{ compound.casNumber || '-' }}</p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700">
-                {{ $t('compounds.labels.unit') }}
-              </label>
-              <p class="mt-1 text-sm text-slate-900">{{ compound.unit || '-' }}</p>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-slate-700">
+                  {{ $t('compounds.labels.hazardClass') }}
+                </label>
+                <p class="mt-1">
+                  <Badge :variant="hazardBadgeVariant">{{ compound.hazardClass }}</Badge>
+                </p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">
+                  {{ $t('compounds.labels.threshold') }}
+                </label>
+                <p class="mt-1 text-sm text-slate-900">{{ compound.threshold }}</p>
+              </div>
             </div>
           </div>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-slate-700">
-                {{ $t('compounds.labels.hazardClass') }}
-              </label>
-              <p class="mt-1">
-                <Badge :variant="hazardBadgeVariant">{{ compound.hazardClass }}</Badge>
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700">
-                {{ $t('compounds.labels.threshold') }}
-              </label>
-              <p class="mt-1 text-sm text-slate-900">{{ compound.threshold }}</p>
-            </div>
-            <div v-if="compound.notes">
-              <label class="block text-sm font-medium text-slate-700">
-                {{ $t('compounds.detail.notes') }}
-              </label>
-              <p class="mt-1 text-sm text-slate-900">{{ compound.notes }}</p>
-            </div>
+          <div v-if="compound.notes" class="w-full">
+            <label class="block text-sm font-medium text-slate-700">
+              {{ $t('compounds.detail.notes') }}
+            </label>
+            <p class="mt-1 text-sm text-slate-900">{{ compound.notes }}</p>
           </div>
         </div>
 
         <!-- Edit Mode -->
-        <form v-else @submit.prevent="saveEdit" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                {{ $t('compounds.labels.name') }} *
-              </label>
-              <Input
-                v-model="editForm.name"
-                :placeholder="$t('compounds.namePlaceholder')"
-                :error="editErrors.name"
-                required
-              />
+        <form v-else @submit.prevent="saveEdit" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">
+                  {{ $t('compounds.labels.name') }} *
+                </label>
+                <Input
+                  v-model="editForm.name"
+                  :placeholder="$t('compounds.namePlaceholder')"
+                  :error="editErrors.name"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">
+                  {{ $t('compounds.labels.casNumber') }}
+                </label>
+                <Input
+                  v-model="editForm.casNumber"
+                  :placeholder="$t('compounds.casPlaceholder')"
+                  :error="editErrors.casNumber"
+                />
+              </div>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                {{ $t('compounds.labels.casNumber') }}
-              </label>
-              <Input
-                v-model="editForm.casNumber"
-                :placeholder="$t('compounds.casPlaceholder')"
-                :error="editErrors.casNumber"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                {{ $t('compounds.labels.supplier') }}
-              </label>
-              <Input
-                v-model="editForm.supplier"
-                :placeholder="$t('compounds.supplierPlaceholder')"
-                :error="editErrors.supplier"
-              />
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">
+                  {{ $t('compounds.labels.hazardClass') }} *
+                </label>
+                <select
+                  v-model="editForm.hazardClass"
+                  required
+                  class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  :class="{ 'border-red-500': editErrors.hazardClass }"
+                >
+                  <option value="">{{ $t('compounds.hazardClassSelect') }}</option>
+                  <option value="Non-hazardous">{{ $t('compounds.hazardClassNonHazardous') }}</option>
+                  <option value="Flammable">{{ $t('compounds.hazardClassFlammable') }}</option>
+                  <option value="Corrosive">{{ $t('compounds.hazardClassCorrosive') }}</option>
+                  <option value="Toxic">{{ $t('compounds.hazardClassToxic') }}</option>
+                  <option value="Oxidizing">{{ $t('compounds.hazardClassOxidizing') }}</option>
+                  <option value="Explosive">{{ $t('compounds.hazardClassExplosive') }}</option>
+                  <option value="Carcinogenic">{{ $t('compounds.hazardClassCarcinogenic') }}</option>
+                  <option value="Radioactive">{{ $t('compounds.hazardClassRadioactive') }}</option>
+                </select>
+                <p v-if="editErrors.hazardClass" class="mt-1 text-sm text-red-600">
+                  {{ editErrors.hazardClass }}
+                </p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">
+                  {{ $t('compounds.labels.threshold') }} *
+                </label>
+                <Input
+                  v-model.number="editForm.threshold"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  :placeholder="$t('compounds.thresholdPlaceholder')"
+                  :error="editErrors.threshold"
+                  required
+                />
+              </div>
             </div>
           </div>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                {{ $t('compounds.labels.hazardClass') }} *
-              </label>
-              <select
-                v-model="editForm.hazardClass"
-                required
-                class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                :class="{ 'border-red-500': editErrors.hazardClass }"
-              >
-                <option value="">{{ $t('compounds.hazardClassSelect') }}</option>
-                <option value="Non-hazardous">{{ $t('compounds.hazardClassNonHazardous') }}</option>
-                <option value="Flammable">{{ $t('compounds.hazardClassFlammable') }}</option>
-                <option value="Corrosive">{{ $t('compounds.hazardClassCorrosive') }}</option>
-                <option value="Toxic">{{ $t('compounds.hazardClassToxic') }}</option>
-                <option value="Oxidizing">{{ $t('compounds.hazardClassOxidizing') }}</option>
-                <option value="Explosive">{{ $t('compounds.hazardClassExplosive') }}</option>
-                <option value="Carcinogenic">{{ $t('compounds.hazardClassCarcinogenic') }}</option>
-                <option value="Radioactive">{{ $t('compounds.hazardClassRadioactive') }}</option>
-              </select>
-              <p v-if="editErrors.hazardClass" class="mt-1 text-sm text-red-600">
-                {{ editErrors.hazardClass }}
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                {{ $t('compounds.labels.threshold') }} *
-              </label>
-              <Input
-                v-model.number="editForm.threshold"
-                type="number"
-                min="0"
-                step="0.01"
-                :placeholder="$t('compounds.thresholdPlaceholder')"
-                :error="editErrors.threshold"
-                required
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">
-                {{ $t('compounds.detail.notes') }}
-              </label>
-              <textarea
-                v-model="editForm.notes"
-                :placeholder="$t('compounds.detail.notesPlaceholder')"
-                rows="3"
-                class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
+          <div class="w-full">
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              {{ $t('compounds.detail.notes') }}
+            </label>
+            <textarea
+              v-model="editForm.notes"
+              :placeholder="$t('compounds.detail.notesPlaceholder')"
+              rows="3"
+              class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
           </div>
         </form>
       </div>

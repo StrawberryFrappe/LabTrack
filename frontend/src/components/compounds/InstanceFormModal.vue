@@ -66,7 +66,7 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">
-            {{ $t('compounds.unit') }} *
+            {{ $t('compounds.instances.unit') }} *
           </label>
           <select
             v-model="form.unit"
@@ -74,7 +74,7 @@
             :class="{ 'border-red-500': errors.unit }"
             required
           >
-            <option value="">{{ $t('compounds.unitSelect') }}</option>
+            <option value="">{{ $t('compounds.instances.unitSelect') }}</option>
             <option value="g">g</option>
             <option value="mg">mg</option>
             <option value="kg">kg</option>
@@ -238,7 +238,7 @@ const validationRules = {
     { min: 0, message: t('validation.min', { field: t('compounds.instances.quantity'), min: 0 }) }
   ],
   unit: [
-    { required: true, message: t('validation.required', { field: t('compounds.unit') }) }
+    { required: true, message: t('validation.required', { field: t('compounds.instances.unit') }) }
   ]
 }
 

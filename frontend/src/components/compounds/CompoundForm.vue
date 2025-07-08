@@ -52,14 +52,14 @@
           @change="validateField('unit', $event.target.value); touchField('unit')"
         >
           <option value="">{{ $t('compounds.unitSelect') }}</option>
-          <option value="g">{{ $t('compounds.unit.g') }}</option>
-          <option value="kg">{{ $t('compounds.unit.kg') }}</option>
-          <option value="ml">{{ $t('compounds.unit.ml') }}</option>
-          <option value="l">{{ $t('compounds.unit.l') }}</option>
-          <option value="mg">{{ $t('compounds.unit.mg') }}</option>
-          <option value="μg">{{ $t('compounds.unit.μg') }}</option>
-          <option value="mol">{{ $t('compounds.unit.mol') }}</option>
-          <option value="mmol">{{ $t('compounds.unit.mmol') }}</option>
+          <option value="g">{{ $t('compounds.units.g') }}</option>
+          <option value="kg">{{ $t('compounds.units.kg') }}</option>
+          <option value="ml">{{ $t('compounds.units.ml') }}</option>
+          <option value="l">{{ $t('compounds.units.l') }}</option>
+          <option value="mg">{{ $t('compounds.units.mg') }}</option>
+          <option value="μg">{{ $t('compounds.units.μg') }}</option>
+          <option value="mol">{{ $t('compounds.units.mol') }}</option>
+          <option value="mmol">{{ $t('compounds.units.mmol') }}</option>
         </select>
         <ValidationMessages 
           :errors="getFieldErrors('unit')"
