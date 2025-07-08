@@ -7,15 +7,24 @@ export default {
     quickTransaction: {
       title: 'Transacción Rápida',
       selectCompound: 'Seleccionar Compuesto',
+      selectInstance: 'Seleccionar Instancia',
       compoundPlaceholder: 'Buscar por nombre, CAS o lote...',
+      instancePlaceholder: 'Buscar por compuesto, lote o ubicación...',
       noCompounds: 'No se encontraron compuestos',
+      noInstances: 'No se encontraron instancias',
+      instanceRequired: 'Por favor seleccione una instancia',
       transactionType: 'Tipo de Transacción',
       quantity: 'Cantidad',
       quantityPlaceholder: 'Ingresar cantidad',
+      available: 'Disponible',
+      useAll: 'Usar Todo',
       notes: 'Notas (Opcional)',
       notesPlaceholder: 'Agregar notas de transacción...',
       submit: 'Registrar Transacción',
       cancel: 'Cancelar',
+      preview: 'Vista Previa de Transacción',
+      destinationLocation: 'Ubicación de Destino',
+      locationPlaceholder: 'Ingrese ubicación de destino',
       
       // Transaction Types
       types: {
@@ -23,7 +32,7 @@ export default {
         restock: 'Reabastecer/Agregar',
         adjust: 'Ajuste',
         transfer: 'Transferir',
-        waste: 'Descartar/Residuo'
+        waste: 'Descartar'
       }
     },
     

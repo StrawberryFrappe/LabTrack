@@ -7,11 +7,17 @@ export default {
     quickTransaction: {
       title: 'Quick Transaction',
       selectCompound: 'Select Compound',
+      selectInstance: 'Select Instance',
       compoundPlaceholder: 'Search by name, CAS, or batch...',
+      instancePlaceholder: 'Search by compound, batch, or location...',
       noCompounds: 'No compounds found',
+      noInstances: 'No instances found',
+      instanceRequired: 'Please select an instance',
       transactionType: 'Transaction Type',
       quantity: 'Quantity',
       quantityPlaceholder: 'Enter quantity',
+      available: 'Available',
+      useAll: 'Use All',
       notes: 'Notes (Optional)',
       notesPlaceholder: 'Add transaction notes...',
       submit: 'Record Transaction',
@@ -23,10 +29,9 @@ export default {
       // Transaction Types
       types: {
         use: 'Use/Consume',
-        restock: 'Restock/Add',
         adjust: 'Adjustment',
         transfer: 'Transfer',
-        waste: 'Dispose/Waste'
+        waste: 'Dispose'
       }
     },
     
@@ -73,6 +78,7 @@ export default {
       transactionFailed: 'Failed to record transaction',
       invalidQuantity: 'Please enter a valid quantity',
       selectCompound: 'Please select a compound',
+      selectInstance: 'Please select an instance',
       insufficientStock: 'Insufficient stock for this transaction',
       confirmTransaction: 'Are you sure you want to record this transaction?',
       deleteTransaction: 'Delete this transaction?',
@@ -80,7 +86,6 @@ export default {
       
       // Success messages
       useRecorded: 'Usage recorded successfully',
-      restockRecorded: 'Restock recorded successfully',
       adjustmentRecorded: 'Adjustment recorded successfully',
       transferRecorded: 'Transfer recorded successfully',
       wasteRecorded: 'Disposal recorded successfully'
