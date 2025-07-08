@@ -15,7 +15,7 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'default',
-    validator: (value) => ['default', 'primary', 'secondary', 'outline', 'destructive'].includes(value)
+    validator: (value) => ['default', 'primary', 'secondary', 'outline', 'destructive', 'ghost'].includes(value)
   },
   size: {
     type: String,
@@ -46,7 +46,8 @@ const buttonClasses = computed(() => [
     'bg-blue-600 text-white hover:bg-blue-700 focus-visible:ring-blue-300': props.variant === 'primary',
     'bg-slate-100 text-slate-900 hover:bg-slate-200 focus-visible:ring-slate-300': props.variant === 'secondary',
     'border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-slate-300': props.variant === 'outline',
-    'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-300': props.variant === 'destructive'
+    'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-300': props.variant === 'destructive',
+    'bg-transparent hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-slate-300': props.variant === 'ghost'
   }
 ])
 </script>
