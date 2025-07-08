@@ -1,6 +1,6 @@
 export default {
   inventorySessions: {
-    title: 'Sesiones de Inventario',
+    title: 'Transacciones',
     subtitle: 'Gestionar movimientos de stock y transacciones',
     
     // Quick Transaction Form

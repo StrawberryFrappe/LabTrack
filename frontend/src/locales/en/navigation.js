@@ -3,7 +3,7 @@ export default {
     dashboard: 'Dashboard',
     compounds: 'Compounds',
     inventory: 'Inventory Count',
-    inventorySessions: 'Inventory Sessions',
+    inventorySessions: 'Transactions',
     preferences: 'Preferences',
     settings: 'System Settings'
   }

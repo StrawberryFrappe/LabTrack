@@ -26,8 +26,7 @@
     <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-slate-900">{{ $t('compounds.title') }}</h1>
-        <p class="text-slate-600 mt-1">{{ $t('compounds.description') }}</p>
+        <h1 class="text-xl text-slate-600">{{ $t('compounds.description') }}</h1>
       </div>
       
       <!-- Action Buttons -->

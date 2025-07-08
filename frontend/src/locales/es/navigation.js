@@ -3,7 +3,7 @@ export default {
     dashboard: 'Tablero',
     compounds: 'Compuestos',
     inventory: 'Conteo de Inventario',
-    inventorySessions: 'Sesiones de Inventario',
+    inventorySessions: 'Transacciones',
     preferences: 'Preferencias',
     settings: 'Configuración del Sistema'
   }
