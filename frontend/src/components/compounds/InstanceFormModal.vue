@@ -144,6 +144,22 @@
           <option value="expired">{{ $t('compounds.instances.statusExpired') }}</option>
         </select>
       </div>
+
+      <!-- Description -->
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1">
+          {{ $t('compounds.instances.description') }}
+        </label>
+        <textarea
+          v-model="form.description"
+          :placeholder="$t('compounds.instances.descriptionPlaceholder')"
+          rows="2"
+          class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        />
+        <p class="mt-1 text-xs text-slate-500">
+          {{ $t('compounds.instances.descriptionHelp') }}
+        </p>
+      </div>
     </form>
 
     <template #footer>
@@ -222,7 +238,8 @@ const form = ref({
   receivedDate: '',
   expiryDate: '',
   openedDate: '',
-  status: 'active'
+  status: 'active',
+  description: ''
 })
 
 // Computed properties
@@ -254,7 +271,8 @@ const resetForm = () => {
     receivedDate: '',
     expiryDate: '',
     openedDate: '',
-    status: 'active'
+    status: 'active',
+    description: ''
   }
   resetValidation()
 }
@@ -270,7 +288,8 @@ const populateForm = (instance) => {
     receivedDate: instance.receivedDate || '',
     expiryDate: instance.expiryDate || '',
     openedDate: instance.openedDate || '',
-    status: instance.status || 'active'
+    status: instance.status || 'active',
+    description: instance.description || ''
   }
 }
 

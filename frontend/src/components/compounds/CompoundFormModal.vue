@@ -2,7 +2,7 @@
   <BaseModal
     v-model="localModelValue"
     :title="modalTitle"
-    size="lg"
+    size="3xl"
     @close="handleClose"
   >
     <CompoundForm

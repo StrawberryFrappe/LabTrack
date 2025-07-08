@@ -76,6 +76,9 @@
                 {{ $t('compounds.instances.batchNumber') }}
               </th>
               <th class="px-4 py-3 text-left text-sm font-medium text-slate-900">
+                {{ $t('compounds.instances.description') }}
+              </th>
+              <th class="px-4 py-3 text-left text-sm font-medium text-slate-900">
                 {{ $t('compounds.instances.quantity') }}
               </th>
               <th class="px-4 py-3 text-left text-sm font-medium text-slate-900">
@@ -91,12 +94,12 @@
           </thead>
           <tbody class="divide-y divide-slate-200">
             <tr v-if="loading" class="h-32">
-              <td colspan="6" class="text-center">
+              <td colspan="7" class="text-center">
                 <LoadingSpinner />
               </td>
             </tr>
             <tr v-else-if="filteredInstances.length === 0" class="h-32">
-              <td colspan="6" class="text-center text-slate-500">
+              <td colspan="7" class="text-center text-slate-500">
                 {{ $t('compounds.instances.noInstances') }}
               </td>
             </tr>
@@ -106,6 +109,10 @@
               </td>
               <td class="px-4 py-3 text-sm font-mono text-slate-900">
                 {{ instance.batchNumber }}
+              </td>
+              <td class="px-4 py-3 text-sm text-slate-600">
+                <span v-if="instance.description">{{ instance.description }}</span>
+                <span v-else class="text-slate-400">-</span>
               </td>
               <td class="px-4 py-3 text-sm text-slate-900">
                 <span :class="getQuantityClasses(instance)">

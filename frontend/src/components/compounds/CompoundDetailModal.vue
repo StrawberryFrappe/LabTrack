@@ -1,19 +1,18 @@
 <template>
   <BaseModal
     v-model="isModalOpen"
-    :title="compound?.name || $t('compounds.detail.title')"
-    size="xl"
+    size="6xl"
     @close="handleClose"
   >
     <template #header>
       <div class="flex-1 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <h2 class="text-xl font-semibold text-slate-900">
-            {{ compound?.name || $t('compounds.detail.title') }}
-          </h2>
           <div class="flex items-center gap-2">
+            <h2 class="text-2xl font-semibold text-slate-900">
+              {{ compound?.name || $t('compounds.detail.loading') }}
+            </h2>
             <Badge :variant="hazardBadgeVariant">{{ compound?.hazardClass }}</Badge>
-            <Badge v-if="compound?.casNumber" variant="secondary" class="font-mono text-xs">
+            <Badge v-if="compound?.casNumber" variant="secondary" class="font-mono">
               CAS: {{ compound.casNumber }}
             </Badge>
           </div>
@@ -71,121 +70,106 @@
         </div>
 
         <!-- View Mode -->
-        <div v-if="!isEditing" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-slate-700">
-                  {{ $t('compounds.labels.name') }}
-                </label>
-                <p class="mt-1 text-sm text-slate-900">{{ compound.name }}</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-slate-700">
-                  {{ $t('compounds.labels.casNumber') }}
-                </label>
-                <p class="mt-1 text-sm text-slate-900 font-mono">{{ compound.casNumber || '-' }}</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-slate-700">
-                  {{ $t('compounds.labels.unit') }}
-                </label>
-                <p class="mt-1 text-sm text-slate-900">{{ compound.unit || '-' }}</p>
-              </div>
+        <div v-if="!isEditing" class="space-y-4">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-slate-700">
+                {{ $t('compounds.labels.unit') }}
+              </label>
+              <p class="mt-1 text-sm text-slate-900">{{ compound.unit || '-' }}</p>
             </div>
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-slate-700">
-                  {{ $t('compounds.labels.hazardClass') }}
-                </label>
-                <p class="mt-1">
-                  <Badge :variant="hazardBadgeVariant">{{ compound.hazardClass }}</Badge>
-                </p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-slate-700">
-                  {{ $t('compounds.labels.threshold') }}
-                </label>
-                <p class="mt-1 text-sm text-slate-900">{{ compound.threshold }}</p>
-              </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700">
+                {{ $t('compounds.labels.threshold') }}
+              </label>
+              <p class="mt-1 text-sm text-slate-900">{{ compound.threshold }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700">
+                {{ $t('compounds.instances.summary.totalInstances') }}
+              </label>
+              <p class="mt-1 text-sm font-semibold" :class="stockStatusClasses">
+                {{ instances.length }}
+              </p>
             </div>
           </div>
-          <div v-if="compound.notes" class="w-full">
+          
+          <div v-if="compound.notes" class="mt-4">
             <label class="block text-sm font-medium text-slate-700">
               {{ $t('compounds.detail.notes') }}
             </label>
-            <p class="mt-1 text-sm text-slate-900">{{ compound.notes }}</p>
+            <p class="mt-1 text-sm text-slate-900 py-4 rounded-md">{{ compound.notes }}</p>
           </div>
         </div>
 
         <!-- Edit Mode -->
         <form v-else @submit.prevent="saveEdit" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">
-                  {{ $t('compounds.labels.name') }} *
-                </label>
-                <Input
-                  v-model="editForm.name"
-                  :placeholder="$t('compounds.namePlaceholder')"
-                  :error="editErrors.name"
-                  required
-                />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">
-                  {{ $t('compounds.labels.casNumber') }}
-                </label>
-                <Input
-                  v-model="editForm.casNumber"
-                  :placeholder="$t('compounds.casPlaceholder')"
-                  :error="editErrors.casNumber"
-                />
-              </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">
+                {{ $t('compounds.labels.name') }} *
+              </label>
+              <Input
+                v-model="editForm.name"
+                :placeholder="$t('compounds.namePlaceholder')"
+                :error="editErrors.name"
+                required
+              />
             </div>
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">
-                  {{ $t('compounds.labels.hazardClass') }} *
-                </label>
-                <select
-                  v-model="editForm.hazardClass"
-                  required
-                  class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  :class="{ 'border-red-500': editErrors.hazardClass }"
-                >
-                  <option value="">{{ $t('compounds.hazardClassSelect') }}</option>
-                  <option value="Non-hazardous">{{ $t('compounds.hazardClassNonHazardous') }}</option>
-                  <option value="Flammable">{{ $t('compounds.hazardClassFlammable') }}</option>
-                  <option value="Corrosive">{{ $t('compounds.hazardClassCorrosive') }}</option>
-                  <option value="Toxic">{{ $t('compounds.hazardClassToxic') }}</option>
-                  <option value="Oxidizing">{{ $t('compounds.hazardClassOxidizing') }}</option>
-                  <option value="Explosive">{{ $t('compounds.hazardClassExplosive') }}</option>
-                  <option value="Carcinogenic">{{ $t('compounds.hazardClassCarcinogenic') }}</option>
-                  <option value="Radioactive">{{ $t('compounds.hazardClassRadioactive') }}</option>
-                </select>
-                <p v-if="editErrors.hazardClass" class="mt-1 text-sm text-red-600">
-                  {{ editErrors.hazardClass }}
-                </p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">
-                  {{ $t('compounds.labels.threshold') }} *
-                </label>
-                <Input
-                  v-model.number="editForm.threshold"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  :placeholder="$t('compounds.thresholdPlaceholder')"
-                  :error="editErrors.threshold"
-                  required
-                />
-              </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">
+                {{ $t('compounds.labels.casNumber') }}
+              </label>
+              <Input
+                v-model="editForm.casNumber"
+                :placeholder="$t('compounds.casPlaceholder')"
+                :error="editErrors.casNumber"
+              />
             </div>
           </div>
-          <div class="w-full">
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">
+                {{ $t('compounds.labels.hazardClass') }} *
+              </label>
+              <select
+                v-model="editForm.hazardClass"
+                required
+                class="w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                :class="{ 'border-red-500': editErrors.hazardClass }"
+              >
+                <option value="">{{ $t('compounds.hazardClassSelect') }}</option>
+                <option value="Non-hazardous">{{ $t('compounds.hazardClassNonHazardous') }}</option>
+                <option value="Flammable">{{ $t('compounds.hazardClassFlammable') }}</option>
+                <option value="Corrosive">{{ $t('compounds.hazardClassCorrosive') }}</option>
+                <option value="Toxic">{{ $t('compounds.hazardClassToxic') }}</option>
+                <option value="Oxidizing">{{ $t('compounds.hazardClassOxidizing') }}</option>
+                <option value="Explosive">{{ $t('compounds.hazardClassExplosive') }}</option>
+                <option value="Carcinogenic">{{ $t('compounds.hazardClassCarcinogenic') }}</option>
+                <option value="Radioactive">{{ $t('compounds.hazardClassRadioactive') }}</option>
+              </select>
+              <p v-if="editErrors.hazardClass" class="mt-1 text-sm text-red-600">
+                {{ editErrors.hazardClass }}
+              </p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">
+                {{ $t('compounds.labels.threshold') }} *
+              </label>
+              <Input
+                v-model.number="editForm.threshold"
+                type="number"
+                min="0"
+                step="0.01"
+                :placeholder="$t('compounds.thresholdPlaceholder')"
+                :error="editErrors.threshold"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">
               {{ $t('compounds.detail.notes') }}
             </label>
@@ -199,46 +183,13 @@
         </form>
       </div>
 
-      <!-- Stock Summary Section -->
-      <div class="bg-white border border-slate-200 rounded-lg p-6">
-        <h3 class="text-lg font-semibold text-slate-900 mb-4">
-          {{ $t('compounds.detail.stockSummary') }}
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div class="text-center p-4 bg-slate-50 rounded-lg">
-            <div class="text-2xl font-bold text-slate-900">{{ instanceSummary.totalInstances || 0 }}</div>
-            <div class="text-sm text-slate-600">{{ $t('compounds.instances.summary.totalInstances') }}</div>
-          </div>
-          <div class="text-center p-4 bg-slate-50 rounded-lg">
-            <div class="text-2xl font-bold" :class="stockStatusClasses">
-              {{ totalStock || 0 }}
-            </div>
-            <div class="text-sm text-slate-600">
-              {{ $t('compounds.instances.summary.totalQuantity') }}
-              <span v-if="instanceSummary.unit">({{ instanceSummary.unit }})</span>
-            </div>
-          </div>
-          <div class="text-center p-4 bg-slate-50 rounded-lg">
-            <div class="text-2xl font-bold text-slate-900">
-              {{ instanceSummary.locations?.length || 0 }}
-            </div>
-            <div class="text-sm text-slate-600">{{ $t('compounds.instances.summary.locations') }}</div>
-          </div>
-          <div class="text-center p-4 bg-slate-50 rounded-lg">
-            <div class="text-2xl font-bold text-orange-600">
-              {{ expiringSoonCount }}
-            </div>
-            <div class="text-sm text-slate-600">{{ $t('compounds.instances.summary.expiringSoon') }}</div>
-          </div>
-        </div>
-      </div>
-
       <!-- Instances Management Section -->
       <div class="bg-white border border-slate-200 rounded-lg p-6">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-semibold text-slate-900">
             {{ $t('compounds.instances.title') }}
           </h3>
+
           <Button 
             variant="primary" 
             size="sm"
@@ -258,81 +209,100 @@
           <p>{{ $t('compounds.instances.noInstances') }}</p>
         </div>
 
-        <div v-else class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-slate-200">
-            <thead class="bg-slate-50">
-              <tr>
-                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  {{ $t('compounds.instances.location') }}
-                </th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  {{ $t('compounds.instances.batchNumber') }}
-                </th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  {{ $t('compounds.instances.quantity') }}
-                </th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  {{ $t('compounds.instances.expiryDate') }}
-                </th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  {{ $t('compounds.instances.status') }}
-                </th>
-                <th class="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  {{ $t('compounds.instances.actions') }}
-                </th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-slate-200">
-              <tr v-for="instance in instances" :key="instance.id" class="hover:bg-slate-50">
-                <td class="px-4 py-3 text-sm text-slate-900">
-                  {{ instance.location }}
-                </td>
-                <td class="px-4 py-3 text-sm font-mono text-slate-900">
-                  {{ instance.batchNumber }}
-                </td>
-                <td class="px-4 py-3 text-sm text-slate-900">
-                  {{ instance.quantity }} {{ instance.unit }}
-                </td>
-                <td class="px-4 py-3 text-sm text-slate-900">
-                  <span v-if="instance.expiryDate" :class="getExpiryClasses(instance.expiryDate)">
-                    {{ formatDate(instance.expiryDate) }}
-                  </span>
-                  <span v-else class="text-slate-400">-</span>
-                </td>
-                <td class="px-4 py-3 text-sm">
-                  <Badge :variant="getStatusVariant(instance.status)">
-                    {{ getStatusLabel(instance.status) }}
-                  </Badge>
-                </td>
-                <td class="px-4 py-3 text-right text-sm">
-                  <div class="flex items-center justify-end gap-2">
-                    <Button 
-                      variant="ghost" 
-                      size="xs"
-                      @click="editInstance(instance)"
-                    >
-                      {{ $t('compounds.instances.edit') }}
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="xs"
-                      @click="createTransaction(instance)"
-                    >
-                      {{ $t('compounds.actions.recordTransaction') }}
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="xs"
-                      class="text-red-600 hover:text-red-700"
-                      @click="deleteInstance(instance)"
-                    >
-                      {{ $t('compounds.instances.delete') }}
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div v-else>
+          <!-- Instances Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-slate-200 bg-slate-50">
+                  <th class="text-left py-3 px-4 font-semibold text-slate-700">{{ $t('compounds.instances.location') }}</th>
+                  <th class="text-left py-3 px-4 font-semibold text-slate-700">{{ $t('compounds.instances.batchNumber') }}</th>
+                  <th class="text-left py-3 px-4 font-semibold text-slate-700">{{ $t('compounds.instances.description') }}</th>
+                  <th class="text-right py-3 px-4 font-semibold text-slate-700">{{ $t('compounds.instances.quantity') }}</th>
+                  <th class="text-left py-3 px-4 font-semibold text-slate-700">{{ $t('compounds.instances.status') }}</th>
+                  <th class="text-left py-3 px-4 font-semibold text-slate-700">{{ $t('compounds.instances.expiryDate') }}</th>
+                  <th class="text-right py-3 px-4 font-semibold text-slate-700">{{ $t('common.actions') }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr 
+                  v-for="instance in instances" 
+                  :key="instance.id" 
+                  class="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                >
+                  <!-- Location -->
+                  <td class="py-4 px-4">
+                    <div class="font-medium text-slate-900">{{ instance.location }}</div>
+                  </td>
+
+                  <!-- Batch Number -->
+                  <td class="py-4 px-4">
+                    <div class="font-mono text-sm text-slate-700">{{ instance.batchNumber }}</div>
+                  </td>
+
+                  <!-- Description -->
+                  <td class="py-4 px-4">
+                    <div v-if="instance.description" class="text-sm text-slate-600">
+                      {{ instance.description }}
+                    </div>
+                    <span v-else class="text-slate-400 text-sm">-</span>
+                  </td>
+
+                  <!-- Quantity -->
+                  <td class="py-4 px-4 text-right">
+                    <div class="text-lg font-semibold text-slate-900">
+                      {{ instance.quantity }} {{ instance.unit }}
+                    </div>
+                  </td>
+
+                  <!-- Status -->
+                  <td class="py-4 px-4">
+                    <Badge :variant="getStatusVariant(instance.status)" class="text-xs">
+                      {{ getStatusLabel(instance.status) }}
+                    </Badge>
+                  </td>
+
+                  <!-- Expiry Date -->
+                  <td class="py-4 px-4">
+                    <span v-if="instance.expiryDate" :class="getExpiryClasses(instance.expiryDate)" class="text-sm">
+                      {{ formatDate(instance.expiryDate) }}
+                    </span>
+                    <span v-else class="text-slate-400 text-sm">-</span>
+                  </td>
+
+                  <!-- Actions -->
+                  <td class="py-4 px-4">
+                    <div class="flex items-center justify-end gap-1">
+                      <Button 
+                        variant="ghost" 
+                        size="xs"
+                        @click="editInstance(instance)"
+                        class="text-blue-600 hover:text-blue-700"
+                      >
+                        {{ $t('compounds.instances.edit') }}
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="xs"
+                        @click="createTransaction(instance)"
+                        class="text-green-600 hover:text-green-700"
+                      >
+                        {{ $t('compounds.actions.recordTransaction') }}
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="xs"
+                        class="text-red-600 hover:text-red-700"
+                        @click="deleteInstance(instance)"
+                      >
+                        {{ $t('compounds.instances.delete') }}
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
