@@ -48,12 +48,6 @@ const TRANSACTION_TYPES = {
     color: 'red',
     requiresConfirmation: false
   },
-  restock: { 
-    multiplier: 1, 
-    icon: 'plus',
-    color: 'green',
-    requiresConfirmation: false
-  },
   adjust: { 
     multiplier: 0, // Special handling for adjustments
     icon: 'edit',

@@ -103,6 +103,20 @@
       "description": "dolor",
       "compoundId": "2",
       "createdAt": "2025-07-08T12:59:08.233Z"
+    },
+    {
+      "id": "8d74",
+      "location": "q",
+      "batchNumber": "123",
+      "quantity": 1,
+      "unit": "ml",
+      "receivedDate": "2025-07-08",
+      "expiryDate": "2026-10-08",
+      "openedDate": "",
+      "status": "active",
+      "description": "",
+      "compoundId": "2b03",
+      "createdAt": "2025-07-08T14:42:59.964Z"
     }
   ],
   "countSessions": [
