@@ -221,15 +221,9 @@ const {
 const formData = reactive({
   name: '',
   casNumber: '',
-  quantity: '',
   unit: '',
   threshold: '',
-  location: '',
   hazardClass: '',
-  receivedDate: '',
-  expiryDate: '',
-  supplier: '',
-  batchNumber: '',
   synonyms: ''
 })
 
@@ -259,43 +253,14 @@ onMounted(() => {
     }
   ])
 
-  // Quantity - required, positive number
-  registerField('quantity', [
-    'required',
-    'positiveNumber'
-  ])
-
   // Unit - required
   registerField('unit', ['required'])
 
   // Threshold - non-negative number
   registerField('threshold', ['nonNegativeNumber'])
 
-  // Location - required
-  registerField('location', [
-    'required',
-    { name: 'minLength', params: { min: 2 } },
-    { name: 'maxLength', params: { max: 50 } }
-  ])
-
   // Hazard class - no specific validation (optional)
   registerField('hazardClass', [])
-
-  // Received date - should be in the past
-  registerField('receivedDate', ['pastDate'])
-
-  // Expiry date - should be in the future
-  registerField('expiryDate', ['futureDate'])
-
-  // Supplier
-  registerField('supplier', [
-    { name: 'maxLength', params: { max: 100 } }
-  ])
-
-  // Batch number
-  registerField('batchNumber', [
-    { name: 'maxLength', params: { max: 50 } }
-  ])
 
   // Synonyms
   registerField('synonyms', [
@@ -321,12 +286,6 @@ watch(() => formData.casNumber, (value) => {
   }
 })
 
-watch(() => formData.quantity, (value) => {
-  if (getFieldState('quantity').isTouched) {
-    validateField('quantity', value)
-  }
-})
-
 watch(() => formData.unit, (value) => {
   if (getFieldState('unit').isTouched) {
     validateField('unit', value)
@@ -339,24 +298,17 @@ watch(() => formData.threshold, (value) => {
   }
 })
 
-watch(() => formData.location, (value) => {
-  if (getFieldState('location').isTouched) {
-    validateField('location', value)
+watch(() => formData.hazardClass, (value) => {
+  if (getFieldState('hazardClass').isTouched) {
+    validateField('hazardClass', value)
   }
 })
 
-watch(() => formData.receivedDate, (value) => {
-  if (getFieldState('receivedDate').isTouched) {
-    validateField('receivedDate', value)
+watch(() => formData.synonyms, (value) => {
+  if (getFieldState('synonyms').isTouched) {
+    validateField('synonyms', value)
   }
 })
-
-watch(() => formData.expiryDate, (value) => {
-  if (getFieldState('expiryDate').isTouched) {
-    validateField('expiryDate', value)
-  }
-})
-
 // Handle form submission
 const handleSubmit = async () => {
   // Validate entire form
@@ -365,6 +317,7 @@ const handleSubmit = async () => {
   if (isValid) {
     emit('submit', { ...formData })
   }
+
 }
 
 // Reset form
