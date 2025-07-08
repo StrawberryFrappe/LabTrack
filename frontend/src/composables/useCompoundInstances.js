@@ -103,19 +103,21 @@ export function useCompoundInstances() {
     return [...new Set(locations)]
   })
 
+  
+
   /**
-   * Get Low Stock Instances
+   * Get Low Stock Instances (Local)
    * 
-   * Returns instances where the compound total stock is below threshold.
-   * This requires compounds data to check thresholds.
+   * Returns instances for compounds where total stock is below threshold.
+   * Requires compounds data to be passed in for threshold checking.
    */
-  const getLowStockInstances = async () => {
-    try {
-      return await instanceService.getLowStock()
-    } catch (err) {
-      error.value = 'Failed to get low stock instances: ' + err.message
-      return []
-    }
+  const getLowStockInstances = (compounds = []) => {
+    if (!compounds.length) return []
+    
+    return compounds.filter(compound => {
+      const totalStock = getTotalStockForCompound(compound.id)
+      return totalStock < (compound.threshold || 0)
+    })
   }
 
   /**

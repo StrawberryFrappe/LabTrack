@@ -81,46 +81,6 @@ export const instanceService = {
   },
 
   /**
-   * Get Low Stock Instances
-   * 
-   * Fetches instances with low quantities.
-   * Since thresholds are defined at compound level, we need compound data too.
-   */
-  async getLowStock() {
-    const instances = await this.getAll()
-    const compoundsResponse = await api.get('/compounds')
-    const compounds = compoundsResponse.data
-    
-    return instances.filter(instance => {
-      const compound = compounds.find(c => c.id === instance.compoundId)
-      if (!compound) return false
-      
-      // Calculate total stock for this compound across all instances
-      const compoundInstances = instances.filter(i => i.compoundId === compound.id)
-      const totalStock = compoundInstances.reduce((sum, i) => sum + (i.quantity || 0), 0)
-      
-      return totalStock <= compound.threshold
-    })
-  },
-
-  /**
-   * Get Expiring Instances
-   * 
-   * Fetches instances expiring within specified days.
-   */
-  async getExpiring(days = 30) {
-    const instances = await this.getAll()
-    const futureDate = new Date()
-    futureDate.setDate(futureDate.getDate() + days)
-    
-    return instances.filter(instance => {
-      if (!instance.expiryDate) return false
-      const expiryDate = new Date(instance.expiryDate)
-      return expiryDate <= futureDate && instance.status === 'active'
-    })
-  },
-
-  /**
    * Get Instances by Location
    * 
    * Fetches instances at a specific location.
