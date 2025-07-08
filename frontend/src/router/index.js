@@ -41,8 +41,8 @@ const LoginForm = () => import('../components/auth/LoginForm.vue')
 const DashboardLayout = () => import('../components/layout/DashboardLayout.vue')
 const DashboardHome = () => import('../views/DashboardHome.vue')
 const CompoundsView = () => import('../views/CompoundsView.vue')
-const InventoryView = () => import('../views/InventoryView.vue')
-const InventorySessionsView = () => import('../views/InventorySessionsView.vue')
+const AuditView = () => import('../views/AuditView.vue')
+const InventoryTransactionsView = () => import('../views/InventoryTransactionsView.vue')
 const SettingsView = () => import('../views/SettingsView.vue')
 const PreferencesView = () => import('../views/PreferencesView.vue')
 
@@ -85,7 +85,7 @@ const routes = [
       },      {
         path: 'inventory',
         name: 'Inventory',
-        component: InventoryView,
+        component: AuditView,
         meta: { 
           requiresAuth: true,
           title: 'Inventory - LabTrack'
@@ -94,7 +94,7 @@ const routes = [
       {
         path: 'inventory-sessions',
         name: 'InventorySessions',
-        component: InventorySessionsView,
+        component: InventoryTransactionsView,
         meta: { 
           requiresAuth: true,
           title: 'Inventory Sessions - LabTrack'
