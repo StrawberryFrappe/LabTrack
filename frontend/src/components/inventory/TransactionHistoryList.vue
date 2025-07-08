@@ -236,13 +236,14 @@ const getQuantityClasses = (type) => {
 const formatQuantity = (transaction) => {
   const config = TRANSACTION_TYPES[transaction.type]
   const quantity = transaction.quantity
+  const unit = transaction.unit || ''
   
   if (transaction.type === 'adjust') {
-    return `${quantity}` // No prefix for adjustments
+    return `${quantity} ${unit}`.trim() // No prefix for adjustments
   }
   
   const prefix = config?.multiplier === 1 ? '+' : '-'
-  return `${prefix}${quantity}`
+  return `${prefix}${quantity} ${unit}`.trim()
 }
 
 const handlePageChange = (page) => {

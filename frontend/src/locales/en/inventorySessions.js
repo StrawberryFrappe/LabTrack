@@ -83,6 +83,7 @@ export default {
       confirmTransaction: 'Are you sure you want to record this transaction?',
       deleteTransaction: 'Delete this transaction?',
       deleteTransactionConfirm: 'This action cannot be undone.',
+      duplicateTransaction: 'This transaction was just submitted. Please wait before submitting again.',
       
       // Success messages
       useRecorded: 'Usage recorded successfully',

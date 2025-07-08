@@ -23,6 +23,7 @@
 import { ref, computed, reactive } from 'vue'
 import { useToast } from './useToast.js'
 import { useAuth } from './useAuth.js'
+import { useCompoundInstances } from './useCompoundInstances.js'
 import { transactionService } from '../services/transactionService.js'
 
 // Shared state (singleton pattern)
@@ -31,13 +32,17 @@ const loading = ref(false)
 const error = ref(null)
 let isInitialized = false
 
+// Transaction spam prevention
+const recentTransactions = new Map()
+
 // Transaction form state
 const transactionForm = reactive({
-  compoundId: '',
+  instanceId: '',
   type: 'use',
   quantity: '',
   notes: '',
-  location: ''
+  location: '',
+  percentage: '' // For partial consumption
 })
 
 // Transaction types configuration
@@ -46,31 +51,36 @@ const TRANSACTION_TYPES = {
     multiplier: -1, 
     icon: 'minus',
     color: 'red',
-    requiresConfirmation: false
+    requiresConfirmation: false,
+    allowsPartial: true
   },
   adjust: { 
     multiplier: 0, // Special handling for adjustments
     icon: 'edit',
     color: 'blue',
-    requiresConfirmation: true
+    requiresConfirmation: true,
+    allowsPartial: false
   },
   transfer: { 
     multiplier: -1, // From current location
     icon: 'arrow-right',
     color: 'yellow',
-    requiresConfirmation: true
+    requiresConfirmation: true,
+    allowsPartial: true
   },
   waste: { 
     multiplier: -1, 
     icon: 'trash',
     color: 'red',
-    requiresConfirmation: true
+    requiresConfirmation: true,
+    allowsPartial: true
   }
 }
 
 export function useInventory() {
   const { toast } = useToast()
   const { user } = useAuth()
+  const { updateInstanceQuantity } = useCompoundInstances()
 
   /**
    * Initialize inventory data
@@ -180,6 +190,134 @@ export function useInventory() {
     } finally {
       loading.value = false
     }
+  }
+
+  /**
+   * Create transaction hash for duplicate detection
+   */
+  const createTransactionHash = (transaction) => {
+    return `${transaction.instanceId}-${transaction.type}-${transaction.quantity}-${transaction.notes || ''}`
+  }
+
+  /**
+   * Check if transaction is a duplicate
+   */
+  const isDuplicateTransaction = (transaction) => {
+    const hash = createTransactionHash(transaction)
+    const lastSubmitted = recentTransactions.get(hash)
+    
+    if (lastSubmitted) {
+      const timeDiff = Date.now() - lastSubmitted
+      // Prevent identical transaction within 5 seconds
+      if (timeDiff < 5000) {
+        return true
+      }
+    }
+    
+    // Update timestamp
+    recentTransactions.set(hash, Date.now())
+    
+    // Clean old entries (older than 1 minute)
+    for (const [key, timestamp] of recentTransactions.entries()) {
+      if (Date.now() - timestamp > 60000) {
+        recentTransactions.delete(key)
+      }
+    }
+    
+    return false
+  }
+
+  /**
+   * Record a new instance-based transaction
+   * @param {Object} transaction - Instance transaction data
+   */
+  const recordInstanceTransaction = async (transaction) => {
+    try {
+      loading.value = true
+      
+      // Check for duplicate transaction
+      if (isDuplicateTransaction(transaction)) {
+        throw new Error('This transaction was just submitted. Please wait before submitting again.')
+      }
+      
+      // Validate instance transaction
+      const validation = validateInstanceTransaction(transaction)
+      if (!validation.valid) {
+        throw new Error(validation.errors.join(', '))
+      }
+      
+      // Calculate new quantity for the instance
+      const newQuantity = calculateNewInstanceQuantity(transaction)
+      
+      // Prepare transaction data
+      const transactionData = {
+        ...transaction,
+        userId: user.value?.id || 'unknown',
+        userName: user.value?.name || 'Unknown User',
+        newQuantity,
+        originalQuantity: transaction.originalQuantity,
+        timestamp: new Date().toISOString()
+      }
+      
+      // Update instance quantity
+      const instanceUpdates = {
+        quantity: newQuantity,
+        status: newQuantity <= 0 ? 'used_up' : 'active'
+      }
+      
+      // If this is a transfer, update the location
+      if (transaction.type === 'transfer' && transaction.location) {
+        instanceUpdates.location = transaction.location
+      }
+      
+      await updateInstanceQuantity(transaction.instanceId, newQuantity, instanceUpdates)
+      
+      // Send to server
+      const savedTransaction = await transactionService.create(transactionData)
+      
+      // Add to local state
+      transactions.value.unshift(savedTransaction)
+      
+      // Reset form
+      resetTransactionForm()
+      
+      return savedTransaction
+      
+    } catch (error) {
+      // Ensure we always have a proper error object
+      const errorMessage = error?.message || error?.error || error || 'Unknown error occurred'
+      const errorObj = error instanceof Error ? error : new Error(errorMessage)
+      
+      // Set error state
+      error.value = errorMessage
+      
+      // Throw the error for the calling function to handle
+      throw errorObj
+      
+    } finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * Calculate new instance quantity after transaction
+   * @param {Object} transaction - Transaction data
+   */
+  const calculateNewInstanceQuantity = (transaction) => {
+    const { type, quantity, originalQuantity } = transaction
+    const typeConfig = TRANSACTION_TYPES[type]
+    
+    if (type === 'adjust') {
+      return parseFloat(quantity)
+    }
+    
+    if (type === 'transfer') {
+      // For transfers, quantity stays the same but location changes
+      return originalQuantity
+    }
+    
+    // For use and waste, reduce quantity
+    return Math.max(0, originalQuantity + (parseFloat(quantity) * typeConfig.multiplier))
   }
 
   /**
@@ -344,14 +482,53 @@ export function useInventory() {
   }
 
   /**
+   * Validate instance transaction data
+   * @param {Object} transaction - Transaction data to validate
+   */
+  const validateInstanceTransaction = (transaction) => {
+    const errors = []
+    
+    if (!transaction.instanceId) {
+      errors.push('Instance ID is required')
+    }
+    
+    if (!transaction.type || !TRANSACTION_TYPES[transaction.type]) {
+      errors.push('Valid transaction type is required')
+    }
+    
+    const quantity = parseFloat(transaction.quantity)
+    if (isNaN(quantity) || quantity <= 0) {
+      errors.push('Quantity must be a positive number')
+    }
+    
+    // Check if trying to use more than available
+    const originalQuantity = parseFloat(transaction.originalQuantity) || 0
+    if ((transaction.type === 'use' || transaction.type === 'waste') && 
+        quantity > originalQuantity) {
+      errors.push('Cannot use more than available quantity')
+    }
+    
+    // Validate transfer destination
+    if (transaction.type === 'transfer' && !transaction.location) {
+      errors.push('Destination location is required for transfers')
+    }
+    
+    return {
+      valid: errors.length === 0,
+      errors
+    }
+  }
+
+  /**
    * Reset transaction form to default state
    */
   const resetTransactionForm = () => {
-    transactionForm.compoundId = ''
+    transactionForm.instanceId = ''
     transactionForm.type = 'use'
     transactionForm.quantity = ''
     transactionForm.notes = ''
     transactionForm.location = ''
+    transactionForm.percentage = ''
   }
 
   /**
@@ -384,7 +561,7 @@ export function useInventory() {
     }, {})
   })
 
-  // Auto-initialize when composable is used
+    // Auto-initialize when composable is used
   if (!isInitialized) {
     initialize()
   }
@@ -400,15 +577,20 @@ export function useInventory() {
     initialize,
     loadTransactions,
     recordTransaction,
+    recordInstanceTransaction,
     updateTransaction,
     deleteTransaction,
     resetTransactionForm,
     
     // Utilities
     calculateCurrentStock,
+    calculateNewInstanceQuantity,
     getStockStatus,
     validateTransaction,
+    validateInstanceTransaction,
     getStatistics,
+    createTransactionHash,
+    isDuplicateTransaction,
     
     // Computed
     recentTransactions,
