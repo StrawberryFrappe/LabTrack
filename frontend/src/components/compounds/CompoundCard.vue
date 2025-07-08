@@ -5,17 +5,18 @@
   >
     <template #header>
       <div class="flex items-center justify-between">
-        <h3 class="text-lg font-semibold text-slate-900">{{ compound.name }}</h3>
+        <div class="flex items-center gap-2">
+          <h3 class="text-lg font-semibold text-slate-900">{{ compound.name }}</h3>
+          <Badge v-if="compound.casNumber" variant="secondary" class="font-mono text-sm">
+            CAS: {{ compound.casNumber }}
+          </Badge>
+        </div>
         <Badge :variant="hazardBadgeVariant">{{ compound.hazardClass }}</Badge>
       </div>
     </template>
     
     <div class="space-y-3">
-      <div class="grid grid-cols-2 gap-4 text-sm">
-        <div>
-          <span class="text-slate-500">{{ $t('compounds.labels.casNumber') }}:</span>
-          <span class="ml-2 font-mono">{{ compound.casNumber }}</span>
-        </div>
+      <div class="grid grid-cols-1 gap-4 text-sm">
         <div>
           <span class="text-slate-500">{{ $t('compounds.labels.umbral') }}:</span>
           <span class="ml-2 font-mono">{{ compound.threshold }}</span>

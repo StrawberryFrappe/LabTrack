@@ -44,7 +44,7 @@
       "name": "crotolamo",
       "casNumber": "",
       "unit": "g",
-      "threshold": "",
+      "threshold": 1,
       "hazardClass": "Oxidizing",
       "synonyms": ""
     }
@@ -89,6 +89,20 @@
       "description": "tengo tuto",
       "compoundId": "2",
       "createdAt": "2025-07-08T12:33:30.741Z"
+    },
+    {
+      "id": "780f",
+      "location": "333333333",
+      "batchNumber": "123333",
+      "quantity": 123,
+      "unit": "ml",
+      "receivedDate": "2025-07-08",
+      "expiryDate": "2026-11-08",
+      "openedDate": "",
+      "status": "active",
+      "description": "dolor",
+      "compoundId": "2",
+      "createdAt": "2025-07-08T12:59:08.233Z"
     }
   ],
   "countSessions": [
