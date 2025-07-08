@@ -21,11 +21,12 @@
         <Input
           v-model="form.location"
           :placeholder="$t('compounds.locationPlaceholder')"
-          :error="errors.location"
+          :class="getValidationClasses('location')"
           required
+          @change="validateField('location', $event.target.value); touchField('location')"
         />
-        <p v-if="errors.location" class="mt-1 text-sm text-red-600">
-          {{ errors.location }}
+        <p v-if="hasFieldErrors('location')" class="mt-1 text-sm text-red-600">
+          {{ getFieldErrors('location')[0] }}
         </p>
       </div>
 
@@ -37,11 +38,12 @@
         <Input
           v-model="form.batchNumber"
           :placeholder="$t('compounds.batchNumberPlaceholder')"
-          :error="errors.batchNumber"
+          :class="getValidationClasses('batchNumber')"
           required
+          @change="validateField('batchNumber', $event.target.value); touchField('batchNumber')"
         />
-        <p v-if="errors.batchNumber" class="mt-1 text-sm text-red-600">
-          {{ errors.batchNumber }}
+        <p v-if="hasFieldErrors('batchNumber')" class="mt-1 text-sm text-red-600">
+          {{ getFieldErrors('batchNumber')[0] }}
         </p>
       </div>
 
@@ -57,11 +59,12 @@
             min="0"
             step="0.01"
             :placeholder="$t('compounds.quantityPlaceholder')"
-            :error="errors.quantity"
+            :class="getValidationClasses('quantity')"
             required
+            @change="validateField('quantity', $event.target.value); touchField('quantity')"
           />
-          <p v-if="errors.quantity" class="mt-1 text-sm text-red-600">
-            {{ errors.quantity }}
+          <p v-if="hasFieldErrors('quantity')" class="mt-1 text-sm text-red-600">
+            {{ getFieldErrors('quantity')[0] }}
           </p>
         </div>
         <div>
@@ -71,8 +74,9 @@
           <select
             v-model="form.unit"
             class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            :class="{ 'border-red-500': errors.unit }"
+            :class="getValidationClasses('unit')"
             required
+            @change="validateField('unit', $event.target.value); touchField('unit')"
           >
             <option value="">{{ $t('compounds.instances.unitSelect') }}</option>
             <option value="g">g</option>
@@ -84,8 +88,8 @@
             <option value="mmol">mmol</option>
             <option value="units">units</option>
           </select>
-          <p v-if="errors.unit" class="mt-1 text-sm text-red-600">
-            {{ errors.unit }}
+          <p v-if="hasFieldErrors('unit')" class="mt-1 text-sm text-red-600">
+            {{ getFieldErrors('unit')[0] }}
           </p>
         </div>
       </div>
@@ -99,7 +103,6 @@
           <Input
             v-model="form.receivedDate"
             type="date"
-            :error="errors.receivedDate"
           />
         </div>
         <div>
@@ -109,7 +112,6 @@
           <Input
             v-model="form.expiryDate"
             type="date"
-            :error="errors.expiryDate"
           />
         </div>
       </div>
@@ -122,7 +124,6 @@
         <Input
           v-model="form.openedDate"
           type="date"
-          :error="errors.openedDate"
         />
         <p class="mt-1 text-xs text-slate-500">
           {{ $t('compounds.instances.openedHelp') }}
@@ -137,7 +138,6 @@
         <select
           v-model="form.status"
           class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          :class="{ 'border-red-500': errors.status }"
         >
           <option value="active">{{ $t('compounds.instances.statusActive') }}</option>
           <option value="used_up">{{ $t('compounds.instances.statusUsedUp') }}</option>
@@ -166,7 +166,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import Badge from '@/components/ui/Badge.vue'
@@ -178,7 +178,20 @@ import { useValidation } from '@/composables/useValidation'
 
 const { t } = useI18n()
 const instanceComposable = useCompoundInstances()
-const { validate, clearErrors } = useValidation()
+
+// Initialize validation
+const validation = useValidation('instance-form')
+const {
+  registerField,
+  validateForm,
+  validateField,
+  touchField,
+  getFieldState,
+  getFieldErrors,
+  hasFieldErrors,
+  getValidationClasses,
+  resetValidation
+} = validation
 
 const props = defineProps({
   isOpen: {
@@ -195,11 +208,11 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['close', 'success'])
+const emit = defineEmits(['close', 'saved']) // Change 'success' to 'saved'
 
 // Local state
 const loading = ref(false)
-const errors = ref({})
+const generalErrors = ref([])
 
 const form = ref({
   location: '',
@@ -223,24 +236,13 @@ const hazardBadgeVariant = computed(() => {
   return 'secondary'
 })
 
-// Validation rules
-const validationRules = {
-  location: [
-    { required: true, message: t('validation.required', { field: t('compounds.instances.location') }) },
-    { minLength: 2, message: t('validation.minLength', { field: t('compounds.instances.location'), length: 2 }) }
-  ],
-  batchNumber: [
-    { required: true, message: t('validation.required', { field: t('compounds.instances.batchNumber') }) },
-    { minLength: 2, message: t('validation.minLength', { field: t('compounds.instances.batchNumber'), length: 2 }) }
-  ],
-  quantity: [
-    { required: true, message: t('validation.required', { field: t('compounds.instances.quantity') }) },
-    { min: 0, message: t('validation.min', { field: t('compounds.instances.quantity'), min: 0 }) }
-  ],
-  unit: [
-    { required: true, message: t('validation.required', { field: t('compounds.instances.unit') }) }
-  ]
-}
+// Register validation fields
+onMounted(() => {
+  registerField('location', ['required'])
+  registerField('batchNumber', ['required'])
+  registerField('quantity', ['required', 'numeric'])
+  registerField('unit', ['required'])
+})
 
 // Methods
 const resetForm = () => {
@@ -254,7 +256,7 @@ const resetForm = () => {
     openedDate: '',
     status: 'active'
   }
-  clearErrors(errors)
+  resetValidation()
 }
 
 const populateForm = (instance) => {
@@ -273,10 +275,9 @@ const populateForm = (instance) => {
 }
 
 const handleSubmit = async () => {
-  // Validate form
-  const validationErrors = validate(form.value, validationRules)
-  if (Object.keys(validationErrors).length > 0) {
-    errors.value = validationErrors
+  // Validate form using the validation composable
+  const isValid = await validateForm(form.value, true)
+  if (!isValid) {
     return
   }
 
@@ -295,11 +296,11 @@ const handleSubmit = async () => {
       await instanceComposable.createInstance(instanceData)
     }
 
-    emit('success')
+    emit('saved') // Change from 'success' to 'saved'
     handleClose()
   } catch (error) {
     console.error('Failed to save instance:', error)
-    errors.value = { general: error.message }
+    generalErrors.value = [error.message]
   } finally {
     loading.value = false
   }

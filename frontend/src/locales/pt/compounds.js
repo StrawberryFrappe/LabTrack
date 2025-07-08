@@ -168,6 +168,10 @@ export default {
     deleteError: "Falha ao excluir o composto. Tente novamente.",
     deleteConfirmTitle: "Excluir Composto",
     deleteConfirm: "Tem certeza de que deseja excluir '{name}'? Esta ação não pode ser desfeita.",
+    deleteBlocked: {
+      title: "Não é Possível Excluir o Composto",
+      message: "Não é possível excluir '{name}' porque possui {count} instância(s) ativa(s). Por favor, remova todas as instâncias antes de excluir o composto."
+    },
     
     // Import/Export
     importSuccess: "Importados com sucesso {count} compostos",

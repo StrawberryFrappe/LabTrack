@@ -40,27 +40,28 @@
       "notes": "General lab reagent for pH adjustment"
     },
     {
-      "id": "671f",
+      "id": "2b03",
       "name": "crotolamo",
       "casNumber": "",
-      "unit": "kg",
-      "threshold": "123",
-      "hazardClass": "",
+      "unit": "g",
+      "threshold": "",
+      "hazardClass": "Oxidizing",
       "synonyms": ""
     }
   ],
   "compoundInstances": [
     {
-      "id": "inst-2-1",
-      "compoundId": "2",
-      "batchNumber": "HCl-2024-002",
-      "quantity": 25,
-      "location": "Acid Cabinet",
-      "expiryDate": "2026-06-30",
-      "receivedDate": "2024-02-01",
-      "openedDate": null,
+      "id": "31d8",
+      "location": "q",
+      "batchNumber": "1",
+      "quantity": 1,
+      "unit": "kg",
+      "receivedDate": "2025-07-08",
+      "expiryDate": "2028-06-08",
+      "openedDate": "",
       "status": "active",
-      "createdAt": "2024-02-01T00:00:00.000Z"
+      "compoundId": "2",
+      "createdAt": "2025-07-08T11:36:35.574Z"
     }
   ],
   "countSessions": [

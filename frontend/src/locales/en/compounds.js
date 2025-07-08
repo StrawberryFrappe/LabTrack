@@ -168,6 +168,10 @@ export default {
     deleteError: "Failed to delete compound. Please try again.",
     deleteConfirmTitle: "Delete Compound",
     deleteConfirm: "Are you sure you want to delete '{name}'? This action cannot be undone.",
+    deleteBlocked: {
+      title: "Cannot Delete Compound",
+      message: "Cannot delete '{name}' because it has {count} active instance(s). Please remove all instances before deleting the compound."
+    },
     
     // Import/Export
     importSuccess: "Successfully imported {count} compounds",

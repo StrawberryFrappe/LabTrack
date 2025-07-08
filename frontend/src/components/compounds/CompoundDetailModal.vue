@@ -562,24 +562,44 @@ const saveEdit = async () => {
 }
 
 const deleteCompound = () => {
-  confirmDialog.value = {
-    isOpen: true,
-    title: t('compounds.deleteConfirmTitle'),
-    message: t('compounds.deleteConfirm', { name: compound.value.name }),
-    confirmText: t('common.delete'),
-    loading: false,
-    onConfirm: async () => {
-      confirmDialog.value.loading = true
-      try {
-        await compoundsComposable.deleteCompound(compound.value.id)
-        toast.success(t('compounds.deleteSuccess'))
-        emit('compound-deleted', compound.value)
-        handleClose()
-      } catch (err) {
-        toast.error(err.message || t('compounds.deleteError'))
-      } finally {
-        confirmDialog.value.loading = false
+  const instanceCount = instances.value.length
+  
+  if (instanceCount > 0) {
+    // Show warning dialog for compounds with instances
+    confirmDialog.value = {
+      isOpen: true,
+      title: t('compounds.deleteBlocked.title'),
+      message: t('compounds.deleteBlocked.message', { 
+        name: compound.value.name, 
+        count: instanceCount 
+      }),
+      confirmText: t('common.understood'),
+      loading: false,
+      onConfirm: async () => {
         confirmDialog.value.isOpen = false
+      }
+    }
+  } else {
+    // Show deletion confirmation for compounds without instances
+    confirmDialog.value = {
+      isOpen: true,
+      title: t('compounds.deleteConfirmTitle'),
+      message: t('compounds.deleteConfirm', { name: compound.value.name }),
+      confirmText: t('common.delete'),
+      loading: false,
+      onConfirm: async () => {
+        confirmDialog.value.loading = true
+        try {
+          await compoundsComposable.deleteCompound(compound.value.id)
+          toast.success(t('compounds.deleteSuccess'))
+          emit('compound-deleted', compound.value)
+          handleClose()
+        } catch (err) {
+          toast.error(err.message || t('compounds.deleteError'))
+        } finally {
+          confirmDialog.value.loading = false
+          confirmDialog.value.isOpen = false
+        }
       }
     }
   }

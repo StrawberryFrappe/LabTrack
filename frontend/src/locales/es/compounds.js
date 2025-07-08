@@ -166,6 +166,10 @@ export default {
     deleteError: "Error al eliminar el compuesto. Por favor intente de nuevo.",
     deleteConfirmTitle: "Eliminar Compuesto",
     deleteConfirm: "¿Está seguro que desea eliminar '{name}'? Esta acción no se puede deshacer.",
+    deleteBlocked: {
+      title: "No se Puede Eliminar el Compuesto",
+      message: "No se puede eliminar '{name}' porque tiene {count} instancia(s) activa(s). Por favor elimine todas las instancias antes de eliminar el compuesto."
+    },
     
     // Import/Export
     importSuccess: "Se importaron exitosamente {count} compuestos",
