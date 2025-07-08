@@ -111,7 +111,6 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useCompounds } from '@/composables/useCompounds.js'
 import { useInventory } from '@/composables/useInventory.js'
 import { useFormat } from '@/utils/format.js'
 
@@ -148,7 +147,6 @@ const props = defineProps({
 const emit = defineEmits(['edit-transaction', 'delete-transaction'])
 
 // Composables
-const { compounds } = useCompounds()
 const { TRANSACTION_TYPES } = useInventory()
 
 // Pagination state
@@ -162,16 +160,9 @@ const paginatedTransactions = computed(() => {
   return props.transactions.slice(start, end)
 })
 
-// Methods
+// Simplified methods
 const getCompoundName = (transaction) => {
-  // First try to use the compound name from the transaction
-  if (transaction.compoundName) {
-    return transaction.compoundName
-  }
-  
-  // Fall back to looking up the compound by ID
-  const compound = compounds.value.find(c => c.id === transaction.compoundId)
-  return compound?.name || transaction.compoundId || 'Unknown Compound'
+  return transaction.compoundName || transaction.compoundId || 'Unknown Compound'
 }
 
 const getTypeIcon = (type) => {
@@ -193,8 +184,7 @@ const getTypeIconClasses = (type) => {
     red: 'bg-red-100 text-red-600',
     green: 'bg-green-100 text-green-600',
     blue: 'bg-blue-100 text-blue-600',
-    yellow: 'bg-yellow-100 text-yellow-600',
-    purple: 'bg-purple-100 text-purple-600'
+    yellow: 'bg-yellow-100 text-yellow-600'
   }
   
   return [
@@ -211,8 +201,7 @@ const getTypeBadgeVariant = (type) => {
     red: 'destructive',
     green: 'success',
     blue: 'primary',
-    yellow: 'warning',
-    purple: 'secondary'
+    yellow: 'warning'
   }
   
   return variantMap[config.color] || 'secondary'
@@ -220,14 +209,13 @@ const getTypeBadgeVariant = (type) => {
 
 const getQuantityClasses = (type) => {
   const config = TRANSACTION_TYPES[type]
-  if (!config) return ''
+  if (!config) return 'font-medium'
   
   const colorMap = {
     red: 'text-red-600',
     green: 'text-green-600',
     blue: 'text-blue-600',
-    yellow: 'text-yellow-600',
-    purple: 'text-purple-600'
+    yellow: 'text-yellow-600'
   }
   
   return ['font-medium', colorMap[config.color] || 'text-slate-900']
@@ -239,7 +227,7 @@ const formatQuantity = (transaction) => {
   const unit = transaction.unit || ''
   
   if (transaction.type === 'adjust') {
-    return `${quantity} ${unit}`.trim() // No prefix for adjustments
+    return `${quantity} ${unit}`.trim()
   }
   
   const prefix = config?.multiplier === 1 ? '+' : '-'

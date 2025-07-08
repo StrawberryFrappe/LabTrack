@@ -13,12 +13,10 @@
         @update:modelValue="handleInstanceIdChange"
       />
       <ValidationMessages 
-        v-if="validationState.errors.instanceId" 
-        :errors="[validationState.errors.instanceId]" 
+        v-if="errors.instanceId" 
+        :errors="[errors.instanceId]" 
       />
     </div>
-
-    
 
     <!-- Transaction Type -->
     <div>
@@ -48,8 +46,8 @@
         </button>
       </div>
       <ValidationMessages 
-        v-if="validationState.errors.type" 
-        :errors="[validationState.errors.type]" 
+        v-if="errors.type" 
+        :errors="[errors.type]" 
       />
     </div>
 
@@ -69,7 +67,7 @@
           min="0"
           :max="getMaxQuantity()"
           :placeholder="$t('inventorySessions.quickTransaction.quantityPlaceholder')"
-          :class="{ 'border-red-300': validationState.errors.quantity }"
+          :class="{ 'border-red-300': errors.quantity }"
         />
         <!-- Quick quantity buttons for common amounts -->
         <div v-if="selectedInstance && (form.type === 'use' || form.type === 'waste')" class="flex gap-1 mt-2">
@@ -92,8 +90,8 @@
         </div>
       </div>
       <ValidationMessages 
-        v-if="validationState.errors.quantity" 
-        :errors="[validationState.errors.quantity]" 
+        v-if="errors.quantity" 
+        :errors="[errors.quantity]" 
       />
       
       <!-- Stock validation warning -->
@@ -113,11 +111,11 @@
       <Input
         v-model="form.location"
         :placeholder="$t('inventorySessions.quickTransaction.locationPlaceholder')"
-        :class="{ 'border-red-300': validationState.errors.location }"
+        :class="{ 'border-red-300': errors.location }"
       />
       <ValidationMessages 
-        v-if="validationState.errors.location" 
-        :errors="[validationState.errors.location]" 
+        v-if="errors.location" 
+        :errors="[errors.location]" 
       />
     </div>
 
@@ -141,7 +139,6 @@
         :loading="loading || inventoryLoading"
         :disabled="!isFormValid"
         class="flex-1"
-        @click="console.log('Submit button clicked, isFormValid:', isFormValid)"
       >
         {{ $t('inventorySessions.quickTransaction.submit') }}
       </Button>
@@ -158,7 +155,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useInventory } from '@/composables/useInventory.js'
 import { useToast } from '@/composables/useToast.js'
@@ -193,7 +190,7 @@ const emit = defineEmits(['transaction-recorded'])
 // Composables
 const { 
   recordInstanceTransaction, 
-  validateInstanceTransaction, 
+  validateTransaction, 
   calculateNewInstanceQuantity,
   TRANSACTION_TYPES,
   loading: inventoryLoading 
@@ -242,46 +239,11 @@ const stockValidation = computed(() => {
   return { warning: false }
 })
 
-// Simplified methods
-const validateForm = () => {
-  const newErrors = {}
-  
-  if (!form.instanceId) {
-    newErrors.instanceId = t('inventorySessions.validation.required')
-  }
-  
-  if (!form.type || !TRANSACTION_TYPES[form.type]) {
-    newErrors.type = t('inventorySessions.validation.required')
-  }
-  
-  const quantity = parseFloat(form.quantity)
-  if (isNaN(quantity) || quantity <= 0) {
-    newErrors.quantity = t('inventorySessions.validation.positiveNumber')
-  }
-  
-  if (form.type === 'transfer' && !form.location?.trim()) {
-    newErrors.location = t('inventorySessions.validation.required')
-  }
-  
-  // Check stock availability
-  if (selectedInstance.value && ['use', 'waste'].includes(form.type)) {
-    if (quantity > selectedInstance.value.quantity) {
-      newErrors.quantity = t('inventorySessions.messages.insufficientStock')
-    }
-  }
-  
-  errors.value = newErrors
-  return Object.keys(newErrors).length === 0
-}
-
+// Event handlers
 const handleInstanceSelected = (instance) => {
   selectedInstance.value = instance
   form.instanceId = instance?.id || ''
-  
-  // Clear instance-related errors
-  if (errors.value.instanceId) {
-    delete errors.value.instanceId
-  }
+  clearErrors()
 }
 
 const handleInstanceIdChange = (instanceId) => {
@@ -293,28 +255,16 @@ const getMaxQuantity = () => {
   return selectedInstance.value.quantity
 }
 
-const formatDate = (dateString) => {
-  if (!dateString) return ''
-  return new Date(dateString).toLocaleDateString()
-}
-
 const handleSubmit = async () => {
   if (loading.value) return
   
   try {
     loading.value = true
-    
-    // Clear previous errors
-    validationState.errors = {}
-    
-    // Basic form validation
-    if (!validateForm()) {
-      return
-    }
+    clearErrors()
     
     // Ensure instance is selected
     if (!selectedInstance.value) {
-      validationState.errors.instanceId = t('inventorySessions.messages.selectInstance')
+      errors.value.instanceId = t('inventorySessions.messages.selectInstance')
       return
     }
     
@@ -332,32 +282,17 @@ const handleSubmit = async () => {
       location: form.type === 'transfer' ? form.location : selectedInstance.value.location
     }
     
-    // Simple duplicate check
-    if (isDuplicateTransaction(transaction)) {
-      toast.error(t('inventorySessions.messages.duplicateTransaction'))
-      return
-    }
+    // Record transaction
+    await recordInstanceTransaction(transaction)
     
-    // Record transaction (let the composable handle all validation and processing)
-    const result = await recordInstanceTransaction(transaction)
-    
-    // Success handling
+    // Success
     emit('transaction-recorded', transaction)
     toast.success(t('inventorySessions.messages.transactionRecorded'))
     resetForm()
     
   } catch (error) {
     console.error('Transaction submission error:', error)
-    
-    // Simple error handling
-    let errorMessage = t('inventorySessions.messages.transactionFailed')
-    
-    if (error && typeof error === 'object' && error.message) {
-      errorMessage = error.message
-    } else if (error && typeof error === 'string') {
-      errorMessage = error
-    }
-    
+    const errorMessage = error?.message || t('inventorySessions.messages.transactionFailed')
     toast.error(errorMessage)
   } finally {
     loading.value = false
@@ -365,55 +300,29 @@ const handleSubmit = async () => {
 }
 
 const resetForm = () => {
-  // Reset form data
   form.instanceId = ''
   form.type = 'use'
   form.quantity = ''
   form.notes = ''
   form.location = ''
   
-  // Clear validation state
-  validationState.errors = {}
-  validationState.hasValidated = false
-  
-  // Clear selected instance
+  clearErrors()
   selectedInstance.value = null
   
-  // Reset the InstanceSelector component if it exists
   if (instanceSelectorRef.value?.reset) {
     instanceSelectorRef.value.reset()
   }
 }
 
-// Watch for form changes to clear errors and debug
-watch(() => form.instanceId, (newVal, oldVal) => {
-  console.log('Form instanceId changed from', oldVal, 'to', newVal)
-  if (validationState.hasValidated && validationState.errors.instanceId) {
-    delete validationState.errors.instanceId
-  }
-})
+const clearErrors = () => {
+  errors.value = {}
+}
 
-watch(() => form.quantity, (newVal, oldVal) => {
-  console.log('Form quantity changed from', oldVal, 'to', newVal)
-  if (validationState.hasValidated && validationState.errors.quantity) {
-    delete validationState.errors.quantity
-  }
-})
-
-watch(() => form.location, (newVal, oldVal) => {
-  console.log('Form location changed from', oldVal, 'to', newVal)
-  if (validationState.hasValidated && validationState.errors.location) {
-    delete validationState.errors.location
-  }
-})
-
-watch(() => form.type, (newVal, oldVal) => {
-  console.log('Form type changed from', oldVal, 'to', newVal)
-  if (validationState.hasValidated && validationState.errors.type) {
-    delete validationState.errors.type
-  }
-})
-
+// Watch for form changes to clear errors
+watch(() => form.instanceId, clearErrors)
+watch(() => form.quantity, clearErrors)
+watch(() => form.location, clearErrors)
+watch(() => form.type, clearErrors)
 
 const getQuantityPresets = () => {
   if (!selectedInstance.value) return []
@@ -421,7 +330,6 @@ const getQuantityPresets = () => {
   const currentStock = selectedInstance.value.quantity
   const presets = []
   
-  // Add some common usage amounts based on current stock
   if (currentStock >= 10) presets.push(1, 5, 10)
   if (currentStock >= 25) presets.push(25)
   if (currentStock >= 50) presets.push(50)
