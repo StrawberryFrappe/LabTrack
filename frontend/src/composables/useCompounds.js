@@ -85,6 +85,7 @@ export function useCompounds(pagination = null, advancedSearch = null) {
   )
 
   const lowStockItems = computed(() =>
+    
     compounds.value.filter(compound => {
       const totalStock = instanceComposable.getTotalStockForCompound(compound.id)
       return totalStock < compound.threshold

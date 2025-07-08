@@ -76,12 +76,6 @@ src/
 - Maintain responsive design with Tailwind utilities
 - Follow accessibility best practices
 
-## 📚 Documentation
-
-For detailed project information:
-- **[TODO.md](./TODO.md)** - Development roadmap and timeline
-- **[STATUS.md](./STATUS.md)** - Detailed functionality status
-- **[INTERNATIONALIZATION.md](./INTERNATIONALIZATION.md)** - i18n implementation guide
 
 ## 🔧 Available Scripts
 
@@ -96,15 +90,8 @@ npm run server     # Start only API server (JSON Server)
 ## 🌐 Authentication
 
 Default development credentials:
-- **Admin**: admin / admin123
-- **Visitor**: visitor / visitor123
-
-## 📝 Getting Help
-
-1. Check the [STATUS.md](./STATUS.md) for feature implementation details
-2. Review [TODO.md](./TODO.md) for known issues and roadmap
-3. Examine existing components for patterns and examples
-4. All components are well-documented with inline comments
+- **Admin**: admin / admin
+- **Visitor**: visitor / visitor
 
 ---
 

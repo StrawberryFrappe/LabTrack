@@ -103,38 +103,6 @@ export function useCompoundInstances() {
     return [...new Set(locations)]
   })
 
-  
-
-  /**
-   * Get Low Stock Instances (Local)
-   * 
-   * Returns instances for compounds where total stock is below threshold.
-   * Requires compounds data to be passed in for threshold checking.
-   */
-  const getLowStockInstances = (compounds = []) => {
-    if (!compounds.length) return []
-    
-    return compounds.filter(compound => {
-      const totalStock = getTotalStockForCompound(compound.id)
-      return totalStock < (compound.threshold || 0)
-    })
-  }
-
-  /**
-   * Get Expiring Instances
-   * 
-   * Returns instances expiring within specified days.
-   */
-  const getExpiringInstances = (days = 30) => {
-    const futureDate = new Date()
-    futureDate.setDate(futureDate.getDate() + days)
-    
-    return instances.value.filter(instance => {
-      if (!instance.expiryDate || instance.status !== 'active') return false
-      const expiryDate = new Date(instance.expiryDate)
-      return expiryDate <= futureDate
-    })
-  }
 
   /**
    * Create New Instance
@@ -299,8 +267,6 @@ export function useCompoundInstances() {
     getTotalStockForCompound,
     getInstanceCountForCompound,
     getInstancesByLocation,
-    getLowStockInstances,
-    getExpiringInstances,
     createInstance,
     updateInstance,
     deleteInstance,
