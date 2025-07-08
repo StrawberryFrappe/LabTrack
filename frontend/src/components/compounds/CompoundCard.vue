@@ -45,31 +45,6 @@
         </div>
       </div>
     </div>
-      <template #footer>
-      <div class="flex gap-2">
-        <!-- TODO: Add more action buttons (View Details, Duplicate, Delete) -->
-        <!-- TODO: Add context menu for additional actions -->
-        <!-- TODO: Add confirmation dialogs for destructive actions -->
-        <Button variant="outline" size="sm" @click="$emit('edit', compound)">
-          {{ $t('compounds.actions.edit') }}
-        </Button>
-        <Button variant="outline" size="sm" @click="$emit('scan', compound)">
-          {{ $t('compounds.actions.count') }}
-        </Button>
-        <Button 
-          variant="primary" 
-          size="sm" 
-          @click="navigateToInventorySessions(compound)"
-        >
-          {{ $t('compounds.actions.recordTransaction') }}
-        </Button>
-        <Button variant="destructive" size="sm" @click="$emit('delete', compound)">
-          {{ $t('compounds.actions.delete') }}
-        </Button>
-        <!-- TODO: Add quick quantity adjust buttons -->
-        <!-- TODO: Add barcode generation/print button -->
-      </div>
-    </template>
   </Card>
 </template>
 
