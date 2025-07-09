@@ -114,7 +114,7 @@
                 <div class="flex gap-2">
                   <Button
                     variant="outline"
-                    size="xs"
+                    size="sm"
                     @click="verifyLocationInstances(locationGroup.location)"
                     :disabled="isLocationComplete(locationGroup.location)"
                   >
@@ -122,7 +122,7 @@
                   </Button>
                   <Button
                     variant="outline"
-                    size="xs"
+                    size="sm"
                     @click="toggleLocationCollapse(locationGroup.location)"
                   >
                     {{ isLocationCollapsed(locationGroup.location) ? $t('common.expand') : $t('common.collapse') }}
@@ -170,7 +170,7 @@
                   <div class="lg:col-span-1 flex items-center">
                     <Button
                       variant="outline"
-                      size="xs"
+                      size="sm"
                       @click="quickVerifyInstance(instance.id)"
                       :disabled="getInstanceStatus(instance.id) === 'verified'"
                       class="w-full"
@@ -201,7 +201,7 @@
                   <div class="lg:col-span-1 flex items-center justify-end">
                     <Button
                       variant="ghost"
-                      size="xs"
+                      size="sm"
                       @click="toggleInstanceDetails(instance.id)"
                     >
                       {{ isInstanceExpanded(instance.id) ? $t('common.collapse') : $t('inventory.detailedCount') }}
@@ -359,7 +359,8 @@ const props = defineProps({
   currentLocation: String
 })
 
-const emit = defineEmits(['update:modelValue', 'progress-updated'])
+const emit = defineEmits(['update:modelValue', 'progress-updated', 'location-complete'])
+
 
 const isOpen = computed({
   get: () => props.modelValue,

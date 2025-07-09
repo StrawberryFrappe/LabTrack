@@ -395,7 +395,8 @@ const props = defineProps({
   },
   compoundId: {
     type: [String, Number],
-    required: true
+    required: false,
+    default: null
   }
 })
 

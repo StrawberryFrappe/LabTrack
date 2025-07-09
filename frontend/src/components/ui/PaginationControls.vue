@@ -174,7 +174,7 @@ const props = defineProps({
   },
   pageSizeOptions: {
     type: Array,
-    default: () => [10, 25, 50, 100]
+    default: () => [5, 10, 25, 50, 100]
   }
 })
 

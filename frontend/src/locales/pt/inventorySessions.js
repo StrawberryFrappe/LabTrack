@@ -25,6 +25,8 @@ export default {
       preview: 'Visualização da Transação',
       destinationLocation: 'Localização de Destino',
       locationPlaceholder: 'Insira a localização de destino',
+      transferQuantity: 'Quantidade de Transferência',
+      transferEntireInstance: 'Transferirá toda a instância',
       
       // Transaction Types
       types: {

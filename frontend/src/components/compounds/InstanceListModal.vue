@@ -1,8 +1,9 @@
 <template>
   <BaseModal
-    :is-open="isOpen"
+    :model-value="isOpen"
     :title="$t('compounds.instances.title')"
-    size="large"
+    size="xl"
+    @update:model-value="isOpen = $event"
     @close="$emit('close')"
   >
     <template #description>
@@ -169,7 +170,7 @@
 
   <!-- Delete Confirmation -->
   <ConfirmDialog
-    :is-open="showDeleteConfirm"
+    v-model="showDeleteConfirm"
     :title="$t('compounds.instances.delete')"
     :message="$t('compounds.instances.deleteConfirm')"
     @confirm="deleteInstance"
@@ -196,7 +197,7 @@ const { getHazardVariant } = useHazardStyles()
 const instanceComposable = useCompoundInstances()
 
 const props = defineProps({
-  isOpen: {
+  modelValue: {
     type: Boolean,
     default: false
   },
@@ -206,7 +207,12 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['close', 'add-instance', 'edit-instance'])
+const emit = defineEmits(['update:modelValue', 'close', 'add-instance', 'edit-instance'])
+
+const isOpen = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+})
 
 // Local state
 const searchQuery = ref('')

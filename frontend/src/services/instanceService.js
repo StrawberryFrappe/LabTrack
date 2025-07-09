@@ -14,6 +14,11 @@
 
 import api from './api.js'
 
+// Generate a simple UUID for instances when needed
+const generateId = () => {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2)
+}
+
 export const instanceService = {
   /**
    * Normalize Instance Data
@@ -23,7 +28,7 @@ export const instanceService = {
   normalizeInstance(instance) {
     // Define default structure for a compound instance
     const defaultInstance = {
-      id: instance.id || '',
+      id: instance.id && instance.id.trim() ? instance.id : generateId(),
       compoundId: instance.compoundId || '',
       location: instance.location || '',
       batchNumber: instance.batchNumber || '',
@@ -82,7 +87,12 @@ export const instanceService = {
       status: instanceData.status || 'active',
       createdAt: new Date().toISOString()
     })
-    const response = await api.post('/compoundInstances', instanceWithDefaults)
+    
+    // Remove ID to let JSON Server auto-generate, fallback to our generated ID
+    const dataToSend = { ...instanceWithDefaults }
+    delete dataToSend.id
+    
+    const response = await api.post('/compoundInstances', dataToSend)
     return this.normalizeInstance(response.data)
   },
 

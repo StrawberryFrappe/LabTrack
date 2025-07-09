@@ -82,7 +82,7 @@
 
     <!-- Instance List Modal -->
     <InstanceListModal
-      :is-open="showInstanceListModal"
+      v-model="showInstanceListModal"
       :compound="selectedCompound"
       @close="showInstanceListModal = false"
       @add-instance="handleAddInstance"
@@ -91,11 +91,11 @@
 
     <!-- Instance Form Modal -->
     <InstanceFormModal
-      :is-open="showInstanceFormModal"
+      v-model="showInstanceFormModal"
       :compound="selectedCompound"
       :instance="editingInstance"
       @close="handleCloseInstanceModal"
-      @success="handleInstanceSuccess"
+      @saved="handleInstanceSuccess"
     />
 
     <!-- Delete Confirmation Dialog -->

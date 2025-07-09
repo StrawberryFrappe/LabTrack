@@ -111,11 +111,11 @@
       "createdAt": "2025-07-09T06:51:09.992Z"
     },
     {
-      "id": "",
+      "id": "inst_001",
       "compoundId": "2",
       "location": "lmao",
       "batchNumber": "32554",
-      "quantity": 50,
+      "quantity": 25,
       "unit": "ml",
       "receivedDate": "2025-07-08",
       "expiryDate": "2025-07-25",
@@ -125,11 +125,11 @@
       "createdAt": "2025-07-09T06:53:08.457Z"
     },
     {
-      "id": "",
+      "id": "inst_002",
       "compoundId": "2b03",
-      "location": "dos",
+      "location": "micasa",
       "batchNumber": "12",
-      "quantity": 50,
+      "quantity": 69,
       "unit": "g",
       "receivedDate": "2025-07-08",
       "expiryDate": "2025-07-10",
@@ -139,7 +139,7 @@
       "createdAt": "2025-07-09T07:03:04.737Z"
     },
     {
-      "id": "",
+      "id": "inst_003",
       "compoundId": "5069",
       "location": "kajsd",
       "batchNumber": "123123",
@@ -153,7 +153,7 @@
       "createdAt": "2025-07-09T07:17:52.373Z"
     },
     {
-      "id": "",
+      "id": "inst_004",
       "compoundId": "4a3c",
       "location": "lota alto calle javiera villa los heroes",
       "batchNumber": "190237",
@@ -167,7 +167,7 @@
       "createdAt": "2025-07-09T07:22:15.217Z"
     },
     {
-      "id": "",
+      "id": "inst_005",
       "compoundId": "4a3c",
       "location": "xd",
       "batchNumber": "12333333",
@@ -181,7 +181,7 @@
       "createdAt": "2025-07-09T07:36:22.949Z"
     },
     {
-      "id": "",
+      "id": "inst_006",
       "compoundId": "4a3c",
       "location": "eerrre",
       "batchNumber": "435465",
@@ -195,7 +195,7 @@
       "createdAt": "2025-07-09T07:45:08.626Z"
     },
     {
-      "id": "",
+      "id": "inst_007",
       "compoundId": "2",
       "location": "micasa",
       "batchNumber": "333",
@@ -211,44 +211,51 @@
   ],
   "countSessions": [
     {
-      "id": "session_1752051466399_738lob5xt",
-      "name": "1",
-      "description": "2",
+      "id": "session_1752060282785_ppbqh5sbg",
+      "name": "a",
+      "description": "1",
       "locations": [
-        "micasa"
+        "La casa de mi bro",
+        "dos"
       ],
       "locationSummary": [
         {
-          "location": "micasa",
-          "totalInstances": 2,
-          "totalQuantity": 132,
+          "location": "La casa de mi bro",
+          "totalInstances": 1,
+          "totalQuantity": 1,
+          "compounds": 1
+        },
+        {
+          "location": "dos",
+          "totalInstances": 1,
+          "totalQuantity": 50,
           "compounds": 1
         }
       ],
       "status": "completed",
       "createdBy": "1",
       "createdByName": "Lab Administrator",
-      "startDate": "2025-07-09T08:57:46.400Z",
-      "completedDate": "2025-07-09T09:02:31.178Z",
+      "startDate": "2025-07-09T11:24:42.785Z",
+      "completedDate": "2025-07-09T11:56:14.638Z",
       "counts": [
         {
-          "instanceId": "123",
-          "expectedQuantity": 9,
-          "countedQuantity": 0,
-          "status": "not_found",
+          "instanceId": "111",
+          "expectedQuantity": 1,
+          "countedQuantity": 1,
+          "status": "verified",
           "notes": "",
-          "location": "micasa",
-          "countedAt": "2025-07-09T09:02:00.663Z",
+          "location": "La casa de mi bro",
+          "countedAt": "2025-07-09T11:56:07.340Z",
           "interacted": true
         },
         {
-          "instanceId": "",
-          "expectedQuantity": 123,
-          "countedQuantity": 11,
-          "status": "discrepancy",
+          "instanceId": "inst_002",
+          "expectedQuantity": 49,
+          "countedQuantity": 49,
+          "status": "verified",
           "notes": "",
-          "location": "micasa",
-          "countedAt": "2025-07-09T09:02:00.663Z",
+          "location": "dos",
+          "countedAt": "2025-07-09T11:56:07.340Z",
           "interacted": true
         }
       ],
@@ -261,250 +268,23 @@
       "verifiedItems": 2,
       "locationProgress": [
         {
-          "location": "micasa",
-          "total": 2,
-          "counted": 2,
-          "verified": 2,
+          "location": "La casa de mi bro",
+          "total": 1,
+          "counted": 1,
+          "verified": 1,
+          "progress": 100,
+          "isComplete": true
+        },
+        {
+          "location": "dos",
+          "total": 1,
+          "counted": 1,
+          "verified": 1,
           "progress": 100,
           "isComplete": true
         }
       ],
       "completedBy": "1"
-    },
-    {
-      "id": "session_1752051760383_sqwmxfgxn",
-      "name": "123",
-      "description": "",
-      "locations": [
-        "La casa de mi bro",
-        "dos",
-        "eerrre",
-        "kajsd",
-        "lmao",
-        "lota alto calle javiera villa los heroes",
-        "micasa",
-        "xd"
-      ],
-      "locationSummary": [
-        {
-          "location": "La casa de mi bro",
-          "totalInstances": 1,
-          "totalQuantity": 1,
-          "compounds": 1
-        },
-        {
-          "location": "dos",
-          "totalInstances": 1,
-          "totalQuantity": 50,
-          "compounds": 1
-        },
-        {
-          "location": "eerrre",
-          "totalInstances": 1,
-          "totalQuantity": 123,
-          "compounds": 1
-        },
-        {
-          "location": "kajsd",
-          "totalInstances": 1,
-          "totalQuantity": 60,
-          "compounds": 1
-        },
-        {
-          "location": "lmao",
-          "totalInstances": 1,
-          "totalQuantity": 50,
-          "compounds": 1
-        },
-        {
-          "location": "lota alto calle javiera villa los heroes",
-          "totalInstances": 1,
-          "totalQuantity": 1000,
-          "compounds": 1
-        },
-        {
-          "location": "micasa",
-          "totalInstances": 2,
-          "totalQuantity": 132,
-          "compounds": 1
-        },
-        {
-          "location": "xd",
-          "totalInstances": 1,
-          "totalQuantity": 1,
-          "compounds": 1
-        }
-      ],
-      "status": "active",
-      "createdBy": "1",
-      "createdByName": "Lab Administrator",
-      "startDate": "2025-07-09T09:02:40.383Z",
-      "completedDate": null,
-      "counts": [
-        {
-          "instanceId": "111",
-          "expectedQuantity": 1,
-          "countedQuantity": 1,
-          "status": "verified",
-          "notes": "",
-          "location": "La casa de mi bro",
-          "countedAt": "2025-07-09T09:48:05.188Z",
-          "interacted": true
-        },
-        {
-          "instanceId": "",
-          "expectedQuantity": 50,
-          "countedQuantity": 50,
-          "status": "verified",
-          "notes": "",
-          "location": "dos",
-          "countedAt": "2025-07-09T09:48:05.188Z",
-          "interacted": true
-        },
-        {
-          "instanceId": "",
-          "expectedQuantity": 123,
-          "countedQuantity": 50,
-          "status": "verified",
-          "notes": "",
-          "location": "eerrre",
-          "countedAt": "2025-07-09T09:48:05.188Z",
-          "interacted": true
-        },
-        {
-          "instanceId": "",
-          "expectedQuantity": 60,
-          "countedQuantity": 50,
-          "status": "verified",
-          "notes": "",
-          "location": "kajsd",
-          "countedAt": "2025-07-09T09:48:05.188Z",
-          "interacted": true
-        },
-        {
-          "instanceId": "",
-          "expectedQuantity": 50,
-          "countedQuantity": 50,
-          "status": "verified",
-          "notes": "",
-          "location": "lmao",
-          "countedAt": "2025-07-09T09:48:05.188Z",
-          "interacted": true
-        },
-        {
-          "instanceId": "",
-          "expectedQuantity": 1000,
-          "countedQuantity": 50,
-          "status": "verified",
-          "notes": "",
-          "location": "lota alto calle javiera villa los heroes",
-          "countedAt": "2025-07-09T09:48:05.188Z",
-          "interacted": true
-        },
-        {
-          "instanceId": "123",
-          "expectedQuantity": 9,
-          "countedQuantity": 9,
-          "status": "verified",
-          "notes": "",
-          "location": "micasa",
-          "countedAt": "2025-07-09T09:48:05.188Z",
-          "interacted": true
-        },
-        {
-          "instanceId": "",
-          "expectedQuantity": 123,
-          "countedQuantity": 50,
-          "status": "verified",
-          "notes": "",
-          "location": "micasa",
-          "countedAt": "2025-07-09T09:48:05.188Z",
-          "interacted": true
-        },
-        {
-          "instanceId": "",
-          "expectedQuantity": 1,
-          "countedQuantity": 50,
-          "status": "verified",
-          "notes": "",
-          "location": "xd",
-          "countedAt": "2025-07-09T09:48:05.188Z",
-          "interacted": true
-        }
-      ],
-      "newInstances": [],
-      "movedInstances": [],
-      "notes": "",
-      "totalItems": 9,
-      "countedItems": 9,
-      "progress": 100,
-      "verifiedItems": 9,
-      "locationProgress": [
-        {
-          "location": "La casa de mi bro",
-          "total": 1,
-          "counted": 1,
-          "verified": 1,
-          "progress": 100,
-          "isComplete": true
-        },
-        {
-          "location": "dos",
-          "total": 1,
-          "counted": 1,
-          "verified": 1,
-          "progress": 100,
-          "isComplete": true
-        },
-        {
-          "location": "eerrre",
-          "total": 1,
-          "counted": 1,
-          "verified": 1,
-          "progress": 100,
-          "isComplete": true
-        },
-        {
-          "location": "kajsd",
-          "total": 1,
-          "counted": 1,
-          "verified": 1,
-          "progress": 100,
-          "isComplete": true
-        },
-        {
-          "location": "lmao",
-          "total": 1,
-          "counted": 1,
-          "verified": 1,
-          "progress": 100,
-          "isComplete": true
-        },
-        {
-          "location": "lota alto calle javiera villa los heroes",
-          "total": 1,
-          "counted": 1,
-          "verified": 1,
-          "progress": 100,
-          "isComplete": true
-        },
-        {
-          "location": "micasa",
-          "total": 2,
-          "counted": 2,
-          "verified": 2,
-          "progress": 100,
-          "isComplete": true
-        },
-        {
-          "location": "xd",
-          "total": 1,
-          "counted": 1,
-          "verified": 1,
-          "progress": 100,
-          "isComplete": true
-        }
-      ]
     }
   ],
   "transactions": [
@@ -592,6 +372,142 @@
       "userName": "Lab Administrator",
       "newQuantity": 9,
       "timestamp": "2025-07-09T04:29:44.347Z"
+    },
+    {
+      "id": "txn_1752061664122_e8kcy2d1r",
+      "instanceId": "inst_001",
+      "compoundId": "2",
+      "compoundName": "Hydrochloric Acid",
+      "batchNumber": "32554",
+      "type": "use",
+      "quantity": 5,
+      "originalQuantity": 50,
+      "unit": "ml",
+      "notes": "",
+      "location": "lmao",
+      "userId": "1",
+      "userName": "Lab Administrator",
+      "newQuantity": 45,
+      "timestamp": "2025-07-09T11:47:44.122Z"
+    },
+    {
+      "id": "txn_1752061669251_5yhis43zu",
+      "instanceId": "inst_001",
+      "compoundId": "2",
+      "compoundName": "Hydrochloric Acid",
+      "batchNumber": "32554",
+      "type": "use",
+      "quantity": 5,
+      "originalQuantity": 50,
+      "unit": "ml",
+      "notes": "",
+      "location": "lmao",
+      "userId": "1",
+      "userName": "Lab Administrator",
+      "newQuantity": 45,
+      "timestamp": "2025-07-09T11:47:49.251Z"
+    },
+    {
+      "id": "txn_1752061905870_eg3987wn9",
+      "instanceId": "inst_002",
+      "compoundId": "2b03",
+      "compoundName": "crotolamo",
+      "batchNumber": "12",
+      "type": "use",
+      "quantity": 1,
+      "originalQuantity": 50,
+      "unit": "g",
+      "notes": "",
+      "location": "dos",
+      "userId": "1",
+      "userName": "Lab Administrator",
+      "newQuantity": 49,
+      "timestamp": "2025-07-09T11:51:45.870Z"
+    },
+    {
+      "id": "txn_1752061913994_q9ij71jrq",
+      "instanceId": "inst_001",
+      "compoundId": "2",
+      "compoundName": "Hydrochloric Acid",
+      "batchNumber": "32554",
+      "type": "use",
+      "quantity": 10,
+      "originalQuantity": 45,
+      "unit": "ml",
+      "notes": "",
+      "location": "lmao",
+      "userId": "1",
+      "userName": "Lab Administrator",
+      "newQuantity": 35,
+      "timestamp": "2025-07-09T11:51:53.994Z"
+    },
+    {
+      "id": "txn_1752061926721_dzocl54qg",
+      "instanceId": "inst_001",
+      "compoundId": "2",
+      "compoundName": "Hydrochloric Acid",
+      "batchNumber": "32554",
+      "type": "use",
+      "quantity": 10,
+      "originalQuantity": 35,
+      "unit": "ml",
+      "notes": "",
+      "location": "lmao",
+      "userId": "1",
+      "userName": "Lab Administrator",
+      "newQuantity": 25,
+      "timestamp": "2025-07-09T11:52:06.721Z"
+    },
+    {
+      "id": "txn_1752062518992_mzvf0b1k7",
+      "instanceId": "inst_002",
+      "compoundId": "2b03",
+      "compoundName": "crotolamo",
+      "batchNumber": "12",
+      "type": "adjust",
+      "quantity": 12,
+      "originalQuantity": 49,
+      "unit": "g",
+      "notes": "",
+      "location": "dos",
+      "userId": "1",
+      "userName": "Lab Administrator",
+      "newQuantity": 12,
+      "timestamp": "2025-07-09T12:01:58.992Z"
+    },
+    {
+      "id": "txn_1752062531245_ynj3lyhsc",
+      "instanceId": "inst_002",
+      "compoundId": "2b03",
+      "compoundName": "crotolamo",
+      "batchNumber": "12",
+      "type": "adjust",
+      "quantity": 69,
+      "originalQuantity": 12,
+      "unit": "g",
+      "notes": "",
+      "location": "dos",
+      "userId": "1",
+      "userName": "Lab Administrator",
+      "newQuantity": 69,
+      "timestamp": "2025-07-09T12:02:11.245Z"
+    },
+    {
+      "id": "txn_1752062768629_veoawmak1",
+      "instanceId": "inst_002",
+      "compoundId": "2b03",
+      "compoundName": "crotolamo",
+      "batchNumber": "12",
+      "type": "transfer",
+      "quantity": 69,
+      "originalQuantity": 69,
+      "unit": "g",
+      "notes": "",
+      "location": "micasa",
+      "userId": "1",
+      "userName": "Lab Administrator",
+      "newQuantity": 69,
+      "timestamp": "2025-07-09T12:06:08.629Z"
     }
   ]
 }

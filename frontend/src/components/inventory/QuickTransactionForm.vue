@@ -51,8 +51,8 @@
       />
     </div>
 
-    <!-- Quantity Input -->
-    <div>
+    <!-- Quantity Input (hidden for transfers) -->
+    <div v-if="form.type !== 'transfer'">
       <label class="block text-sm font-medium text-slate-700 mb-2">
         {{ $t('inventorySessions.quickTransaction.quantity') }}
         <span v-if="selectedInstance" class="text-slate-500">
@@ -176,7 +176,7 @@ import {
 } from '@heroicons/vue/24/outline'
 
 const { t } = useI18n()
-const { toast } = useToast()
+const { success: toastSuccess, error: toastError } = useToast()
 
 const props = defineProps({
   loading: {
@@ -214,15 +214,14 @@ const errors = ref({})
 const isFormValid = computed(() => {
   return form.instanceId && 
          form.type && 
-         form.quantity && 
-         parseFloat(form.quantity) > 0 &&
+         (form.type === 'transfer' || (form.quantity && parseFloat(form.quantity) > 0)) &&
          (form.type !== 'transfer' || form.location?.trim()) &&
          !loading.value && 
          !inventoryLoading.value
 })
 
 const stockValidation = computed(() => {
-  if (!selectedInstance.value || !form.quantity) {
+  if (!selectedInstance.value || !form.quantity || form.type === 'transfer') {
     return { warning: false }
   }
   
@@ -275,7 +274,7 @@ const handleSubmit = async () => {
       compoundName: selectedInstance.value.compound?.name,
       batchNumber: selectedInstance.value.batchNumber,
       type: form.type,
-      quantity: parseFloat(form.quantity),
+      quantity: form.type === 'transfer' ? selectedInstance.value.quantity : parseFloat(form.quantity),
       originalQuantity: selectedInstance.value.quantity || 0,
       unit: selectedInstance.value.unit || selectedInstance.value.compound?.unit,
       notes: form.notes?.trim() || '',
@@ -287,13 +286,13 @@ const handleSubmit = async () => {
     
     // Success
     emit('transaction-recorded', transaction)
-    toast.success(t('inventorySessions.messages.transactionRecorded'))
+    toastSuccess(t('inventorySessions.messages.transactionRecorded'))
     resetForm()
     
   } catch (error) {
     console.error('Transaction submission error:', error)
     const errorMessage = error?.message || t('inventorySessions.messages.transactionFailed')
-    toast.error(errorMessage)
+    toastError(errorMessage)
   } finally {
     loading.value = false
   }
@@ -322,7 +321,13 @@ const clearErrors = () => {
 watch(() => form.instanceId, clearErrors)
 watch(() => form.quantity, clearErrors)
 watch(() => form.location, clearErrors)
-watch(() => form.type, clearErrors)
+watch(() => form.type, () => {
+  clearErrors()
+  // Clear quantity when switching to transfer type
+  if (form.type === 'transfer') {
+    form.quantity = ''
+  }
+})
 
 const getQuantityPresets = () => {
   if (!selectedInstance.value) return []
