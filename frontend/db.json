@@ -116,7 +116,97 @@
       "createdAt": "2025-07-09T02:44:30.402Z"
     }
   ],
-  "countSessions": [],
+  "countSessions": [
+    {
+      "id": "session_1752043744047_37cf3f3im",
+      "name": "uno",
+      "description": "1",
+      "locations": [
+        "micasa"
+      ],
+      "status": "completed",
+      "createdBy": "3",
+      "createdByName": "Strawberry Admin",
+      "startDate": "2025-07-09T06:49:04.047Z",
+      "completedDate": "2025-07-09T06:50:16.919Z",
+      "counts": [
+        {
+          "instanceId": "123",
+          "expectedQuantity": 9,
+          "countedQuantity": 8,
+          "status": "discrepancy",
+          "notes": "",
+          "location": "micasa",
+          "countedAt": "2025-07-09T06:50:12.245Z"
+        }
+      ],
+      "newInstances": [],
+      "movedInstances": [],
+      "notes": "",
+      "totalItems": 1,
+      "countedItems": 1
+    },
+    {
+      "id": "session_1752043900444_vwu08jut7",
+      "name": "pene",
+      "description": "hola",
+      "locations": [
+        "La casa de mi bro",
+        "123"
+      ],
+      "status": "completed",
+      "createdBy": "3",
+      "createdByName": "Strawberry Admin",
+      "startDate": "2025-07-09T06:51:40.444Z",
+      "completedDate": "2025-07-09T06:56:35.757Z",
+      "counts": [
+        {
+          "instanceId": "111",
+          "expectedQuantity": 1,
+          "countedQuantity": 1,
+          "status": "verified",
+          "notes": "",
+          "location": "La casa de mi bro",
+          "countedAt": "2025-07-09T06:52:20.838Z"
+        }
+      ],
+      "newInstances": [],
+      "movedInstances": [],
+      "notes": "",
+      "totalItems": 2,
+      "countedItems": 1
+    },
+    {
+      "id": "session_1752044278795_v1v075hfa",
+      "name": "uno",
+      "description": "123",
+      "locations": [
+        "micasa",
+        "123"
+      ],
+      "status": "completed",
+      "createdBy": "3",
+      "createdByName": "Strawberry Admin",
+      "startDate": "2025-07-09T06:57:58.795Z",
+      "completedDate": "2025-07-09T06:58:17.302Z",
+      "counts": [
+        {
+          "instanceId": "123",
+          "expectedQuantity": 9,
+          "countedQuantity": 9,
+          "status": "verified",
+          "notes": "",
+          "location": "micasa",
+          "countedAt": "2025-07-09T06:58:13.378Z"
+        }
+      ],
+      "newInstances": [],
+      "movedInstances": [],
+      "notes": "",
+      "totalItems": 2,
+      "countedItems": 1
+    }
+  ],
   "transactions": [
     {
       "id": "txn_1751998160701_63u2vzkxa",

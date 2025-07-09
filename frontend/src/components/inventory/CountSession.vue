@@ -3,21 +3,17 @@
     <template #header>
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold text-slate-900">{{ session.name }}</h3>
-        <Badge :variant="session.completed ? 'success' : 'warning'">
-          {{ session.completed ? $t('inventory.status.completed') : $t('inventory.status.inProgress') }}
+        <Badge :variant="session.status === 'completed' ? 'success' : 'warning'">
+          {{ session.status === 'completed' ? $t('inventory.status.completed') : $t('inventory.status.inProgress') }}
         </Badge>
       </div>
     </template>
     
     <div class="space-y-4">
-      <div class="grid grid-cols-2 gap-4 text-sm">
-        <div>
-          <span class="text-slate-500">{{ $t('inventory.labels.location') }}:</span>
-          <span class="ml-2">{{ session.location }}</span>
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
         <div>
           <span class="text-slate-500">{{ $t('inventory.labels.createdBy') }}:</span>
-          <span class="ml-2">{{ session.createdBy }}</span>
+          <span class="ml-2">{{ session.createdByName || session.createdBy }}</span>
         </div>
         <div>
           <span class="text-slate-500">{{ $t('inventory.labels.startDate') }}:</span>
@@ -26,6 +22,24 @@
         <div v-if="session.completedDate">
           <span class="text-slate-500">{{ $t('inventory.labels.completed') }}:</span>
           <span class="ml-2">{{ formatDate(session.completedDate) }}</span>
+        </div>
+        <div v-if="session.status === 'active'">
+          <span class="text-slate-500">{{ $t('inventory.labels.status') }}:</span>
+          <span class="ml-2">{{ $t('inventory.status.inProgress') }}</span>
+        </div>
+      </div>
+      
+      <!-- Locations -->
+      <div>
+        <span class="text-slate-500 text-sm">{{ $t('inventory.labels.locations') }}:</span>
+        <div class="mt-1 flex flex-wrap gap-1">
+          <span 
+            v-for="location in session.locations" 
+            :key="location"
+            class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+          >
+            {{ location }}
+          </span>
         </div>
       </div>
       
@@ -63,7 +77,7 @@
     <template #footer>
       <div class="flex gap-2">
         <Button 
-          v-if="!session.completed"
+          v-if="session.status === 'active'"
           variant="primary"
           size="sm"
           @click="$emit('continue', session)"
@@ -78,7 +92,7 @@
           {{ $t('inventory.sessionActions.viewDetails') }}
         </Button>
         <Button 
-          v-if="!session.completed"
+          v-if="session.status === 'active'"
           variant="outline"
           size="sm"
           @click="$emit('complete', session)"
@@ -96,7 +110,6 @@ import { useI18n } from 'vue-i18n'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
-import { useFormat } from '@/utils/format.js'
 
 const { t } = useI18n()
 
@@ -109,10 +122,19 @@ const props = defineProps({
 
 defineEmits(['continue', 'view-details', 'complete'])
 
-const { formatDate } = useFormat()
+// Simple date formatting for now
+const formatDate = (date) => {
+  if (!date) return ''
+  return new Date(date).toLocaleDateString()
+}
 
 const progressPercentage = computed(() => {
   if (!props.session.totalItems || props.session.totalItems === 0) return 0
-  return (props.session.countedItems / props.session.totalItems) * 100
+  
+  // Calculate progress based on actual counts if available
+  const totalCounts = props.session.counts ? props.session.counts.length : 0
+  const countedItems = props.session.countedItems || totalCounts
+  
+  return (countedItems / props.session.totalItems) * 100
 })
 </script>

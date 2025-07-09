@@ -78,23 +78,75 @@
               v-model="newSessionName"
               :placeholder="$t('inventory.sessionNamePlaceholder')"
               :label="$t('inventory.sessionNameLabel')"
+              required
             />
             <Input
               v-model="newSessionDescription"
               :placeholder="$t('inventory.sessionDescriptionPlaceholder')"
               :label="$t('inventory.sessionDescriptionLabel')"
             />
-            <Input
-              v-model="newSessionLocation"
-              :placeholder="$t('inventory.sessionLocationPlaceholder')"
-              :label="$t('inventory.sessionLocationLabel')"
-            />
+            
+            <!-- Location Selection -->
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-2">
+                {{$t('inventory.sessionLocationsLabel')}}
+              </label>
+              <div v-if="availableLocations.length > 0" class="space-y-2">
+                <!-- Select All Toggle -->
+                <div class="flex items-center">
+                  <input
+                    id="select-all-locations"
+                    type="checkbox"
+                    :checked="selectedLocations.length === availableLocations.length"
+                    :indeterminate="selectedLocations.length > 0 && selectedLocations.length < availableLocations.length"
+                    @change="toggleAllLocations"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label for="select-all-locations" class="ml-2 text-sm font-medium text-slate-700">
+                    {{$t('inventory.selectAllLocations')}}
+                  </label>
+                </div>
+                
+                <!-- Location Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-48 overflow-y-auto border border-slate-200 rounded p-3 bg-slate-50">
+                  <div 
+                    v-for="location in availableLocations" 
+                    :key="location"
+                    class="flex items-center"
+                  >
+                    <input
+                      :id="`location-${location}`"
+                      type="checkbox"
+                      :value="location"
+                      :checked="selectedLocations.includes(location)"
+                      @change="toggleLocation(location)"
+                      class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label 
+                      :for="`location-${location}`" 
+                      class="ml-2 text-sm text-slate-700 cursor-pointer"
+                    >
+                      {{ location }}
+                    </label>
+                  </div>
+                </div>
+                
+                <!-- Selected Count -->
+                <div class="text-sm text-slate-500">
+                  {{$t('inventory.locationsSelected', { count: selectedLocations.length, total: availableLocations.length })}}
+                </div>
+              </div>
+              <div v-else class="text-sm text-slate-500 italic">
+                {{$t('inventory.noLocationsAvailable')}}
+              </div>
+            </div>
           </div>
           <template #footer>
             <Button 
               variant="primary"
               @click="createNewSession"
-              :disabled="!newSessionName.trim()"
+              :disabled="!newSessionName.trim() || selectedLocations.length === 0 || isCreatingSession"
+              :loading="isCreatingSession"
             >
               {{$t('inventory.createSessionButton')}}
             </Button>
@@ -102,16 +154,27 @@
         </Card>
       </div>
     </div>
+    
+    <!-- Count Entry Modal -->
+    <CountEntryModal
+      v-model="showCountEntryModal"
+      :session="currentCountSession"
+      :current-location="currentCountLocation"
+      @progress-updated="loadAvailableLocations"
+      @location-complete="handleLocationComplete"
+      @close="handleModalClose"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import Card from '@/components/ui/Card.vue'
 import Input from '@/components/ui/Input.vue'
 import Button from '@/components/ui/Button.vue'
 import InventoryScanner from '@/components/inventory/InventoryScanner.vue'
 import CountSession from '@/components/inventory/CountSession.vue'
+import CountEntryModal from '@/components/inventory/CountEntryModal.vue'
 import { useToast } from '@/composables/useToast'
 import { useAuth } from '@/composables/useAuth'
 import { useInventoryCount } from '@/composables/useInventoryCount'
@@ -127,54 +190,138 @@ const {
   completedSessions, 
   createSession,
   continueSession,
-  completeSession 
+  completeSession,
+  getAvailableLocations,
+  isLoading,
+  error: composableError
 } = useInventoryCount()
 
 // New session form
 const newSessionName = ref('')
 const newSessionDescription = ref('')
-const newSessionLocation = ref('')
+const selectedLocations = ref([])
+const availableLocations = ref([])
+const isCreatingSession = ref(false)
+
+// Count entry modal state
+const showCountEntryModal = ref(false)
+const currentCountSession = ref(null)
+const currentCountLocation = ref(null)
+const currentLocationIndex = ref(0)
+
+// Load available locations
+const loadAvailableLocations = () => {
+  availableLocations.value = getAvailableLocations()
+}
+
+// Watch for location changes
+watch(() => availableLocations.value, loadAvailableLocations, { immediate: true })
 
 // Session management methods
 const createNewSession = async () => {
-  if (!newSessionName.value.trim()) return
+  if (!newSessionName.value.trim() || selectedLocations.value.length === 0) {
+    warning(t('inventory.messages.nameAndLocationsRequired'))
+    return
+  }
+  
+  isCreatingSession.value = true
   
   try {
     await createSession({
       name: newSessionName.value,
       description: newSessionDescription.value,
-      location: newSessionLocation.value
+      locations: selectedLocations.value
     })
     
     // Clear form
     newSessionName.value = ''
     newSessionDescription.value = ''
-    newSessionLocation.value = ''
-  } catch (error) {
-    console.error('Error creating session:', error)
-    // TODO: Show error notification
+    selectedLocations.value = []
+    
+    success(t('inventory.messages.sessionCreated'))
+  } catch (err) {
+    console.error('Error creating session:', err)
+    error(t('inventory.messages.sessionCreationFailed'))
+  } finally {
+    isCreatingSession.value = false
   }
 }
 
-const handleContinueSession = (sessionId) => {
-  continueSession(sessionId)
-  // TODO: Navigate to count session details
+const toggleLocation = (location) => {
+  const index = selectedLocations.value.indexOf(location)
+  if (index > -1) {
+    selectedLocations.value.splice(index, 1)
+  } else {
+    selectedLocations.value.push(location)
+  }
 }
 
-const handleViewSessionDetails = (sessionId) => {
-  // TODO: Navigate to count session details
-  console.log('Viewing session details:', sessionId)
+const toggleAllLocations = () => {
+  if (selectedLocations.value.length === availableLocations.value.length) {
+    selectedLocations.value = []
+  } else {
+    selectedLocations.value = [...availableLocations.value]
+  }
 }
 
-const handleCompleteSession = async (sessionId) => {
+const handleContinueSession = (session) => {
+  const continuedSession = continueSession(session.id)
+  if (continuedSession) {
+    currentCountSession.value = session
+    currentLocationIndex.value = 0
+    
+    // Start with first location
+    if (session.locations && session.locations.length > 0) {
+      currentCountLocation.value = session.locations[0]
+      showCountEntryModal.value = true
+    }
+    
+    success(t('inventory.messages.sessionContinued'))
+  }
+}
+
+const handleLocationComplete = () => {
+  if (!currentCountSession.value) return
+  
+  // Move to next location
+  currentLocationIndex.value++
+  
+  if (currentLocationIndex.value < currentCountSession.value.locations.length) {
+    currentCountLocation.value = currentCountSession.value.locations[currentLocationIndex.value]
+  } else {
+    // All locations completed
+    showCountEntryModal.value = false
+    currentCountSession.value = null
+    currentCountLocation.value = null
+    success(t('inventory.messages.allLocationsCompleted'))
+  }
+}
+
+const handleModalClose = () => {
+  showCountEntryModal.value = false
+  currentCountSession.value = null
+  currentCountLocation.value = null
+}
+
+const handleViewSessionDetails = (session) => {
+  // TODO: Navigate to count session details
+  console.log('Viewing session details:', session.id)
+}
+
+const handleCompleteSession = async (session) => {
   try {
-    await completeSession(sessionId)
-    // TODO: Show success notification
-  } catch (error) {
-    console.error('Error completing session:', error)
-    // TODO: Show error notification
+    await completeSession(session.id)
+    success(t('inventory.messages.sessionCompleted'))
+  } catch (err) {
+    console.error('Error completing session:', err)
+    error(t('inventory.messages.sessionCompletionFailed'))
   }
 }
+
+// Load locations when component mounts
+onMounted(() => {
+  loadAvailableLocations()
+})
 
 // TODO TRL3-CRITICAL: Complete inventory count workflow integration
 // Key integration points needed:
