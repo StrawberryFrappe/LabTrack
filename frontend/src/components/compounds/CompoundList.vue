@@ -167,7 +167,6 @@ import PaginationControls from '@/components/ui/PaginationControls.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import { useCompounds } from '@/composables/useCompounds.js'
 import { usePagination } from '@/composables/usePagination.js'
-import { useAdvancedSearch } from '@/composables/useAdvancedSearch.js'
 
 // Initialize pagination
 const pagination = usePagination({
@@ -175,10 +174,7 @@ const pagination = usePagination({
   pageSizeOptions: [10, 25, 50, 100]
 })
 
-// Initialize advanced search
-const advancedSearch = useAdvancedSearch()
 
-// Initialize compounds with pagination and advanced search support
 const { 
   filteredCompounds, 
   paginatedCompounds,
@@ -188,7 +184,7 @@ const {
   loading, 
   error, 
   loadCompounds 
-} = useCompounds(pagination, advancedSearch)
+} = useCompounds(pagination)
 
 // View mode state
 const viewMode = ref('grid') // 'grid' or 'list'

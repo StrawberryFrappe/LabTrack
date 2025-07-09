@@ -51,56 +51,44 @@ export const transactionService = {
   },
 
   /**
-   * Get Transactions by Compound
+   * Get Transactions by Entity (Compound or Instance)
    * 
-   * Fetches all transactions for a specific compound.
+   * Unified method to fetch transactions for either compound or instance.
    * 
-   * @param {string} compoundId - The compound ID
+   * @param {string} entityId - The compound or instance ID
+   * @param {string} entityType - Either 'compound' or 'instance'
    */
-  async getByCompound(compoundId) {
+  async getByEntity(entityId, entityType = 'instance') {
     try {
+      const param = entityType === 'compound' ? 'compoundId' : 'instanceId'
       const response = await api.get('/transactions', {
         params: { 
-          compoundId,
+          [param]: entityId,
           _sort: 'timestamp',
           _order: 'desc'
         }
       })
       return response.data
     } catch (error) {
-      throw new Error(`Failed to fetch compound transactions: ${error.message}`)
+      throw new Error(`Failed to fetch ${entityType} transactions: ${error.message}`)
     }
   },
 
-  /**
-   * Get Transactions by Instance
-   * 
-   * Fetches all transactions for a specific compound instance.
-   * 
-   * @param {string} instanceId - The instance ID
-   */
+  // Legacy methods for backward compatibility
+  async getByCompound(compoundId) {
+    return this.getByEntity(compoundId, 'compound')
+  },
+
   async getByInstance(instanceId) {
-    try {
-      const response = await api.get('/transactions', {
-        params: { 
-          instanceId,
-          _sort: 'timestamp',
-          _order: 'desc'
-        }
-      })
-      return response.data
-    } catch (error) {
-      throw new Error(`Failed to fetch instance transactions: ${error.message}`)
-    }
+    return this.getByEntity(instanceId, 'instance')
   },
 
   /**
    * Create New Transaction
    * 
-   * Records a new inventory transaction with instance support.
+   * Simplified transaction creation with validation.
    * 
    * @param {Object} transaction - Transaction data
-   * @param {string} transaction.compoundId - Compound ID
    * @param {string} transaction.instanceId - Instance ID (required)
    * @param {string} transaction.type - Transaction type
    * @param {number} transaction.quantity - Quantity (always positive)
@@ -109,12 +97,18 @@ export const transactionService = {
    */
   async create(transaction) {
     try {
-      // Validate required fields for instance-based transactions
+      // Basic validation
       if (!transaction.instanceId) {
-        throw new Error('Instance ID is required for all transactions')
+        throw new Error('Instance ID is required')
+      }
+      if (!transaction.type) {
+        throw new Error('Transaction type is required')
+      }
+      if (!transaction.quantity || transaction.quantity <= 0) {
+        throw new Error('Quantity must be greater than 0')
       }
 
-      // Add metadata to transaction
+      // Create transaction with metadata
       const enhancedTransaction = {
         ...transaction,
         timestamp: new Date().toISOString(),
@@ -169,13 +163,13 @@ export const transactionService = {
   /**
    * Calculate Current Stock for Instance
    * 
-   * Client-side calculation of current stock for a specific instance.
+   * Unified stock calculation method.
    * 
    * @param {string} instanceId - Instance ID
    * @param {number} initialStock - Initial instance quantity
    * @param {Array} transactions - Transaction history (optional)
    */
-  async calculateInstanceStock(instanceId, initialStock = 0, transactions = null) {
+  async calculateStock(instanceId, initialStock = 0, transactions = null) {
     try {
       // Fetch transactions if not provided
       if (!transactions) {
@@ -195,11 +189,9 @@ export const transactionService = {
             currentStock += transaction.quantity
             break
           case 'adjust':
-            // Adjustment sets absolute quantity
             currentStock = transaction.quantity
             break
           case 'transfer':
-            // For now, treat as use (decrease from current location)
             currentStock -= transaction.quantity
             break
           default:
@@ -207,56 +199,25 @@ export const transactionService = {
         }
       }
 
-      return Math.max(0, currentStock) // Prevent negative stock
+      return Math.max(0, currentStock)
     } catch (error) {
-      throw new Error(`Failed to calculate instance stock: ${error.message}`)
+      throw new Error(`Failed to calculate stock: ${error.message}`)
     }
   },
 
-  /**
-   * Calculate Current Stock (Legacy - for compound total)
-   * 
-   * Calculates total stock across all instances of a compound.
-   * 
-   * @param {string} compoundId - Compound ID
-   * @param {number} initialStock - Initial compound quantity (legacy)
-   * @param {Array} transactions - Transaction history (optional)
-   */
+  // Legacy methods for backward compatibility
+  async calculateInstanceStock(instanceId, initialStock = 0, transactions = null) {
+    return this.calculateStock(instanceId, initialStock, transactions)
+  },
+
   async calculateCurrentStock(compoundId, initialStock = 0, transactions = null) {
     try {
-      // Fetch transactions if not provided
       if (!transactions) {
         transactions = await this.getByCompound(compoundId)
       }
-
-      // Calculate stock based on transaction types
-      let currentStock = initialStock
-      
-      for (const transaction of transactions) {
-        switch (transaction.type) {
-          case 'use':
-          case 'waste':
-            currentStock -= transaction.quantity
-            break
-          case 'restock':
-            currentStock += transaction.quantity
-            break
-          case 'adjust':
-            // Adjustment sets absolute quantity
-            currentStock = transaction.quantity
-            break
-          case 'transfer':
-            // For now, treat as use (decrease from current location)
-            currentStock -= transaction.quantity
-            break
-          default:
-            console.warn(`Unknown transaction type: ${transaction.type}`)
-        }
-      }
-
-      return Math.max(0, currentStock) // Prevent negative stock
+      return this.calculateStock(compoundId, initialStock, transactions)
     } catch (error) {
-      throw new Error(`Failed to calculate stock: ${error.message}`)
+      throw new Error(`Failed to calculate compound stock: ${error.message}`)
     }
   },
 

@@ -5,28 +5,21 @@
   >
     <template #header>
       <div class="flex items-center justify-between">
-        <h3 class="text-lg font-semibold text-slate-900">{{ compound.name }}</h3>
+        <div class="flex items-center gap-2">
+          <h3 class="text-lg font-semibold text-slate-900">{{ compound.name }}</h3>
+          <Badge v-if="compound.casNumber" variant="secondary" class="font-mono text-sm">
+            CAS: {{ compound.casNumber }}
+          </Badge>
+        </div>
         <Badge :variant="hazardBadgeVariant">{{ compound.hazardClass }}</Badge>
       </div>
     </template>
     
     <div class="space-y-3">
-      <div class="grid grid-cols-2 gap-4 text-sm">
-        <div>
-          <span class="text-slate-500">{{ $t('compounds.labels.casNumber') }}:</span>
-          <span class="ml-2 font-mono">{{ compound.casNumber }}</span>
-        </div>
+      <div class="grid grid-cols-1 gap-4 text-sm">
         <div>
           <span class="text-slate-500">{{ $t('compounds.labels.umbral') }}:</span>
           <span class="ml-2 font-mono">{{ compound.threshold }}</span>
-        </div>
-        <div>
-          <span class="text-slate-500">{{ $t('compounds.labels.location') }}:</span>
-          <span class="ml-2">{{ compound.location }}</span>
-        </div>
-        <div>
-          <span class="text-slate-500">{{ $t('compounds.labels.supplier') }}:</span>
-          <span class="ml-2">{{ compound.supplier }}</span>
         </div>
       </div>
       
@@ -52,39 +45,7 @@
           <span>{{ stockPercentage.toFixed(0) }}%</span>
         </div>
       </div>
-      
-      <div class="pt-3 border-t border-slate-200">
-        <div class="flex items-center justify-between text-sm">
-          <span class="text-slate-500">{{ $t('compounds.labels.expires') }}:</span>
-          <span :class="expiryClasses">{{ formatDate(compound.expiryDate) }}</span>
-        </div>
-      </div>
     </div>
-      <template #footer>
-      <div class="flex gap-2">
-        <!-- TODO: Add more action buttons (View Details, Duplicate, Delete) -->
-        <!-- TODO: Add context menu for additional actions -->
-        <!-- TODO: Add confirmation dialogs for destructive actions -->
-        <Button variant="outline" size="sm" @click="$emit('edit', compound)">
-          {{ $t('compounds.actions.edit') }}
-        </Button>
-        <Button variant="outline" size="sm" @click="$emit('scan', compound)">
-          {{ $t('compounds.actions.count') }}
-        </Button>
-        <Button 
-          variant="primary" 
-          size="sm" 
-          @click="navigateToInventorySessions(compound)"
-        >
-          {{ $t('compounds.actions.recordTransaction') }}
-        </Button>
-        <Button variant="destructive" size="sm" @click="$emit('delete', compound)">
-          {{ $t('compounds.actions.delete') }}
-        </Button>
-        <!-- TODO: Add quick quantity adjust buttons -->
-        <!-- TODO: Add barcode generation/print button -->
-      </div>
-    </template>
   </Card>
 </template>
 

@@ -74,7 +74,7 @@ const props = defineProps({
   size: {
     type: String,
     default: 'default',
-    validator: (value) => ['sm', 'default', 'lg', 'xl', 'full'].includes(value)
+    validator: (value) => ['sm', 'default', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', 'full'].includes(value)
   },
   showCloseButton: {
     type: Boolean,
@@ -105,8 +105,13 @@ const modalClasses = computed(() => [
   {
     'max-w-sm': props.size === 'sm',
     'max-w-md': props.size === 'default',
-    'max-w-2xl': props.size === 'lg',
-    'max-w-4xl': props.size === 'xl',
+    'max-w-lg': props.size === 'lg',
+    'max-w-xl': props.size === 'xl',
+    'max-w-2xl': props.size === '2xl',
+    'max-w-3xl': props.size === '3xl',
+    'max-w-4xl': props.size === '4xl',
+    'max-w-5xl': props.size === '5xl',
+    'max-w-6xl': props.size === '6xl',
     'max-w-[95vw] max-h-[95vh]': props.size === 'full'
   }
 ])

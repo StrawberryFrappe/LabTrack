@@ -85,6 +85,7 @@ export function useCompounds(pagination = null, advancedSearch = null) {
   )
 
   const lowStockItems = computed(() =>
+    
     compounds.value.filter(compound => {
       const totalStock = instanceComposable.getTotalStockForCompound(compound.id)
       return totalStock < compound.threshold
@@ -259,12 +260,19 @@ export function useCompounds(pagination = null, advancedSearch = null) {
    * Delete Compound
    * 
    * Removes a compound from the system.
+   * Prevents deletion if instances exist.
    */
   const deleteCompound = async (compoundId) => {
     loading.value = true
     error.value = null
     
     try {
+      // Check if compound has any instances
+      const instanceCount = instanceComposable.getInstanceCountForCompound(compoundId)
+      if (instanceCount > 0) {
+        throw new Error(`Cannot delete compound: ${instanceCount} instance(s) still exist`)
+      }
+      
       await compoundService.delete(compoundId)
       
       // Remove from local array

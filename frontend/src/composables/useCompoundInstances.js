@@ -103,36 +103,6 @@ export function useCompoundInstances() {
     return [...new Set(locations)]
   })
 
-  /**
-   * Get Low Stock Instances
-   * 
-   * Returns instances where the compound total stock is below threshold.
-   * This requires compounds data to check thresholds.
-   */
-  const getLowStockInstances = async () => {
-    try {
-      return await instanceService.getLowStock()
-    } catch (err) {
-      error.value = 'Failed to get low stock instances: ' + err.message
-      return []
-    }
-  }
-
-  /**
-   * Get Expiring Instances
-   * 
-   * Returns instances expiring within specified days.
-   */
-  const getExpiringInstances = (days = 30) => {
-    const futureDate = new Date()
-    futureDate.setDate(futureDate.getDate() + days)
-    
-    return instances.value.filter(instance => {
-      if (!instance.expiryDate || instance.status !== 'active') return false
-      const expiryDate = new Date(instance.expiryDate)
-      return expiryDate <= futureDate
-    })
-  }
 
   /**
    * Create New Instance
@@ -210,27 +180,33 @@ export function useCompoundInstances() {
    * Updates the quantity of a specific instance.
    * Used during transactions.
    */
-  const updateInstanceQuantity = async (instanceId, newQuantity) => {
+  const updateInstanceQuantity = async (instanceId, newQuantity, additionalUpdates = {}) => {
     try {
       // Optimistic update
       const instance = instances.value.find(i => i.id === instanceId)
       if (instance) {
         instance.quantity = newQuantity
         
+        // Apply additional updates
+        Object.assign(instance, additionalUpdates)
+        
         // Mark as used up if quantity is zero
         if (newQuantity <= 0) {
           instance.status = 'used_up'
           instance.quantity = 0
+        } else if (instance.status === 'used_up') {
+          instance.status = 'active'
         }
       }
 
-      // Sync with backend
-      await instanceService.updateQuantity(instanceId, newQuantity)
-      
-      // Mark as used up if needed
-      if (newQuantity <= 0) {
-        await instanceService.markAsUsedUp(instanceId)
+      // Prepare updates for backend
+      const updates = {
+        quantity: newQuantity,
+        ...additionalUpdates
       }
+      
+      // Sync with backend - this will use the normalized update method
+      await instanceService.update(instanceId, updates)
       
     } catch (err) {
       error.value = 'Failed to update instance quantity: ' + err.message
@@ -297,8 +273,6 @@ export function useCompoundInstances() {
     getTotalStockForCompound,
     getInstanceCountForCompound,
     getInstancesByLocation,
-    getLowStockInstances,
-    getExpiringInstances,
     createInstance,
     updateInstance,
     deleteInstance,

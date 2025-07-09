@@ -78,7 +78,8 @@
             </div>
           </div>
         </div>
-      </Card>      <!-- Language Settings -->
+      </Card>      
+      <!-- Language Settings -->
       <Card>
         <template #header>
           <h3 class="text-lg font-semibold text-slate-900">{{ $t('preferences.languageRegion') }}</h3>
@@ -100,7 +101,7 @@
               </option>
             </select>
           </div>
-            <!-- Date Format -->
+          <!-- Date Format -->
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-3">{{ $t('preferences.dateFormat') }}</label>
             <select
@@ -143,107 +144,6 @@
                   class="text-blue-600 focus:ring-blue-500"
                 />
                 <span class="ml-2 text-sm">{{ $t('preferences.time24h') }}</span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </Card>
-      
-      <!-- Notification Settings -->
-      <Card>
-        <template #header>
-          <h3 class="text-lg font-semibold text-slate-900">{{ $t('preferences.notifications') }}</h3>
-        </template>
-        <div class="space-y-6">
-          <!-- Email Notifications -->
-          <div>
-            <label class="flex items-center justify-between">
-              <span class="text-sm font-medium text-slate-700">{{ $t('preferences.emailNotifications') }}</span>
-              <input
-                type="checkbox"
-                v-model="emailNotifications"
-                @change="toggleEmailNotifications"
-                class="rounded text-blue-600 focus:ring-blue-500"
-              />
-            </label>
-            <p class="text-xs text-slate-500 mt-1">{{ $t('preferences.emailHelp') }}</p>
-          </div>
-          
-          <!-- Browser Notifications -->
-          <div>
-            <label class="flex items-center justify-between">
-              <span class="text-sm font-medium text-slate-700">{{ $t('preferences.browserNotifications') }}</span>
-              <input
-                type="checkbox"
-                v-model="browserNotifications"
-                @change="toggleBrowserNotifications"
-                class="rounded text-blue-600 focus:ring-blue-500"
-              />
-            </label>
-            <p class="text-xs text-slate-500 mt-1">{{ $t('preferences.browserHelp') }}</p>
-          </div>
-          
-          <!-- Low Stock Alerts -->
-          <div>
-            <label class="flex items-center justify-between">
-              <span class="text-sm font-medium text-slate-700">{{ $t('preferences.lowStockAlerts') }}</span>
-              <input
-                type="checkbox"
-                v-model="lowStockAlerts"
-                @change="toggleLowStockAlerts"
-                class="rounded text-blue-600 focus:ring-blue-500"
-              />
-            </label>
-            <p class="text-xs text-slate-500 mt-1">{{ $t('preferences.lowStockHelp') }}</p>
-          </div>
-        </div>
-      </Card>
-      
-      <!-- Display Settings -->
-      <Card>
-        <template #header>
-          <h3 class="text-lg font-semibold text-slate-900">{{ $t('preferences.display') }}</h3>
-        </template>
-        <div class="space-y-6">
-          <!-- Items per Page -->
-          <div>
-            <label class="block text-sm font-medium text-slate-700 mb-3">{{ $t('preferences.itemsPerPage') }}</label>
-            <select
-              v-model="itemsPerPage"
-              @change="selectItemsPerPage"
-              class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option v-for="option in itemsPerPageOptions" :key="option" :value="option">
-                {{ option }} {{$t('preferences.items')}}
-              </option>
-            </select>
-          </div>
-          
-          <!-- Default View -->
-          <div>
-            <label class="block text-sm font-medium text-slate-700 mb-3">{{ $t('preferences.defaultCompoundsView') }}</label>
-            <div class="space-y-2">
-              <label class="flex items-center">
-                <input
-                  type="radio"
-                  name="defaultView"
-                  value="table"
-                  v-model="defaultView"
-                  @change="selectDefaultView"
-                  class="text-blue-600 focus:ring-blue-500"
-                />
-                <span class="ml-2 text-sm">{{ $t('preferences.tableView') }}</span>
-              </label>
-              <label class="flex items-center">
-                <input
-                  type="radio"
-                  name="defaultView"
-                  value="grid"
-                  v-model="defaultView"
-                  @change="selectDefaultView"
-                  class="text-blue-600 focus:ring-blue-500"
-                />
-                <span class="ml-2 text-sm">{{ $t('preferences.gridView') }}</span>
               </label>
             </div>
           </div>

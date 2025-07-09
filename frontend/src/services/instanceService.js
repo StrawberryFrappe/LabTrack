@@ -16,13 +16,39 @@ import api from './api.js'
 
 export const instanceService = {
   /**
+   * Normalize Instance Data
+   * 
+   * Ensures instance data has proper structure and required fields.
+   */
+  normalizeInstance(instance) {
+    // Define default structure for a compound instance
+    const defaultInstance = {
+      id: instance.id || '',
+      compoundId: instance.compoundId || '',
+      location: instance.location || '',
+      batchNumber: instance.batchNumber || '',
+      quantity: parseFloat(instance.quantity) || 0,
+      unit: instance.unit || '',
+      receivedDate: instance.receivedDate || '',
+      expiryDate: instance.expiryDate || '',
+      openedDate: instance.openedDate || '',
+      status: instance.status || (parseFloat(instance.quantity) > 0 ? 'active' : 'used_up'),
+      description: instance.description || '',
+      createdAt: instance.createdAt || new Date().toISOString()
+    }
+
+    return { ...defaultInstance, ...instance }
+  },
+
+  /**
    * Get All Instances
    * 
    * Fetches all compound instances with optional filtering.
    */
   async getAll(params = {}) {
     const response = await api.get('/compoundInstances', { params })
-    return response.data
+    // Normalize all instances to ensure consistent structure
+    return response.data.map(instance => this.normalizeInstance(instance))
   },
 
   /**
@@ -32,7 +58,7 @@ export const instanceService = {
    */
   async getById(id) {
     const response = await api.get(`/compoundInstances/${id}`)
-    return response.data
+    return this.normalizeInstance(response.data)
   },
 
   /**
@@ -42,7 +68,7 @@ export const instanceService = {
    */
   async getByCompoundId(compoundId) {
     const response = await api.get(`/compoundInstances?compoundId=${compoundId}`)
-    return response.data
+    return response.data.map(instance => this.normalizeInstance(instance))
   },
 
   /**
@@ -51,13 +77,13 @@ export const instanceService = {
    * Adds a new compound instance.
    */
   async create(instanceData) {
-    const instanceWithDefaults = {
+    const instanceWithDefaults = this.normalizeInstance({
       ...instanceData,
       status: instanceData.status || 'active',
       createdAt: new Date().toISOString()
-    }
+    })
     const response = await api.post('/compoundInstances', instanceWithDefaults)
-    return response.data
+    return this.normalizeInstance(response.data)
   },
 
   /**
@@ -66,8 +92,12 @@ export const instanceService = {
    * Updates an existing compound instance.
    */
   async update(id, updates) {
-    const response = await api.put(`/compoundInstances/${id}`, updates)
-    return response.data
+    // Get current instance data first to ensure we maintain all fields
+    const currentInstance = await this.getById(id)
+    const normalizedUpdates = this.normalizeInstance({ ...currentInstance, ...updates })
+    
+    const response = await api.put(`/compoundInstances/${id}`, normalizedUpdates)
+    return this.normalizeInstance(response.data)
   },
 
   /**
@@ -81,53 +111,13 @@ export const instanceService = {
   },
 
   /**
-   * Get Low Stock Instances
-   * 
-   * Fetches instances with low quantities.
-   * Since thresholds are defined at compound level, we need compound data too.
-   */
-  async getLowStock() {
-    const instances = await this.getAll()
-    const compoundsResponse = await api.get('/compounds')
-    const compounds = compoundsResponse.data
-    
-    return instances.filter(instance => {
-      const compound = compounds.find(c => c.id === instance.compoundId)
-      if (!compound) return false
-      
-      // Calculate total stock for this compound across all instances
-      const compoundInstances = instances.filter(i => i.compoundId === compound.id)
-      const totalStock = compoundInstances.reduce((sum, i) => sum + (i.quantity || 0), 0)
-      
-      return totalStock <= compound.threshold
-    })
-  },
-
-  /**
-   * Get Expiring Instances
-   * 
-   * Fetches instances expiring within specified days.
-   */
-  async getExpiring(days = 30) {
-    const instances = await this.getAll()
-    const futureDate = new Date()
-    futureDate.setDate(futureDate.getDate() + days)
-    
-    return instances.filter(instance => {
-      if (!instance.expiryDate) return false
-      const expiryDate = new Date(instance.expiryDate)
-      return expiryDate <= futureDate && instance.status === 'active'
-    })
-  },
-
-  /**
    * Get Instances by Location
    * 
    * Fetches instances at a specific location.
    */
   async getByLocation(location) {
     const response = await api.get(`/compoundInstances?location=${encodeURIComponent(location)}`)
-    return response.data
+    return response.data.map(instance => this.normalizeInstance(instance))
   },
 
   /**
@@ -135,9 +125,23 @@ export const instanceService = {
    * 
    * Helper method to update just the quantity of an instance.
    * This is commonly used during transactions.
+   * Ensures proper status management when quantity changes.
    */
   async updateQuantity(id, quantity) {
-    return this.update(id, { quantity })
+    // Prepare update object with quantity and status
+    const updates = { 
+      quantity: parseFloat(quantity) || 0
+    }
+    
+    // Automatically update status based on quantity
+    if (updates.quantity <= 0) {
+      updates.status = 'used_up'
+      updates.quantity = 0
+    } else {
+      updates.status = 'active'
+    }
+    
+    return this.update(id, updates)
   },
 
   /**
@@ -159,6 +163,6 @@ export const instanceService = {
    */
   async search(query) {
     const response = await api.get(`/compoundInstances?q=${encodeURIComponent(query)}`)
-    return response.data
+    return response.data.map(instance => this.normalizeInstance(instance))
   }
 }

@@ -1,21 +1,30 @@
 export default {
   inventorySessions: {
-    title: 'Sessões de Inventário',
+    title: 'Transações',
     subtitle: 'Gerenciar movimentos de estoque e transações',
     
     // Quick Transaction Form
     quickTransaction: {
       title: 'Transação Rápida',
       selectCompound: 'Selecionar Composto',
+      selectInstance: 'Selecionar Instância',
       compoundPlaceholder: 'Buscar por nome, CAS ou lote...',
+      instancePlaceholder: 'Buscar por composto, lote ou localização...',
       noCompounds: 'Nenhum composto encontrado',
+      noInstances: 'Nenhuma instância encontrada',
+      instanceRequired: 'Por favor selecione uma instância',
       transactionType: 'Tipo de Transação',
       quantity: 'Quantidade',
       quantityPlaceholder: 'Inserir quantidade',
+      available: 'Disponível',
+      useAll: 'Usar Tudo',
       notes: 'Notas (Opcional)',
       notesPlaceholder: 'Adicionar notas da transação...',
       submit: 'Registrar Transação',
       cancel: 'Cancelar',
+      preview: 'Visualização da Transação',
+      destinationLocation: 'Localização de Destino',
+      locationPlaceholder: 'Insira a localização de destino',
       
       // Transaction Types
       types: {
@@ -23,7 +32,7 @@ export default {
         restock: 'Reabastecer/Adicionar',
         adjust: 'Ajuste',
         transfer: 'Transferir',
-        waste: 'Descartar/Resíduo'
+        waste: 'Descartar'
       }
     },
     

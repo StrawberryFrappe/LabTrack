@@ -45,8 +45,18 @@ export default {
     casPlaceholder: "Enter CAS number (e.g. 123-45-6)",
     quantity: "Quantity",
     quantityPlaceholder: "Enter quantity",
-    unit: "Unit",
-    unitSelect: "Select unit",
+    unit: "Preferred Unit",
+    unitSelect: "Select preferred unit",
+    units: {
+      g: "grams (g)",
+      kg: "kilograms (kg)", 
+      ml: "milliliters (ml)",
+      l: "liters (L)",
+      mg: "milligrams (mg)",
+      μg: "micrograms (μg)",
+      mol: "moles (mol)",
+      mmol: "millimoles (mmol)"
+    },
     reorderThreshold: "Reorder Threshold",
     thresholdPlaceholder: "Enter reorder threshold",
     location: "Location",
@@ -87,12 +97,17 @@ export default {
       location: "Location",
       batchNumber: "Batch Number",
       quantity: "Quantity",
+      unit: "Unit",
+      unitSelect: "Select unit",
       expiryDate: "Expiry Date",
       status: "Status",
       actions: "Actions",
       created: "Created",
       opened: "Opened",
       received: "Received",
+      description: "Description",
+      descriptionPlaceholder: "Add a custom note or description for this instance",
+      descriptionHelp: "Optional: Add any special notes about this specific instance",
       statusActive: "Active",
       statusUsedUp: "Used Up",
       statusExpired: "Expired",
@@ -142,6 +157,8 @@ export default {
       batch: "Batch",
       location: "Location",
       supplier: "Supplier",
+      unit: "Preferred Unit",
+      hazardClass: "Hazard Class",
       expires: "Expires",
       threshold: "Threshold"
     },
@@ -154,6 +171,10 @@ export default {
     deleteError: "Failed to delete compound. Please try again.",
     deleteConfirmTitle: "Delete Compound",
     deleteConfirm: "Are you sure you want to delete '{name}'? This action cannot be undone.",
+    deleteBlocked: {
+      title: "Cannot Delete Compound",
+      message: "Cannot delete '{name}' because it has {count} active instance(s). Please remove all instances before deleting the compound."
+    },
     
     // Import/Export
     importSuccess: "Successfully imported {count} compounds",
@@ -184,12 +205,35 @@ export default {
       compoundInfo: "Compound Information",
       editCompound: "Edit Compound",
       stockSummary: "Stock Summary",
+      totalStock: "Total Stock",
       createTransaction: "Create Transaction",
       deleteCompound: "Delete Compound",
       notes: "Notes",
       notesPlaceholder: "Add notes about this compound...",
       loadingInstances: "Loading instances...",
       transactionFeatureComingSoon: "Transaction feature coming soon!"
+    },
+
+    // Instances section
+    instances: {
+      title: "Compound Instances",
+      addNew: "Add New Instance",
+      noInstances: "No instances found for this compound",
+      totalInstances: "Total Instances",
+      totalStock: "Total Stock",
+      expiringSoon: "Expiring Soon",
+      activeInstances: "Active Instances",
+      location: "Location",
+      batchNumber: "Batch Number",
+      quantity: "Quantity",
+      status: "Status",
+      expiryDate: "Expiry Date",
+      edit: "Edit",
+      delete: "Delete",
+      deleteConfirm: "Are you sure you want to delete this instance?",
+      statusActive: "Active",
+      statusExpired: "Expired",
+      statusUsedUp: "Used Up"
     }
   }
 }

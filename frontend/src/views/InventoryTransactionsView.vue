@@ -3,12 +3,9 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-slate-900">
-          {{ $t('inventorySessions.title') }}
-        </h1>
-        <p class="text-slate-600 mt-1">
+        <h1 class="text-xl text-slate-600">
           {{ $t('inventorySessions.subtitle') }}
-        </p>
+        </h1>
       </div>
       
       <div class="flex gap-3">
@@ -231,21 +228,16 @@ const filteredTransactions = computed(() => {
 })
 
 // Event handlers
-const handleTransactionRecorded = async (transaction) => {
-  // Refresh the transaction list to show the new entry
+const handleTransactionRecorded = async () => {
   await loadTransactions()
-  toast.success(t('inventorySessions.messages.transactionRecorded'))
 }
 
 const handleEditTransaction = (transaction) => {
-  // TODO: Implement transaction editing
-  // For now, just show a toast
   toast.info('Transaction editing coming soon')
 }
 
 const handleDeleteTransaction = async (transaction) => {
   try {
-    // Show confirmation dialog
     const confirmed = confirm(t('inventorySessions.messages.deleteTransactionConfirm'))
     if (!confirmed) return
     
@@ -258,13 +250,11 @@ const handleDeleteTransaction = async (transaction) => {
 }
 
 const handleBulkImport = () => {
-  // TODO: Implement bulk import functionality
   toast.info('Bulk import coming soon')
   showBulkModal.value = false
 }
 
 const handleBulkExport = () => {
-  // TODO: Implement bulk export functionality
   try {
     const csvData = exportTransactionsToCsv(filteredTransactions.value)
     downloadCsv(csvData, 'inventory_transactions.csv')
@@ -285,8 +275,7 @@ const refreshData = async () => {
 }
 
 const applyFilters = () => {
-  // Filters are reactive, so the computed property will update automatically
-  console.log('Filters applied:', historyFilter)
+  // Filters are reactive, so computed property will update automatically
 }
 
 // Utility functions
@@ -318,15 +307,9 @@ const downloadCsv = (csvData, filename) => {
 
 // Lifecycle
 onMounted(() => {
-  // Check if a compound was pre-selected via query parameter
   const compoundId = route.query.compound
   if (compoundId) {
-    // Pre-fill the transaction form with the selected compound
-    // This will be handled by the QuickTransactionForm component
     console.log('Pre-selected compound:', compoundId)
   }
-  
-  // Data is already loaded by the composable's auto-initialization
-  // This is just for any additional setup if needed
 })
 </script>

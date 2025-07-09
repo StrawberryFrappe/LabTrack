@@ -19,6 +19,7 @@ export default {
     password: "Password",
     confirm: "Confirm",
     close: "Close",
+    understood: "Understood",
     
     // Dialog common text
     confirmAction: "Confirm Action",

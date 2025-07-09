@@ -33,12 +33,6 @@
 
 <template>
   <div class="space-y-8">    <!-- Page Header -->
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="text-2xl font-bold text-slate-900">{{$t('inventory.countsTitle')}}</h1>
-        <p class="text-slate-600 mt-1">{{$t('inventory.countsSubtitle')}}</p>
-      </div>
-    </div>
     
     <!-- Inventory Management Content -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">

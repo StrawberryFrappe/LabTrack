@@ -132,7 +132,7 @@
               <span class="text-xl">☰</span>
             </button>              <!-- Page Title -->
             <div class="flex items-center space-x-3">
-              <h2 class="text-lg font-semibold text-slate-900">
+              <h2 class="text-2xl font-semibold text-slate-900">
                 {{ getPageTitle($route.name) }}
               </h2>
               <!-- TRL3: Breadcrumb navigation system placeholder -->

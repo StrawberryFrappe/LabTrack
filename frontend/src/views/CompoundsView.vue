@@ -26,8 +26,7 @@
     <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-slate-900">{{ $t('compounds.title') }}</h1>
-        <p class="text-slate-600 mt-1">{{ $t('compounds.description') }}</p>
+        <h1 class="text-xl text-slate-600">{{ $t('compounds.description') }}</h1>
       </div>
       
       <!-- Action Buttons -->
@@ -102,10 +101,10 @@
     <!-- Delete Confirmation Dialog -->
     <ConfirmDialog
       v-model="showDeleteDialog"
-      :title="$t('compounds.deleteConfirmTitle')"
+      :title="deleteConfirmTitle"
       :message="deleteConfirmMessage"
       type="danger"
-      :confirm-text="$t('common.delete')"
+      :confirm-text="deleteConfirmText"
       :cancel-text="$t('common.cancel')"
       :loading="deleteLoading"
       @confirm="handleConfirmDelete"
@@ -125,6 +124,7 @@ import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 import Button from '@/components/ui/Button.vue'
 import { useAuth } from '@/composables/useAuth.js'
 import { useCompounds } from '@/composables/useCompounds.js'
+import { useCompoundInstances } from '@/composables/useCompoundInstances.js'
 import { useToast } from '@/composables/useToast.js'
 import { useI18n } from 'vue-i18n'
 import { exportToCSV, exportToExcel, exportCompounds, importFromCSV, importFromExcel } from '@/utils/importExport.js'
@@ -132,6 +132,7 @@ import { exportToCSV, exportToExcel, exportCompounds, importFromCSV, importFromE
 const { t } = useI18n()
 const { isAdmin } = useAuth()
 const { createCompound, updateCompound, deleteCompound, compounds } = useCompounds()
+const instancesComposable = useCompoundInstances()
 const { success, error } = useToast()
 
 // Modal state
@@ -153,7 +154,38 @@ const deleteLoading = ref(false)
 // Computed properties
 const deleteConfirmMessage = computed(() => {
   if (!deletingCompound.value) return ''
+  const instanceCount = instancesComposable.getInstanceCountForCompound(deletingCompound.value.id)
+  
+  if (instanceCount > 0) {
+    return t('compounds.deleteBlocked.message', { 
+      name: deletingCompound.value.name, 
+      count: instanceCount 
+    })
+  }
+  
   return t('compounds.deleteConfirm', { name: deletingCompound.value.name })
+})
+
+const deleteConfirmTitle = computed(() => {
+  if (!deletingCompound.value) return ''
+  const instanceCount = instancesComposable.getInstanceCountForCompound(deletingCompound.value.id)
+  
+  if (instanceCount > 0) {
+    return t('compounds.deleteBlocked.title')
+  }
+  
+  return t('compounds.deleteConfirmTitle')
+})
+
+const deleteConfirmText = computed(() => {
+  if (!deletingCompound.value) return t('common.delete')
+  const instanceCount = instancesComposable.getInstanceCountForCompound(deletingCompound.value.id)
+  
+  if (instanceCount > 0) {
+    return t('common.understood')
+  }
+  
+  return t('common.delete')
 })
 
 // Event handlers
@@ -208,6 +240,16 @@ const handleSubmitCompound = async (formData) => {
 const handleConfirmDelete = async () => {
   if (!deletingCompound.value) return
   
+  const instanceCount = instancesComposable.getInstanceCountForCompound(deletingCompound.value.id)
+  
+  if (instanceCount > 0) {
+    // If there are instances, just close the dialog (it's an "understood" acknowledgment)
+    showDeleteDialog.value = false
+    deletingCompound.value = null
+    return
+  }
+  
+  // Proceed with deletion if no instances
   deleteLoading.value = true
   
   try {

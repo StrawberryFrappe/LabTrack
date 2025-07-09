@@ -168,7 +168,7 @@ export const exportCompounds = async (compounds, filename = null) => {
       'Supplier',
       'Location',
       'Quantity',
-      'Unit',
+      'Preferred Unit',
       'Expiration Date',
       'Hazard Classes',
       'Threshold',

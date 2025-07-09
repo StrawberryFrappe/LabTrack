@@ -1,7 +1,7 @@
 export default {
   inventory: {
     title: 'Conteo de Inventario',
-    startCount: 'Iniciar Nuevo Conteo',
+    startNewCount: 'Iniciar Nuevo Conteo',
     activeCount: 'Sesión de Conteo Activa',
     scanBarcode: 'Escanear Código de Barras',
     manualEntry: 'Entrada Manual',
@@ -79,9 +79,9 @@ export default {
     }
   },
   
-  // Inventory Sessions (Transaction Management)
+  // Transacciones (Transaction Management)
   inventorySessions: {
-    title: 'Sesiones de Inventario',
+    title: 'Transacciones',
     subtitle: 'Registra y rastrea transacciones de inventario en tiempo real',
     
     // Quick Transaction Form

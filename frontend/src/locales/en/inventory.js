@@ -79,9 +79,9 @@ export default {
     }
   },
   
-  // Inventory Sessions (Transaction Management)
+  // Transactions (Transaction Management)
   inventorySessions: {
-    title: 'Inventory Sessions',
+    title: 'Transactions',
     subtitle: 'Record and track inventory transactions in real-time',
     
     // Quick Transaction Form

@@ -45,8 +45,18 @@ export default {
     casPlaceholder: "Insira o número CAS (ex. 123-45-6)",
     quantity: "Quantidade",
     quantityPlaceholder: "Insira a quantidade",
-    unit: "Unidade",
-    unitSelect: "Selecione a unidade",
+    unit: "Unidade Preferida",
+    unitSelect: "Selecione a unidade preferida",
+    units: {
+      g: "gramas (g)",
+      kg: "quilogramas (kg)",
+      ml: "mililitros (ml)",
+      l: "litros (L)", 
+      mg: "miligramas (mg)",
+      μg: "microgramas (μg)",
+      mol: "moles (mol)",
+      mmol: "milimoles (mmol)"
+    },
     reorderThreshold: "Limite de reposição",
     thresholdPlaceholder: "Insira o limite de reposição",
     location: "Local",
@@ -87,12 +97,17 @@ export default {
       location: "Localização",
       batchNumber: "Número do Lote",
       quantity: "Quantidade",
+      unit: "Unidade",
+      unitSelect: "Selecionar unidade",
       expiryDate: "Data de Validade",
       status: "Status",
       actions: "Ações",
       created: "Criado",
       opened: "Aberto",
       received: "Recebido",
+      description: "Descrição",
+      descriptionPlaceholder: "Adicionar uma nota ou descrição personalizada para esta instância",
+      descriptionHelp: "Opcional: Adicionar notas especiais sobre esta instância específica",
       statusActive: "Ativo",
       statusUsedUp: "Esgotado",
       statusExpired: "Vencido",
@@ -142,6 +157,8 @@ export default {
       batch: "Lote",
       location: "Local",
       supplier: "Fornecedor",
+      unit: "Unidade Preferida",
+      hazardClass: "Classe de Perigo",
       expires: "Expira",
       threshold: "Limite"
     },
@@ -154,6 +171,10 @@ export default {
     deleteError: "Falha ao excluir o composto. Tente novamente.",
     deleteConfirmTitle: "Excluir Composto",
     deleteConfirm: "Tem certeza de que deseja excluir '{name}'? Esta ação não pode ser desfeita.",
+    deleteBlocked: {
+      title: "Não é Possível Excluir o Composto",
+      message: "Não é possível excluir '{name}' porque possui {count} instância(s) ativa(s). Por favor, remova todas as instâncias antes de excluir o composto."
+    },
     
     // Import/Export
     importSuccess: "Importados com sucesso {count} compostos",
