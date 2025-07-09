@@ -122,7 +122,20 @@ export default {
       confirm: 'Confirm Import',
       processing: 'Processing...',
       success: 'Bulk operation completed',
-      error: 'Bulk operation failed'
+      error: 'Bulk operation failed',
+      comingSoon: 'Bulk import coming soon',
+      exportCompleted: 'Export completed',
+      exportFailed: 'Export failed'
+    },
+    
+    // Messages
+    messages: {
+      dataRefreshed: 'Data refreshed',
+      failedToRefresh: 'Failed to refresh data',
+      editingComingSoon: 'Transaction editing coming soon',
+      transactionDeleted: 'Transaction deleted successfully',
+      failedToDelete: 'Failed to delete transaction',
+      deleteTransactionConfirm: 'Are you sure you want to delete this transaction?'
     }
   }
 }

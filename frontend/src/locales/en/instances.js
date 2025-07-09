@@ -15,7 +15,6 @@ export default {
       status: 'Status',
       compound: 'Compound',
       supplier: 'Supplier',
-      cost: 'Cost',
       notes: 'Notes'
     },
     
@@ -23,19 +22,14 @@ export default {
     status: {
       active: 'Active',
       used_up: 'Used Up',
-      expired: 'Expired',
-      disposed: 'Disposed',
-      transferred: 'Transferred'
+      expired: 'Expired'
     },
     
     // Actions
     actions: {
       view: 'View Details',
       edit: 'Edit Instance',
-      delete: 'Delete Instance',
-      markUsedUp: 'Mark as Used Up',
-      transfer: 'Transfer',
-      split: 'Split Instance'
+      delete: 'Delete Instance'
     },
     
     // Messages
@@ -43,9 +37,6 @@ export default {
       created: 'Instance created successfully',
       updated: 'Instance updated successfully',
       deleted: 'Instance deleted successfully',
-      markedUsedUp: 'Instance marked as used up',
-      transferred: 'Instance transferred successfully',
-      split: 'Instance split successfully',
       error: 'An error occurred',
       noInstances: 'No instances found',
       noInstancesForCompound: 'No instances found for this compound'
@@ -62,8 +53,6 @@ export default {
       expiryDate: 'Expiry Date',
       supplier: 'Supplier',
       supplierPlaceholder: 'Enter supplier name',
-      cost: 'Cost',
-      costPlaceholder: 'Enter cost',
       notes: 'Notes',
       notesPlaceholder: 'Add any additional notes...'
     }

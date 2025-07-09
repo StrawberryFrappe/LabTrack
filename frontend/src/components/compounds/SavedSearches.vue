@@ -120,8 +120,11 @@
  * - Search metadata display
  */
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useAdvancedSearch } from '@/composables/useAdvancedSearch'
 import { useToast } from '@/composables/useToast'
+
+const { t } = useI18n()
 
 const {
   savedSearches,
@@ -137,7 +140,7 @@ const { showToast } = useToast()
 const quickSearchTemplates = [
   {
     key: 'lowStock',
-    name: 'Low Stock Items',
+    name: t('search.quickFilters.lowStock'),
     icon: '📉',
     isAdvanced: true,
     conditions: [{
@@ -150,7 +153,7 @@ const quickSearchTemplates = [
   },
   {
     key: 'expiringSoon',
-    name: 'Expiring Soon',
+    name: t('search.quickFilters.expiringSoon'),
     icon: '⏰',
     isAdvanced: true,
     conditions: [{
@@ -163,7 +166,7 @@ const quickSearchTemplates = [
   },
   {
     key: 'flammable',
-    name: 'Flammable Compounds',
+    name: t('search.quickFilters.flammable'),
     icon: '🔥',
     isAdvanced: true,
     conditions: [{
@@ -176,7 +179,7 @@ const quickSearchTemplates = [
   },
   {
     key: 'corrosive',
-    name: 'Corrosive Compounds',
+    name: t('search.quickFilters.corrosive'),
     icon: '⚠️',
     isAdvanced: true,
     conditions: [{
@@ -189,7 +192,7 @@ const quickSearchTemplates = [
   },
   {
     key: 'recentlyReceived',
-    name: 'Recently Received',
+    name: t('search.quickFilters.recentlyReceived'),
     icon: '📦',
     isAdvanced: true,
     conditions: [{
@@ -230,11 +233,11 @@ const loadSearch = (search) => {
 
 // Delete a search with confirmation
 const deleteSearch = (searchId) => {
-  if (confirm('Are you sure you want to delete this saved search?')) {
+  if (confirm(t('search.deleteConfirm'))) {
     deleteSavedSearch(searchId)
     showToast({
       type: 'success',
-      message: 'Search deleted successfully'
+      message: t('search.deleteSuccess')
     })
   }
 }

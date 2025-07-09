@@ -8,10 +8,10 @@
         <div class="flex items-center gap-2">
           <h3 class="text-lg font-semibold text-slate-900">{{ compound.name }}</h3>
           <Badge v-if="compound.casNumber" variant="secondary" class="font-mono text-sm">
-            CAS: {{ compound.casNumber }}
+            {{ $t('compounds.labels.cas') }}: {{ compound.casNumber }}
           </Badge>
         </div>
-        <Badge :variant="hazardBadgeVariant">{{ compound.hazardClass }}</Badge>
+        <Badge :variant="hazardBadgeVariant">{{ translatedHazardClass }}</Badge>
       </div>
     </template>
     
@@ -39,13 +39,13 @@
           <div class="text-slate-500">{{ $t('compounds.summary.totalQuantity') }}</div>
           <div class="font-semibold text-slate-800 text-right">
             {{ instanceSummary.totalQuantity }} 
-            <span class="text-xs">{{ compound.unit }}</span>
+            <span class="text-xs">{{ translatedUnit }}</span>
           </div>
 
           <div class="text-slate-500">{{ $t('compounds.labels.threshold') }}</div>
           <div class="font-semibold text-slate-800 text-right">
             {{ compound.threshold }}
-            <span class="text-xs">{{ compound.unit }}</span>
+            <span class="text-xs">{{ translatedUnit }}</span>
           </div>
         </div>
       </div>
@@ -145,6 +145,27 @@ onMounted(async () => {
 
 const hazardBadgeVariant = computed(() => {
   return getHazardVariant(props.compound.hazardClass)
+})
+
+const translatedHazardClass = computed(() => {
+  const hazardClassMap = {
+    'Non-hazardous': 'compounds.hazardClassNonHazardous',
+    'Flammable': 'compounds.hazardClassFlammable',
+    'Corrosive': 'compounds.hazardClassCorrosive',
+    'Toxic': 'compounds.hazardClassToxic',
+    'Oxidizing': 'compounds.hazardClassOxidizing',
+    'Explosive': 'compounds.hazardClassExplosive',
+    'Carcinogenic': 'compounds.hazardClassCarcinogenic',
+    'Radioactive': 'compounds.hazardClassRadioactive'
+  }
+  
+  const translationKey = hazardClassMap[props.compound.hazardClass]
+  return translationKey ? t(translationKey) : props.compound.hazardClass
+})
+
+const translatedUnit = computed(() => {
+  const unitKey = `compounds.units.${props.compound.unit}`
+  return t(unitKey, props.compound.unit) // fallback to original unit if translation not found
 })
 
 const expiryClasses = computed(() => {

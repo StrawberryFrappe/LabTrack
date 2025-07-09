@@ -24,7 +24,6 @@ export default {
     cards: 'Cartões',
     list: 'Lista',
     search: 'Buscar compostos...',
-    searchPlaceholder: 'Pesquisar compostos...',
     filters: 'Filtros',
     category: 'Categoria',
     hazardLevel: 'Nível de Perigo',
@@ -51,11 +50,12 @@ export default {
       g: "gramas (g)",
       kg: "quilogramas (kg)",
       ml: "mililitros (ml)",
-      l: "litros (L)", 
+      L: "litros (L)", 
       mg: "miligramas (mg)",
       μg: "microgramas (μg)",
       mol: "moles (mol)",
-      mmol: "milimoles (mmol)"
+      mmol: "milimoles (mmol)",
+      units: "unidades"
     },
     reorderThreshold: "Limite de reposição",
     thresholdPlaceholder: "Insira o limite de reposição",
@@ -174,6 +174,12 @@ export default {
     deleteBlocked: {
       title: "Não é Possível Excluir o Composto",
       message: "Não é possível excluir '{name}' porque possui {count} instância(s) ativa(s). Por favor, remova todas as instâncias antes de excluir o composto."
+    },
+    
+    summary: {
+      locations: 'Localizações',
+      instances: 'Instâncias',
+      totalQuantity: 'Quantidade Total',
     },
     
     // Import/Export

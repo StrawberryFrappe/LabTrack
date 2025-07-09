@@ -79,14 +79,9 @@
             @change="validateField('unit', $event.target.value); touchField('unit')"
           >
             <option value="">{{ $t('compounds.instances.unitSelect') }}</option>
-            <option value="g">g</option>
-            <option value="mg">mg</option>
-            <option value="kg">kg</option>
-            <option value="ml">ml</option>
-            <option value="L">L</option>
-            <option value="mol">mol</option>
-            <option value="mmol">mmol</option>
-            <option value="units">units</option>
+            <option v-for="unit in unitOptions" :key="unit.value" :value="unit.value">
+              {{ unit.label }}
+            </option>
           </select>
           <p v-if="hasFieldErrors('unit')" class="mt-1 text-sm text-red-600">
             {{ getFieldErrors('unit')[0] }}
@@ -244,6 +239,17 @@ const form = ref({
 
 // Computed properties
 const isEditing = computed(() => !!props.instance)
+
+const unitOptions = computed(() => [
+  { value: 'g', label: t('compounds.units.g') },
+  { value: 'mg', label: t('compounds.units.mg') },
+  { value: 'kg', label: t('compounds.units.kg') },
+  { value: 'ml', label: t('compounds.units.ml') },
+  { value: 'L', label: t('compounds.units.L') },
+  { value: 'mol', label: t('compounds.units.mol') },
+  { value: 'mmol', label: t('compounds.units.mmol') },
+  { value: 'units', label: t('compounds.units.units') }
+])
 
 const hazardBadgeVariant = computed(() => {
   if (!props.compound) return 'secondary'

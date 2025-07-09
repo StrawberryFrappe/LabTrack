@@ -24,7 +24,6 @@ export default {
     cards: 'Tarjetas',
     list: 'Lista',
     search: 'Buscar compuestos...',
-    searchPlaceholder: 'Buscar compuestos...',
     filters: 'Filtros',
     category: 'Categoría',
     hazardLevel: 'Nivel de Peligro',
@@ -51,11 +50,12 @@ export default {
       g: "gramos (g)",
       kg: "kilogramos (kg)",
       ml: "mililitros (ml)", 
-      l: "litros (L)",
+      L: "litros (L)",
       mg: "miligramos (mg)",
       μg: "microgramos (μg)",
       mol: "moles (mol)",
-      mmol: "milimoles (mmol)"
+      mmol: "milimoles (mmol)",
+      units: "unidades"
     },
     reorderThreshold: "Umbral de reposición",
     thresholdPlaceholder: "Ingrese el umbral de reposición",
@@ -144,7 +144,9 @@ export default {
       delete: "Eliminar",
       count: "Contar",
       view: "Ver",
-      recordTransaction: "Registrar Transacción"
+      recordTransaction: "Registrar Transacción",
+      viewInstances: "Ver Instancias",
+      addInstance: "Agregar Instancia"
     },
     
     // Labels and prefixes

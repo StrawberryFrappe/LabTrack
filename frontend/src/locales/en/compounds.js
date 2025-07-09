@@ -24,7 +24,6 @@ export default {
     cards: 'Cards',
     list: 'List',
     search: 'Search compounds...',
-    searchPlaceholder: 'Search compounds...',
     filters: 'Filters',
     category: 'Category',
     hazardLevel: 'Hazard Level',
@@ -51,11 +50,12 @@ export default {
       g: "grams (g)",
       kg: "kilograms (kg)", 
       ml: "milliliters (ml)",
-      l: "liters (L)",
+      L: "liters (L)",
       mg: "milligrams (mg)",
       μg: "micrograms (μg)",
       mol: "moles (mol)",
-      mmol: "millimoles (mmol)"
+      mmol: "millimoles (mmol)",
+      units: "units"
     },
     reorderThreshold: "Reorder Threshold",
     thresholdPlaceholder: "Enter reorder threshold",
@@ -176,6 +176,12 @@ export default {
       message: "Cannot delete '{name}' because it has {count} active instance(s). Please remove all instances before deleting the compound."
     },
     
+    summary: {
+      locations: 'Locations',
+      instances: 'Instances',
+      totalQuantity: 'Total Quantity'
+    },
+    
     // Import/Export
     importSuccess: "Successfully imported {count} compounds",
     importError: "Failed to import compounds. Please check the file format.",
@@ -212,28 +218,6 @@ export default {
       notesPlaceholder: "Add notes about this compound...",
       loadingInstances: "Loading instances...",
       transactionFeatureComingSoon: "Transaction feature coming soon!"
-    },
-
-    // Instances section
-    instances: {
-      title: "Compound Instances",
-      addNew: "Add New Instance",
-      noInstances: "No instances found for this compound",
-      totalInstances: "Total Instances",
-      totalStock: "Total Stock",
-      expiringSoon: "Expiring Soon",
-      activeInstances: "Active Instances",
-      location: "Location",
-      batchNumber: "Batch Number",
-      quantity: "Quantity",
-      status: "Status",
-      expiryDate: "Expiry Date",
-      edit: "Edit",
-      delete: "Delete",
-      deleteConfirm: "Are you sure you want to delete this instance?",
-      statusActive: "Active",
-      statusExpired: "Expired",
-      statusUsedUp: "Used Up"
     }
   }
 }
