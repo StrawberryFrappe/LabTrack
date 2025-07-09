@@ -19,11 +19,11 @@ import { setAuthI18nInstance } from './services/authService.js'
 //     - Fallback locale set to English
 //     - Composition API mode enabled
 
-// TRL3 PRIORITIES:
+// 🎯 DEVELOPMENT PRIORITIES:
 // - Setup global error handler for production error tracking
 // app.config.errorHandler = (err, vm, info) => { ... }
 
-// POST-TRL3 ENHANCEMENTS:
+// 🚀 FUTURE ENHANCEMENTS:
 // - Import and setup Pinia for complex state management
 // - Setup performance monitoring and analytics tracking
 // - Setup service worker registration for PWA capabilities
@@ -40,8 +40,8 @@ app.use(i18n)
 setI18nInstance(i18n)
 setAuthI18nInstance(i18n)
 
-// MODULARIZATION OPPORTUNITIES:
-// - Use Pinia when implementing complex state management (post-TRL3)
-// - Register global components when UI library is extracted (post-TRL3)
+// 📦 COMPONENTIZATION OPPORTUNITIES:
+// - TODO: Use Pinia when implementing complex state management
+// - TODO: Register global components when UI library is extracted
 
 app.mount('#app')

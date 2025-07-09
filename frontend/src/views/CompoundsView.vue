@@ -17,13 +17,20 @@
   - API integration with JSON Server
   - Responsive design with Tailwind CSS
   
-  🎯 TRL3 STATUS: COMPLETE
-  All Week 1-2 objectives have been successfully implemented and tested.
+  🎯 IMPLEMENTATION STATUS: COMPLETE
+  All core objectives have been successfully implemented and tested.
+  
+  📦 COMPONENTIZATION OPPORTUNITIES:
+  - TODO: Extract compound search interface into CompoundSearchPanel.vue
+  - TODO: Extract compound statistics display into CompoundStatsCard.vue  
+  - TODO: Extract view toggle controls into ViewToggleControls.vue
+  - TODO: Extract bulk actions toolbar into BulkActionsToolbar.vue
 -->
 
 <template>
   <div class="space-y-8">
     <!-- Page Header -->
+    <!-- TODO: Extract header section into CompoundsHeader.vue component -->
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-xl text-slate-600">{{ $t('compounds.description') }}</h1>

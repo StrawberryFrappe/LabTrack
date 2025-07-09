@@ -16,27 +16,34 @@
       - Support for English, Spanish, Portuguese (BR)
   
   ✅ COMPLETED: UI framework for user preferences
-      - Comprehensive preference categories implemented      - Clean, accessible form interfaces
+      - Comprehensive preference categories implemented
+      - Clean, accessible form interfaces
       - Logical grouping of related settings
       - Ready for backend integration
   
-  TRL3 PRIORITIES:
+  🎯 DEVELOPMENT PRIORITIES:
   - Implement theme switching functionality (light/dark/auto modes)
   - Implement notification preferences system
   - Add user interface customization options (date formats, display density)
   - Persist preferences to backend API (when available)
   
-  MODULARIZATION OPPORTUNITIES:
-  - Extract form components into reusable UI library (technical debt)
-  - Split preference sections into separate components for maintainability
-  - Create preference management service for centralized state
+  📦 COMPONENTIZATION OPPORTUNITIES:
+  - TODO: Extract appearance settings into AppearanceSettings.vue component
+  - TODO: Extract notification settings into NotificationSettings.vue component
+  - TODO: Extract language settings into LanguageSettings.vue component
+  - TODO: Extract display settings into DisplaySettings.vue component
+  - TODO: Create preference management service for centralized state
 -->
 
 <template>
-  <div class="space-y-8">    <!-- Page Header -->
+  <div class="space-y-8">
+    <!-- Page Header -->
+    <!-- TODO: Extract header section into PreferencesHeader.vue component -->
     
     <!-- Preferences Content -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">      <!-- Appearance Settings -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Appearance Settings -->
+      <!-- TODO: Extract into AppearanceSettings.vue component -->
       <Card>
         <template #header>
           <h3 class="text-lg font-semibold text-slate-900">{{ $t('preferences.appearance') }}</h3>
@@ -249,16 +256,16 @@ onMounted(() => {
   selectedTimeFormat.value = prefs.timeFormat.value
 })
 
-// Methods - TRL3 implementation priorities
+// Methods - Implementation priorities
 const selectTheme = (theme) => {
   selectedTheme.value = theme
-  console.log('TRL3: Implement theme switching to:', theme)
-  // TRL3: Apply theme to application (CSS variables, localStorage, etc.)
-  // TRL3: Save to user preferences (backend integration)
+  console.log('Implement theme switching to:', theme)
+  // TODO: Apply theme to application (CSS variables, localStorage, etc.)
+  // TODO: Save to user preferences (backend integration)
 }
 
 const toggleEmailNotifications = () => {
-  console.log('TODO: Toggle email notifications:', emailNotifications.value)
+  console.log('Toggle email notifications:', emailNotifications.value)
   // TODO: Update notification preferences
   // TODO: Save to user preferences
 }
@@ -282,7 +289,7 @@ const selectItemsPerPage = () => {
 }
 
 const selectDefaultView = () => {
-  console.log('TODO: Update default view to:', defaultView.value)
+  console.log('Update default view to:', defaultView.value)
   // TODO: Update default compound view
   // TODO: Save to user preferences
 }
@@ -291,7 +298,7 @@ const savePreferences = async () => {
   saving.value = true
   
   try {
-    console.log('TODO: Save all preferences to backend')
+    console.log('Save all preferences to backend')
     // TODO: Collect all preference values
     // TODO: Send to API endpoint
     // TODO: Update local storage
@@ -302,7 +309,7 @@ const savePreferences = async () => {
     
     console.log('Preferences saved successfully')
   } catch (error) {
-    console.error('TODO: Handle save error:', error)
+    console.error('Handle save error:', error)
     // TODO: Show error notification
   } finally {
     saving.value = false

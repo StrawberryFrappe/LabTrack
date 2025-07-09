@@ -62,7 +62,7 @@ const { lowStockItems, expiringItems } = useCompounds()
 // Utility methods
 const formatDate = (dateString) => {
   // Format date utility - Enhanced with locale support for internationalization
-  // TODO TRL3: Implement locale-specific date formatting based on user preferences
+  // TODO: Implement locale-specific date formatting based on user preferences
   return new Date(dateString).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',

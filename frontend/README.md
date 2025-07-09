@@ -76,6 +76,17 @@ src/
 - Maintain responsive design with Tailwind utilities
 - Follow accessibility best practices
 
+### Componentization Opportunities
+The following large components could benefit from being split into smaller, more focused components:
+
+**High Priority Componentization:**
+- `CompoundDetailModal.vue` (26KB): Extract hazard display, instance list, and metadata sections
+- `CountEntryModal.vue` (26KB): Extract location selector, instance counter, and progress tracker
+- `InstanceSelector.vue` (13KB): Extract search interface and results list
+- `InstanceListModal.vue` (12KB): Extract instance table and action buttons
+- `CompoundForm.vue` (11KB): Extract validation display and form sections
+- `SearchQueryBuilder.vue` (11KB): Extract query builder logic and UI controls
+
 
 ## 🔧 Available Scripts
 
