@@ -39,10 +39,10 @@
           <span class="text-2xl">🧪</span>
         </div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to LabTrack
+          {{ $t('auth.title') }}
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
-          Laboratory Inventory Management System
+          {{ $t('auth.subtitle') }}
         </p>
       </div>
       
@@ -87,7 +87,7 @@
             </div>
             <div class="ml-3">
               <h3 class="text-sm font-medium text-red-800">
-                Login Failed
+                {{ $t('auth.loginFailed') }}
               </h3>
               <p class="text-sm text-red-700 mt-1">
                 {{ error }}
@@ -107,7 +107,7 @@
             <span v-if="loading" class="absolute left-0 inset-y-0 flex items-center pl-3">
               <div class="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
             </span>
-            {{ loading ? 'Signing in...' : 'Sign in' }}
+            {{ loading ? $t('auth.signingIn') : $t('auth.signIn') }}
           </button>
         </div>
 
@@ -135,7 +135,10 @@
 <script setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAuth } from '@/composables/useAuth.js'
+
+const { t } = useI18n()
 
 // Router for navigation
 const router = useRouter()

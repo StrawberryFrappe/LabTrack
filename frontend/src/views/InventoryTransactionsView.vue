@@ -233,7 +233,7 @@ const handleTransactionRecorded = async () => {
 }
 
 const handleEditTransaction = (transaction) => {
-  toast.info('Transaction editing coming soon')
+  toast.info($t('inventorySessions.messages.editingComingSoon'))
 }
 
 const handleDeleteTransaction = async (transaction) => {
@@ -242,15 +242,15 @@ const handleDeleteTransaction = async (transaction) => {
     if (!confirmed) return
     
     await deleteTransaction(transaction.id)
-    toast.success('Transaction deleted successfully')
+    toast.success($t('inventorySessions.messages.transactionDeleted'))
   } catch (err) {
-    toast.error('Failed to delete transaction')
+    toast.error($t('inventorySessions.messages.failedToDelete'))
     console.error('Delete transaction error:', err)
   }
 }
 
 const handleBulkImport = () => {
-  toast.info('Bulk import coming soon')
+  toast.info($t('inventorySessions.bulk.comingSoon'))
   showBulkModal.value = false
 }
 
@@ -258,9 +258,9 @@ const handleBulkExport = () => {
   try {
     const csvData = exportTransactionsToCsv(filteredTransactions.value)
     downloadCsv(csvData, 'inventory_transactions.csv')
-    toast.success('Export completed')
+    toast.success($t('inventorySessions.bulk.exportCompleted'))
   } catch (err) {
-    toast.error('Export failed')
+    toast.error($t('inventorySessions.bulk.exportFailed'))
   }
   showBulkModal.value = false
 }
@@ -268,9 +268,9 @@ const handleBulkExport = () => {
 const refreshData = async () => {
   try {
     await loadTransactions()
-    toast.success('Data refreshed')
+    toast.success($t('inventorySessions.messages.dataRefreshed'))
   } catch (err) {
-    toast.error('Failed to refresh data')
+    toast.error($t('inventorySessions.messages.failedToRefresh'))
   }
 }
 
@@ -280,7 +280,14 @@ const applyFilters = () => {
 
 // Utility functions
 const exportTransactionsToCsv = (transactions) => {
-  const headers = ['Date', 'Compound', 'Type', 'Quantity', 'User', 'Notes']
+  const headers = [
+    $t('inventorySessions.history.timestamp'),
+    $t('inventorySessions.history.compound'),
+    $t('inventorySessions.history.type'),
+    $t('inventorySessions.history.quantity'),
+    $t('inventorySessions.history.user'),
+    $t('inventorySessions.history.notes')
+  ]
   const rows = transactions.map(t => [
     new Date(t.timestamp).toLocaleDateString(),
     t.compoundName || t.compoundId,

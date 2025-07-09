@@ -19,6 +19,10 @@ export default {
     sessionDescriptionLabel: "Description",
     sessionLocationPlaceholder: "Location to count",
     sessionLocationLabel: "Location",
+    sessionLocationsLabel: "Locations to Count",
+    selectAllLocations: "Select All Locations",
+    locationsSelected: "{count} of {total} locations selected",
+    noLocationsAvailable: "No locations available (no active instances found)",
     createSessionButton: "Create Session",
     scannerTitle: "Inventory Scanner",
     scannerPrompt: "Scan barcode or enter manually",
@@ -30,15 +34,55 @@ export default {
     cancel: "Cancel",
     recentScans: "Recent Scans",
     counted: "Counted",
+    itemsShort: "items",
+    
+    // View labels
+    subtitle: "Inventory Count Management",
+    locationsCount: "locations",
+    created: "Created",
+    completed: "Completed",
+    view: "View",
+    continue: "Continue",
+    complete: "Complete",
+    
+    // Actions
+    actions: {
+      refresh: "Refresh"
+    },
     
     // Count Entry Modal
     countEntry: "Count Entry",
+    countingLocation: "Counting location: {location}",
     countedQuantity: "Counted Quantity",
     countedQuantityPlaceholder: "Enter counted quantity",
     discrepancyFound: "Discrepancy Found",
     overageFound: "Overage",
     shortageFound: "Shortage",
     noDiscrepancy: "No Discrepancy",
+    verificationStatus: "Verification Status",
+    verified: "Verified",
+    discrepancy: "Discrepancy",
+    notFound: "Not Found",
+    batchNumber: "Batch Number",
+    expiryDate: "Expiry Date",
+    notes: "Notes",
+    discrepancyNotesPlaceholder: "Enter notes about discrepancy...",
+    instancesVerified: "{count} of {total} instances verified",
+    locationComplete: "Location Complete",
+    saveProgress: "Save Progress",
+    findMisplacedInstance: "Find Misplaced Instance",
+    createNewInstance: "Create New Instance",
+    newInstanceCreated: "New instance created during count",
+    
+    // New keys for enhanced interface
+    countingAllLocations: "Counting all locations",
+    overallProgress: "Overall Progress",
+    verifyAllInstances: "Verify All Instances",
+    verifyAllInLocation: "Verify All in Location", 
+    quickVerify: "Quick Verify",
+    detailedCount: "Detailed Count",
+    unverified: "Unverified",
+    totalInstancesVerified: "{count} of {total} instances verified across {locations} locations",
     
     // Count Entry Labels
     cas: "CAS",
@@ -57,18 +101,21 @@ export default {
     // Count Session Labels
     labels: {
       location: "Location",
+      locations: "Locations",
       createdBy: "Created by",
       startDate: "Start Date", 
       completed: "Completed",
       duration: "Duration",
-      notes: "Notes"
+      notes: "Notes",
+      status: "Status"
     },
     
     // Count Session Actions
     sessionActions: {
       continueCount: "Continue Count",
       viewDetails: "View Details", 
-      complete: "Complete"
+      complete: "Complete",
+      incompleteSession: "Incomplete"
     },
     
     // Count Session Status
@@ -159,7 +206,24 @@ export default {
       transactionFailed: 'Failed to record transaction',
       deleteTransactionConfirm: 'Are you sure you want to delete this transaction?',
       noTransactions: 'No transactions found',
-      loadingTransactions: 'Loading transactions...'
+      loadingTransactions: 'Loading transactions...',
+      
+      // Session messages
+      sessionCreated: 'Count session created successfully',
+      sessionCreationFailed: 'Failed to create count session',
+      sessionContinued: 'Count session resumed',
+      sessionCompleted: 'Count session completed successfully',
+      sessionCompletionFailed: 'Failed to complete count session',
+      nameAndLocationsRequired: 'Session name and at least one location are required',
+      duplicateSessionName: 'A session with this name already exists',
+      progressSaved: 'Progress saved successfully',
+      progressSaveFailed: 'Failed to save progress',
+      unsavedChanges: 'You have unsaved changes. Are you sure you want to close?',
+      allLocationsCompleted: 'All locations have been counted',
+      instanceFoundAdded: 'Instance found and added to current location',
+      instanceCreatedAdded: 'New instance created and added to count',
+      cannotCompleteSession: 'Cannot complete session: {reason}',
+      confirmCompleteSession: 'Complete session "{name}"? {verified}/{total} instances verified.'
     }
   }
 }

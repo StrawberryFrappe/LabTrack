@@ -8,6 +8,7 @@ import common from './pt/common.js'
 import navigation from './pt/navigation.js'
 import userMenu from './pt/userMenu.js'
 import validation from './pt/validation.js'
+import auth from './pt/auth.js'
 
 export default {
   dashboard: dashboard.dashboard,
@@ -20,5 +21,6 @@ export default {
   search: common.search,
   navigation: navigation.navigation,
   userMenu: userMenu.userMenu,
-  validation: validation.validation
+  validation: validation.validation,
+  auth: auth.auth
 }

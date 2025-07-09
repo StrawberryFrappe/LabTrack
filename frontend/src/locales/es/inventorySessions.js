@@ -106,6 +106,7 @@ export default {
     // Bulk Operations
     bulk: {
       title: 'Operaciones en Lote',
+      description: 'Importar o exportar datos de transacciones en lote',
       import: 'Importar Transacciones',
       export: 'Exportar Datos',
       selectFile: 'Seleccionar archivo CSV',
@@ -113,7 +114,20 @@ export default {
       confirm: 'Confirmar Importación',
       processing: 'Procesando...',
       success: 'Operación en lote completada',
-      error: 'Error en operación en lote'
+      error: 'Error en operación en lote',
+      comingSoon: 'Importación en lote próximamente',
+      exportCompleted: 'Exportación completada',
+      exportFailed: 'Error en exportación'
+    },
+    
+    // Messages
+    messages: {
+      dataRefreshed: 'Datos actualizados',
+      failedToRefresh: 'Error al actualizar datos',
+      editingComingSoon: 'Edición de transacciones próximamente',
+      transactionDeleted: 'Transacción eliminada exitosamente',
+      failedToDelete: 'Error al eliminar transacción',
+      deleteTransactionConfirm: '¿Estás seguro de que quieres eliminar esta transacción?'
     }
   }
 }
