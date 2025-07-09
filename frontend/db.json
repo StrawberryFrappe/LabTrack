@@ -211,50 +211,60 @@
   ],
   "countSessions": [
     {
-      "id": "session_1752050552067_yyq5fum2r",
-      "name": "123",
-      "description": "1",
+      "id": "session_1752051466399_738lob5xt",
+      "name": "1",
+      "description": "2",
       "locations": [
-        "La casa de mi bro"
+        "micasa"
       ],
       "locationSummary": [
         {
-          "location": "La casa de mi bro",
-          "totalInstances": 1,
-          "totalQuantity": 1,
+          "location": "micasa",
+          "totalInstances": 2,
+          "totalQuantity": 132,
           "compounds": 1
         }
       ],
       "status": "completed",
       "createdBy": "1",
       "createdByName": "Lab Administrator",
-      "startDate": "2025-07-09T08:42:32.067Z",
-      "completedDate": "2025-07-09T08:42:53.702Z",
+      "startDate": "2025-07-09T08:57:46.400Z",
+      "completedDate": "2025-07-09T09:02:31.178Z",
       "counts": [
         {
-          "instanceId": "111",
-          "expectedQuantity": 1,
-          "countedQuantity": 1,
-          "status": "verified",
+          "instanceId": "123",
+          "expectedQuantity": 9,
+          "countedQuantity": 0,
+          "status": "not_found",
           "notes": "",
-          "location": "La casa de mi bro",
-          "countedAt": "2025-07-09T08:42:36.694Z",
+          "location": "micasa",
+          "countedAt": "2025-07-09T09:02:00.663Z",
+          "interacted": true
+        },
+        {
+          "instanceId": "",
+          "expectedQuantity": 123,
+          "countedQuantity": 11,
+          "status": "discrepancy",
+          "notes": "",
+          "location": "micasa",
+          "countedAt": "2025-07-09T09:02:00.663Z",
           "interacted": true
         }
       ],
       "newInstances": [],
       "movedInstances": [],
       "notes": "",
-      "totalItems": 1,
-      "countedItems": 1,
+      "totalItems": 2,
+      "countedItems": 2,
       "progress": 100,
-      "verifiedItems": 1,
+      "verifiedItems": 2,
       "locationProgress": [
         {
-          "location": "La casa de mi bro",
-          "total": 1,
-          "counted": 1,
-          "verified": 1,
+          "location": "micasa",
+          "total": 2,
+          "counted": 2,
+          "verified": 2,
           "progress": 100,
           "isComplete": true
         }
@@ -262,14 +272,26 @@
       "completedBy": "1"
     },
     {
-      "id": "session_1752050588673_vte5t6mcb",
-      "name": "333",
-      "description": "3",
+      "id": "session_1752051760383_sqwmxfgxn",
+      "name": "123",
+      "description": "",
       "locations": [
+        "La casa de mi bro",
         "dos",
-        "La casa de mi bro"
+        "eerrre",
+        "kajsd",
+        "lmao",
+        "lota alto calle javiera villa los heroes",
+        "micasa",
+        "xd"
       ],
       "locationSummary": [
+        {
+          "location": "La casa de mi bro",
+          "totalInstances": 1,
+          "totalQuantity": 1,
+          "compounds": 1
+        },
         {
           "location": "dos",
           "totalInstances": 1,
@@ -277,7 +299,37 @@
           "compounds": 1
         },
         {
-          "location": "La casa de mi bro",
+          "location": "eerrre",
+          "totalInstances": 1,
+          "totalQuantity": 123,
+          "compounds": 1
+        },
+        {
+          "location": "kajsd",
+          "totalInstances": 1,
+          "totalQuantity": 60,
+          "compounds": 1
+        },
+        {
+          "location": "lmao",
+          "totalInstances": 1,
+          "totalQuantity": 50,
+          "compounds": 1
+        },
+        {
+          "location": "lota alto calle javiera villa los heroes",
+          "totalInstances": 1,
+          "totalQuantity": 1000,
+          "compounds": 1
+        },
+        {
+          "location": "micasa",
+          "totalInstances": 2,
+          "totalQuantity": 132,
+          "compounds": 1
+        },
+        {
+          "location": "xd",
           "totalInstances": 1,
           "totalQuantity": 1,
           "compounds": 1
@@ -286,30 +338,30 @@
       "status": "active",
       "createdBy": "1",
       "createdByName": "Lab Administrator",
-      "startDate": "2025-07-09T08:43:08.673Z",
+      "startDate": "2025-07-09T09:02:40.383Z",
       "completedDate": null,
       "counts": [
         {
-          "instanceId": "",
-          "expectedQuantity": 50,
-          "countedQuantity": 50,
+          "instanceId": "111",
+          "expectedQuantity": 1,
+          "countedQuantity": 1,
           "status": "verified",
           "notes": "",
-          "location": "dos",
-          "countedAt": "2025-07-09T08:48:54.817Z",
+          "location": "La casa de mi bro",
+          "countedAt": "2025-07-09T09:02:46.731Z",
           "interacted": true
         }
       ],
       "newInstances": [],
       "movedInstances": [],
       "notes": "",
-      "totalItems": 2,
+      "totalItems": 9,
       "countedItems": 1,
-      "progress": 50,
+      "progress": 11.11111111111111,
       "verifiedItems": 1,
       "locationProgress": [
         {
-          "location": "dos",
+          "location": "La casa de mi bro",
           "total": 1,
           "counted": 1,
           "verified": 1,
@@ -317,7 +369,55 @@
           "isComplete": true
         },
         {
-          "location": "La casa de mi bro",
+          "location": "dos",
+          "total": 1,
+          "counted": 0,
+          "verified": 0,
+          "progress": 0,
+          "isComplete": false
+        },
+        {
+          "location": "eerrre",
+          "total": 1,
+          "counted": 0,
+          "verified": 0,
+          "progress": 0,
+          "isComplete": false
+        },
+        {
+          "location": "kajsd",
+          "total": 1,
+          "counted": 0,
+          "verified": 0,
+          "progress": 0,
+          "isComplete": false
+        },
+        {
+          "location": "lmao",
+          "total": 1,
+          "counted": 0,
+          "verified": 0,
+          "progress": 0,
+          "isComplete": false
+        },
+        {
+          "location": "lota alto calle javiera villa los heroes",
+          "total": 1,
+          "counted": 0,
+          "verified": 0,
+          "progress": 0,
+          "isComplete": false
+        },
+        {
+          "location": "micasa",
+          "total": 2,
+          "counted": 0,
+          "verified": 0,
+          "progress": 0,
+          "isComplete": false
+        },
+        {
+          "location": "xd",
           "total": 1,
           "counted": 0,
           "verified": 0,

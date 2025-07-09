@@ -18,10 +18,10 @@
   <BaseModal
     v-model="isOpen"
     :title="`${$t('inventory.countEntry')}: ${currentLocation || ''}`"
-    size="lg"
+    size="2xl"
     @close="handleClose"
   >
-    <div class="flex flex-col h-full max-h-[80vh]">
+    <div class="flex flex-col h-full max-h-[90vh] min-h-[80vh]">
       <!-- Header with location info and progress -->
       <div class="flex-shrink-0 border-b border-gray-200 pb-4 mb-4">
         <div class="flex items-center justify-between">
@@ -72,24 +72,24 @@
           </Button>
         </div>
 
-        <div class="space-y-4">
+        <div class="space-y-6">
           <div 
             v-for="instance in instancesInLocation" 
             :key="instance.id"
-            class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors"
+            class="border border-gray-200 rounded-lg p-6 hover:bg-gray-50 transition-colors"
             :class="{
               'bg-green-50 border-green-200': getInstanceStatus(instance.id) === 'verified',
               'bg-yellow-50 border-yellow-200': getInstanceStatus(instance.id) === 'discrepancy', 
               'bg-red-50 border-red-200': getInstanceStatus(instance.id) === 'not_found'
             }"
           >
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
               <!-- Instance details -->
-              <div class="md:col-span-1">
-                <h4 class="font-medium text-gray-900">
+              <div class="lg:col-span-1">
+                <h4 class="font-medium text-gray-900 text-base">
                   {{ getCompoundName(instance.compoundId) }}
                 </h4>
-                <div class="text-sm text-gray-500 space-y-1">
+                <div class="text-sm text-gray-500 space-y-1 mt-2">
                   <div>{{ $t('inventory.batchNumber') }}: {{ instance.batchNumber }}</div>
                   <div>{{ $t('inventory.expected') }}: {{ instance.quantity }} {{ instance.unit }}</div>
                   <div v-if="instance.expiryDate">
@@ -99,12 +99,12 @@
               </div>
 
               <!-- Verification controls -->
-              <div class="md:col-span-1">
-                <div class="space-y-2">
+              <div class="lg:col-span-1">
+                <div class="space-y-3">
                   <label class="block text-sm font-medium text-gray-700">
                     {{ $t('inventory.verificationStatus') }}
                   </label>
-                  <div class="space-y-1">
+                  <div class="space-y-2">
                     <label class="flex items-center">
                       <input
                         type="radio"
@@ -143,8 +143,8 @@
               </div>
 
               <!-- Quantity and notes -->
-              <div class="md:col-span-1">
-                <div class="space-y-2">
+              <div class="lg:col-span-1">
+                <div class="space-y-3">
                   <div>
                     <label class="block text-sm font-medium text-gray-700">
                       {{ $t('inventory.countedQuantity') }}
@@ -166,7 +166,7 @@
                       v-model="instanceNotes[instance.id]"
                       :placeholder="$t('inventory.discrepancyNotesPlaceholder')"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-                      rows="2"
+                      rows="3"
                       @input="updateInstanceNotes(instance.id, $event.target.value)"
                     />
                   </div>
