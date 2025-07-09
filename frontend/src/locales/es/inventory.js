@@ -73,6 +73,16 @@ export default {
     newInstanceCreated: "Nueva instancia creada durante el conteo",
     countingLocation: "Contando ubicación: {location}",
     
+    // New keys for enhanced interface
+    countingAllLocations: "Contando todas las ubicaciones",
+    overallProgress: "Progreso General",
+    verifyAllInstances: "Verificar Todas las Instancias",
+    verifyAllInLocation: "Verificar Todas en Ubicación",
+    quickVerify: "Verificación Rápida",
+    detailedCount: "Conteo Detallado",
+    unverified: "No Verificado",
+    totalInstancesVerified: "{count} de {total} instancias verificadas en {locations} ubicaciones",
+    
     // Count Entry Labels
     cas: "CAS",
     location: "Ubicación",

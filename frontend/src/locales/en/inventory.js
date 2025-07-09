@@ -74,6 +74,16 @@ export default {
     createNewInstance: "Create New Instance",
     newInstanceCreated: "New instance created during count",
     
+    // New keys for enhanced interface
+    countingAllLocations: "Counting all locations",
+    overallProgress: "Overall Progress",
+    verifyAllInstances: "Verify All Instances",
+    verifyAllInLocation: "Verify All in Location", 
+    quickVerify: "Quick Verify",
+    detailedCount: "Detailed Count",
+    unverified: "Unverified",
+    totalInstancesVerified: "{count} of {total} instances verified across {locations} locations",
+    
     // Count Entry Labels
     cas: "CAS",
     location: "Location", 

@@ -348,7 +348,87 @@
           "status": "verified",
           "notes": "",
           "location": "La casa de mi bro",
-          "countedAt": "2025-07-09T09:02:46.731Z",
+          "countedAt": "2025-07-09T09:48:05.188Z",
+          "interacted": true
+        },
+        {
+          "instanceId": "",
+          "expectedQuantity": 50,
+          "countedQuantity": 50,
+          "status": "verified",
+          "notes": "",
+          "location": "dos",
+          "countedAt": "2025-07-09T09:48:05.188Z",
+          "interacted": true
+        },
+        {
+          "instanceId": "",
+          "expectedQuantity": 123,
+          "countedQuantity": 50,
+          "status": "verified",
+          "notes": "",
+          "location": "eerrre",
+          "countedAt": "2025-07-09T09:48:05.188Z",
+          "interacted": true
+        },
+        {
+          "instanceId": "",
+          "expectedQuantity": 60,
+          "countedQuantity": 50,
+          "status": "verified",
+          "notes": "",
+          "location": "kajsd",
+          "countedAt": "2025-07-09T09:48:05.188Z",
+          "interacted": true
+        },
+        {
+          "instanceId": "",
+          "expectedQuantity": 50,
+          "countedQuantity": 50,
+          "status": "verified",
+          "notes": "",
+          "location": "lmao",
+          "countedAt": "2025-07-09T09:48:05.188Z",
+          "interacted": true
+        },
+        {
+          "instanceId": "",
+          "expectedQuantity": 1000,
+          "countedQuantity": 50,
+          "status": "verified",
+          "notes": "",
+          "location": "lota alto calle javiera villa los heroes",
+          "countedAt": "2025-07-09T09:48:05.188Z",
+          "interacted": true
+        },
+        {
+          "instanceId": "123",
+          "expectedQuantity": 9,
+          "countedQuantity": 9,
+          "status": "verified",
+          "notes": "",
+          "location": "micasa",
+          "countedAt": "2025-07-09T09:48:05.188Z",
+          "interacted": true
+        },
+        {
+          "instanceId": "",
+          "expectedQuantity": 123,
+          "countedQuantity": 50,
+          "status": "verified",
+          "notes": "",
+          "location": "micasa",
+          "countedAt": "2025-07-09T09:48:05.188Z",
+          "interacted": true
+        },
+        {
+          "instanceId": "",
+          "expectedQuantity": 1,
+          "countedQuantity": 50,
+          "status": "verified",
+          "notes": "",
+          "location": "xd",
+          "countedAt": "2025-07-09T09:48:05.188Z",
           "interacted": true
         }
       ],
@@ -356,9 +436,9 @@
       "movedInstances": [],
       "notes": "",
       "totalItems": 9,
-      "countedItems": 1,
-      "progress": 11.11111111111111,
-      "verifiedItems": 1,
+      "countedItems": 9,
+      "progress": 100,
+      "verifiedItems": 9,
       "locationProgress": [
         {
           "location": "La casa de mi bro",
@@ -371,58 +451,58 @@
         {
           "location": "dos",
           "total": 1,
-          "counted": 0,
-          "verified": 0,
-          "progress": 0,
-          "isComplete": false
+          "counted": 1,
+          "verified": 1,
+          "progress": 100,
+          "isComplete": true
         },
         {
           "location": "eerrre",
           "total": 1,
-          "counted": 0,
-          "verified": 0,
-          "progress": 0,
-          "isComplete": false
+          "counted": 1,
+          "verified": 1,
+          "progress": 100,
+          "isComplete": true
         },
         {
           "location": "kajsd",
           "total": 1,
-          "counted": 0,
-          "verified": 0,
-          "progress": 0,
-          "isComplete": false
+          "counted": 1,
+          "verified": 1,
+          "progress": 100,
+          "isComplete": true
         },
         {
           "location": "lmao",
           "total": 1,
-          "counted": 0,
-          "verified": 0,
-          "progress": 0,
-          "isComplete": false
+          "counted": 1,
+          "verified": 1,
+          "progress": 100,
+          "isComplete": true
         },
         {
           "location": "lota alto calle javiera villa los heroes",
           "total": 1,
-          "counted": 0,
-          "verified": 0,
-          "progress": 0,
-          "isComplete": false
+          "counted": 1,
+          "verified": 1,
+          "progress": 100,
+          "isComplete": true
         },
         {
           "location": "micasa",
           "total": 2,
-          "counted": 0,
-          "verified": 0,
-          "progress": 0,
-          "isComplete": false
+          "counted": 2,
+          "verified": 2,
+          "progress": 100,
+          "isComplete": true
         },
         {
           "location": "xd",
           "total": 1,
-          "counted": 0,
-          "verified": 0,
-          "progress": 0,
-          "isComplete": false
+          "counted": 1,
+          "verified": 1,
+          "progress": 100,
+          "isComplete": true
         }
       ]
     }

@@ -20,6 +20,8 @@ export default {
     confirm: "Confirm",
     close: "Close",
     understood: "Understood",
+    expand: "Expand",
+    collapse: "Collapse",
     
     // Dialog common text
     confirmAction: "Confirm Action",
