@@ -26,18 +26,20 @@
       - Removed settings dropdown from sidebar
       - Replaced with clean version/info display
       - Settings moved to user menu for better discoverability
-      - Improved mobile responsiveness and touch targets      
+      - Improved mobile responsiveness and touch targets
+      
   Used by: All authenticated routes as nested route container
   
-  TRL3 PRIORITIES:
+  🎯 DEVELOPMENT PRIORITIES:
   - Add breadcrumb navigation system for better user orientation
   - Add global search functionality across all data types
   - Add notification center integration for user alerts
   
-  MODULARIZATION OPPORTUNITIES:
-  - Extract sidebar into separate component (SidebarNavigation.vue)
-  - Create navigation composable for reusable navigation logic
-  - Extract header section into TopBar.vue component
+  📦 COMPONENTIZATION OPPORTUNITIES:
+  - TODO: Extract sidebar into separate component (SidebarNavigation.vue)
+  - TODO: Create navigation composable for reusable navigation logic
+  - TODO: Extract header section into TopBar.vue component
+  - TODO: Extract mobile menu into MobileMenu.vue component
 -->
 
 <template>
@@ -135,14 +137,14 @@
               <h2 class="text-2xl font-semibold text-slate-900">
                 {{ getPageTitle($route.name) }}
               </h2>
-              <!-- TRL3: Breadcrumb navigation system placeholder -->
+              <!-- TODO: Breadcrumb navigation system placeholder -->
             </div>
           </div>
             <div class="flex items-center space-x-4">
-            <!-- TRL3: Global search functionality placeholder -->
+            <!-- TODO: Global search functionality placeholder -->
             <!-- <SearchBar /> -->
             
-            <!-- TRL3: Notification center integration placeholder -->
+            <!-- TODO: Notification center integration placeholder -->
             <!-- <NotificationBell /> -->
             
             <!-- User Menu -->

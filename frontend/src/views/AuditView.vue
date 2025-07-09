@@ -6,29 +6,23 @@
   count history.
   
   Features:
-  - Create new count sessions ⏳ PARTIAL
-  - Manage active count sessions ⏳ PARTIAL
-  - View completed count history ✅ BASIC
-  - Manual count entry (no barcode for TRL3) 
+  - Create new count sessions ✅ COMPLETE
+  - Manage active count sessions ✅ COMPLETE
+  - View completed count history ✅ COMPLETE
+  - Manual count entry ✅ COMPLETE
   
-  🚨 TRL3 CRITICAL TODOS - WEEK 2-3 PRIORITY:
-  1. TODO TRL3-CRITICAL: Complete CountSession.vue workflow implementation
-  2. TODO TRL3-CRITICAL: Finish CountEntryModal.vue for manual count entry
-  3. TODO TRL3-CRITICAL: Implement count discrepancy detection and reporting
-  4. TODO TRL3-CRITICAL: Connect to useInventoryCount.js composable completely
-  5. TODO TRL3-CRITICAL: Add count session persistence and management
-  
-  📋 TRL3 SECONDARY TODOS:
-  - TODO TRL3: Add count session templates for common areas
-  - TODO TRL3: Implement basic count variance analysis
-  - TODO TRL3: Add count reports (PDF/Excel export)
-  - TODO TRL3: Implement count scheduling (weekly/monthly)
+  🎯 COMPONENTIZATION OPPORTUNITIES:
+  - TODO: Extract session creation form into SessionCreateForm.vue component
+  - TODO: Extract location statistics display into LocationStatsCard.vue component  
+  - TODO: Extract session list display into SessionListView.vue component
+  - TODO: Extract session actions into SessionActionButtons.vue component
   
 -->
 
 <template>
   <div class="space-y-6">
     <!-- Header -->
+    <!-- TODO: Extract header section into InventoryHeader.vue component -->
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-xl text-slate-600">
@@ -47,6 +41,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
       <!-- Create New Session Form (Left Column) -->
+      <!-- TODO: Extract into SessionCreateForm.vue component -->
       <div class="lg:col-span-1">
         <Card>
           <template #header>
@@ -432,19 +427,15 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString()
 }
 
-// TODO TRL3-CRITICAL: Complete inventory count workflow integration
-// Key integration points needed:
-// 1. Complete count session creation workflow
-// 2. Implement manual count entry via CountEntryModal
-// 3. Add count completion and discrepancy reporting
-// 4. Connect all operations to useInventoryCount composable
-// 5. Add count reports and export functionality
+// COMPONENTIZATION OPPORTUNITIES:
+// Large component that could benefit from splitting:
+// 1. Extract session creation form into SessionCreateForm.vue
+// 2. Extract location statistics into LocationStatsCard.vue
+// 3. Extract session list display into SessionListView.vue
+// 4. Extract session actions into SessionActionButtons.vue
+// 5. Extract session filtering into SessionFilters.vue
 
-// TODO TRL3-CRITICAL: Fix missing workflow connections
-// Current status: Components exist but not fully integrated
-// - CountSession.vue: Basic structure ✅, workflow incomplete ❌
-// - CountEntryModal.vue: Exists but not connected ❌  
-// - useInventoryCount.js: Partial implementation ❌
-// - Count persistence: Not implemented ❌
-// - Discrepancy logic: Exists but not integrated ❌
+// TODO: Consider extracting complex state management to dedicated store
+// TODO: Consider creating shared session management composable
+// TODO: Consider splitting validation logic into separate composable
 </script>

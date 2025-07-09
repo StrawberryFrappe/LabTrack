@@ -1,8 +1,9 @@
 <template>
   <BaseModal
-    :is-open="isOpen"
+    :model-value="isOpen"
     :title="isEditing ? $t('compounds.instances.edit') : $t('compounds.instances.addNew')"
-    size="medium"
+    size="lg"
+    @update:model-value="isOpen = $event"
     @close="handleClose"
   >
     <template #description>
@@ -205,7 +206,7 @@ const {
 } = validation
 
 const props = defineProps({
-  isOpen: {
+  modelValue: {
     type: Boolean,
     default: false
   },
@@ -219,7 +220,12 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['close', 'saved']) // Change 'success' to 'saved'
+const emit = defineEmits(['update:modelValue', 'close', 'saved']) // Change 'success' to 'saved'
+
+const isOpen = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+})
 
 // Local state
 const loading = ref(false)
@@ -337,7 +343,7 @@ const handleClose = () => {
 }
 
 // Watch for modal open/close and instance changes
-watch(() => props.isOpen, (isOpen) => {
+watch(() => props.modelValue, (isOpen) => {
   if (isOpen) {
     if (props.instance) {
       populateForm(props.instance)
@@ -348,7 +354,7 @@ watch(() => props.isOpen, (isOpen) => {
 })
 
 watch(() => props.instance, (instance) => {
-  if (instance && props.isOpen) {
+  if (instance && props.modelValue) {
     populateForm(instance)
   }
 })

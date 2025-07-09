@@ -6,19 +6,27 @@
   
   Features:
   - User management
-  - System configuration  - Lab settings
+  - System configuration
+  - Lab settings
   - Data export/import
   
-  TRL3 PRIORITIES:
+  🎯 DEVELOPMENT PRIORITIES:
   - Implement user management interface (add/edit/delete users)
-  - Add system backup and restore functionality  
+  - Add system backup and restore functionality
   - Implement audit log viewer for security and compliance
   - Add notification settings for system alerts
+  
+  📦 COMPONENTIZATION OPPORTUNITIES:
+  - TODO: Extract user management into UserManagement.vue component
+  - TODO: Extract system configuration into SystemConfiguration.vue component
+  - TODO: Extract lab settings into LabSettings.vue component
+  - TODO: Extract data management into DataManagement.vue component
 -->
 
 <template>
   <div class="space-y-8">
     <!-- Page Header -->
+    <!-- TODO: Extract header section into SettingsHeader.vue component -->
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-2xl font-bold text-slate-900">{{ $t('settings.title') }}</h1>
@@ -29,13 +37,14 @@
     <!-- Settings Content -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <!-- User Management -->
+      <!-- TODO: Extract into UserManagement.vue component -->
       <Card>
         <template #header>
           <h3 class="text-lg font-semibold text-slate-900">{{ $t('settings.userManagement.title') }}</h3>
         </template>
         <div class="space-y-4">
           <p class="text-slate-600">{{ $t('settings.userManagement.description') }}</p>
-          <!-- TRL3: User management interface placeholder -->
+          <!-- User management interface placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">👥</div>
             <p>{{ $t('settings.userManagement.comingSoon') }}</p>
@@ -44,13 +53,14 @@
       </Card>
       
       <!-- System Configuration -->
+      <!-- TODO: Extract into SystemConfiguration.vue component -->
       <Card>
         <template #header>
           <h3 class="text-lg font-semibold text-slate-900">{{ $t('settings.systemConfig.title') }}</h3>
         </template>
         <div class="space-y-4">
           <p class="text-slate-600">{{ $t('settings.systemConfig.description') }}</p>
-          <!-- TRL3: System configuration options placeholder -->
+          <!-- System configuration options placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">⚙️</div>
             <p>{{ $t('settings.systemConfig.comingSoon') }}</p>
@@ -59,13 +69,14 @@
       </Card>
       
       <!-- Lab Settings -->
+      <!-- TODO: Extract into LabSettings.vue component -->
       <Card>
         <template #header>
           <h3 class="text-lg font-semibold text-slate-900">{{ $t('settings.labSettings.title') }}</h3>
         </template>
         <div class="space-y-4">
           <p class="text-slate-600">{{ $t('settings.labSettings.description') }}</p>
-          <!-- TRL3: Lab settings interface placeholder -->
+          <!-- Lab settings interface placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">🧪</div>
             <p>{{ $t('settings.labSettings.comingSoon') }}</p>
@@ -74,13 +85,14 @@
       </Card>
       
       <!-- Data Management -->
+      <!-- TODO: Extract into DataManagement.vue component -->
       <Card>
         <template #header>
           <h3 class="text-lg font-semibold text-slate-900">{{ $t('settings.dataManagement.title') }}</h3>
         </template>
         <div class="space-y-4">
           <p class="text-slate-600">{{ $t('settings.dataManagement.description') }}</p>
-          <!-- TRL3: Data management tools placeholder -->
+          <!-- Data management tools placeholder -->
           <div class="text-center py-8 text-slate-500">
             <div class="text-2xl mb-2">💾</div>
             <p>{{ $t('settings.dataManagement.comingSoon') }}</p>

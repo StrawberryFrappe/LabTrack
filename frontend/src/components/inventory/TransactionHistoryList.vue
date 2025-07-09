@@ -102,8 +102,20 @@
       v-if="transactions.length > itemsPerPage"
       :current-page="currentPage"
       :total-items="transactions.length"
-      :items-per-page="itemsPerPage"
-      @page-changed="handlePageChange"
+      :page-size="itemsPerPage"
+      :total-pages="totalPages"
+      :start-index="startIndex"
+      :end-index="endIndex"
+      :has-next-page="hasNextPage"
+      :has-prev-page="hasPrevPage"
+      :is-first-page="isFirstPage"
+      :is-last-page="isLastPage"
+      @go-to-page="handlePageChange"
+      @next-page="handleNextPage"
+      @prev-page="handlePrevPage"
+      @first-page="handleFirstPage"
+      @last-page="handleLastPage"
+      @set-page-size="handlePageSizeChange"
     />
   </div>
 </template>
@@ -151,13 +163,42 @@ const { TRANSACTION_TYPES } = useInventory()
 
 // Pagination state
 const currentPage = ref(1)
-const itemsPerPage = ref(10)
+const itemsPerPage = ref(5)
 
 // Computed properties
 const paginatedTransactions = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value
   const end = start + itemsPerPage.value
-  return props.transactions.slice(start, end)
+  return [...props.transactions].reverse().slice(start, end)
+})
+
+// Pagination computed properties
+const totalPages = computed(() => {
+  return Math.ceil(props.transactions.length / itemsPerPage.value)
+})
+
+const startIndex = computed(() => {
+  return (currentPage.value - 1) * itemsPerPage.value
+})
+
+const endIndex = computed(() => {
+  return Math.min(startIndex.value + itemsPerPage.value - 1, props.transactions.length - 1)
+})
+
+const hasNextPage = computed(() => {
+  return currentPage.value < totalPages.value
+})
+
+const hasPrevPage = computed(() => {
+  return currentPage.value > 1
+})
+
+const isFirstPage = computed(() => {
+  return currentPage.value === 1
+})
+
+const isLastPage = computed(() => {
+  return currentPage.value === totalPages.value
 })
 
 // Simplified methods
@@ -236,6 +277,31 @@ const formatQuantity = (transaction) => {
 
 const handlePageChange = (page) => {
   currentPage.value = page
+}
+
+const handleNextPage = () => {
+  if (hasNextPage.value) {
+    currentPage.value++
+  }
+}
+
+const handlePrevPage = () => {
+  if (hasPrevPage.value) {
+    currentPage.value--
+  }
+}
+
+const handleFirstPage = () => {
+  currentPage.value = 1
+}
+
+const handleLastPage = () => {
+  currentPage.value = totalPages.value
+}
+
+const handlePageSizeChange = (size) => {
+  itemsPerPage.value = size
+  currentPage.value = 1
 }
 
 // Reset page when transactions change

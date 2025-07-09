@@ -25,6 +25,8 @@ export default {
       preview: 'Vista Previa de Transacción',
       destinationLocation: 'Ubicación de Destino',
       locationPlaceholder: 'Ingrese ubicación de destino',
+      transferQuantity: 'Cantidad de Transferencia',
+      transferEntireInstance: 'Se transferirá toda la instancia',
       
       // Transaction Types
       types: {

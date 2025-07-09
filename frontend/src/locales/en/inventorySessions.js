@@ -25,6 +25,8 @@ export default {
       preview: 'Transaction Preview',
       destinationLocation: 'Destination Location',
       locationPlaceholder: 'Enter destination location',
+      transferQuantity: 'Transfer Quantity',
+      transferEntireInstance: 'Will transfer entire instance',
       
       // Transaction Types
       types: {
