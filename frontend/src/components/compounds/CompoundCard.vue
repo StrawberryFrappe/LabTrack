@@ -1,6 +1,6 @@
 <template>
   <Card 
-    class="cursor-pointer hover:shadow-lg transition-shadow duration-200"
+    class="cursor-pointer hover:shadow-lg transition-shadow duration-200 flex flex-col"
     @click="handleCardClick"
   >
     <template #header>
@@ -15,34 +15,38 @@
       </div>
     </template>
     
-    <div class="space-y-3">
-      <div class="grid grid-cols-1 gap-4 text-sm">
-        <div>
-          <span class="text-slate-500">{{ $t('compounds.labels.umbral') }}:</span>
-          <span class="ml-2 font-mono">{{ compound.threshold }}</span>
-        </div>
-      </div>
-      
-      <div class="pt-3 border-t border-slate-200">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-sm text-slate-500">{{ $t('compounds.currentStock') }}</span>
-          <div class="flex items-center gap-2">
-            <LoadingSpinner v-if="stockLoading" size="xs" />
-            <span :class="stockStatusClasses">
-              {{ currentStock }} {{ compound.unit }}
-            </span>
-          </div>
-        </div>
-        <div class="w-full bg-slate-200 rounded-full h-2">
-          <div 
-            class="h-2 rounded-full transition-all duration-300"
-            :class="progressBarClasses"
-            :style="{ width: `${Math.min(stockPercentage, 100)}%` }"
+    <div class="space-y-4 flex-1 flex flex-col">
+      <!-- Stock Progress and Summary -->
+      <div class="flex-1 flex items-center gap-4">
+        <!-- Circular Progress Bar -->
+        <div class="flex-shrink-0">
+          <CircularProgressBar
+            :percentage="stockPercentage"
+            :progress-color="progressColor"
+            :size="90"
+            :stroke-width="12"
           />
         </div>
-        <div class="flex justify-between text-xs text-slate-500 mt-1">
-          <span>{{ $t('compounds.labels.threshold') }}: {{ compound.threshold }} {{ compound.unit }}</span>
-          <span>{{ stockPercentage.toFixed(0) }}%</span>
+        
+        <!-- Summary -->
+        <div class="flex-1 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+          <div class="text-slate-500">{{ $t('compounds.summary.locations') }}</div>
+          <div class="font-semibold text-slate-800 text-right">{{ instanceSummary.uniqueLocationCount }}</div>
+          
+          <div class="text-slate-500">{{ $t('compounds.summary.instances') }}</div>
+          <div class="font-semibold text-slate-800 text-right">{{ instanceSummary.totalInstances }}</div>
+
+          <div class="text-slate-500">{{ $t('compounds.summary.totalQuantity') }}</div>
+          <div class="font-semibold text-slate-800 text-right">
+            {{ instanceSummary.totalQuantity }} 
+            <span class="text-xs">{{ compound.unit }}</span>
+          </div>
+
+          <div class="text-slate-500">{{ $t('compounds.labels.threshold') }}</div>
+          <div class="font-semibold text-slate-800 text-right">
+            {{ compound.threshold }}
+            <span class="text-xs">{{ compound.unit }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -57,13 +61,17 @@ import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
+import CircularProgressBar from '@/components/ui/CircularProgressBar.vue'
 import { useFormat } from '@/utils/format.js'
 import { useInventory } from '@/composables/useInventory.js'
+import { useCompoundInstances } from '@/composables/useCompoundInstances.js'
 import { useHazardStyles } from '@/composables/useHazardStyles.js'
+import { convertUnit, areUnitsCompatible } from '@/utils/units.js'
 
 const { t } = useI18n()
 const router = useRouter()
 const { calculateCurrentStock } = useInventory()
+const { getInstancesForCompound } = useCompoundInstances()
 const { getHazardVariant } = useHazardStyles()
 
 const props = defineProps({
@@ -71,6 +79,50 @@ const props = defineProps({
     type: Object,
     required: true
   }
+})
+
+const instances = ref([])
+
+const instanceSummary = computed(() => {
+  const totalInstances = instances.value.length
+  
+  const uniqueLocations = new Set(instances.value.map(i => i.location))
+  
+  const totalQuantity = instances.value.reduce((total, instance) => {
+    // Only sum if units are compatible
+    if (areUnitsCompatible(instance.unit, props.compound.unit)) {
+      const convertedValue = convertUnit(instance.quantity, instance.unit, props.compound.unit)
+      return total + (convertedValue || 0)
+    }
+    return total
+  }, 0)
+
+  return {
+    totalInstances,
+    uniqueLocationCount: uniqueLocations.size,
+    totalQuantity: parseFloat(totalQuantity.toFixed(3)) // Round to 3 decimal places
+  }
+})
+
+const stockPercentage = computed(() => {
+  if (!props.compound.threshold || props.compound.threshold === 0) {
+    return 100; // Treat as 100% if no threshold is set
+  }
+  const percentage = (instanceSummary.value.totalQuantity / props.compound.threshold) * 100;
+  return parseFloat(percentage.toFixed(1));
+});
+
+
+const progressColor = computed(() => {
+  const percentage = stockPercentage.value;
+  if (percentage < 50) return '#ef4444'; // red-500: Critically low
+  if (percentage < 100) return '#f97316'; // orange-500: Low, below threshold
+  return '#22c55e'; // green-500: At or above threshold
+});
+
+
+onMounted(async () => {
+  instances.value = getInstancesForCompound(props.compound.id)
 })
 
 const emit = defineEmits(['edit', 'scan', 'delete', 'view-detail'])
@@ -84,45 +136,16 @@ const handleCardClick = () => {
 const { formatDate } = useFormat()
 
 // Real-time stock calculation
-const currentStock = ref(props.compound.quantity)
 const stockLoading = ref(false)
 
 // Load real-time stock on mount
 onMounted(async () => {
-  try {
-    stockLoading.value = true
-    const realStock = await calculateCurrentStock(props.compound.id, props.compound.quantity)
-    currentStock.value = realStock
-  } catch (error) {
-    console.error('Failed to calculate current stock:', error)
-    // Keep initial quantity as fallback
-  } finally {
-    stockLoading.value = false
-  }
+  // This onMounted is duplicated, let's merge them. The previous call will handle this.
 })
-
-const stockPercentage = computed(() => 
-  (currentStock.value / props.compound.threshold) * 100
-)
 
 const hazardBadgeVariant = computed(() => {
   return getHazardVariant(props.compound.hazardClass)
 })
-
-const stockStatusClasses = computed(() => [
-  'font-semibold',
-  {
-    'text-red-600': stockPercentage.value < 50,
-    'text-yellow-600': stockPercentage.value >= 50 && stockPercentage.value < 100,
-    'text-green-600': stockPercentage.value >= 100
-  }
-])
-
-const progressBarClasses = computed(() => ({
-  'bg-red-500': stockPercentage.value < 50,
-  'bg-yellow-500': stockPercentage.value >= 50 && stockPercentage.value < 100,
-  'bg-green-500': stockPercentage.value >= 100
-}))
 
 const expiryClasses = computed(() => {
   const expiryDate = new Date(props.compound.expiryDate)
