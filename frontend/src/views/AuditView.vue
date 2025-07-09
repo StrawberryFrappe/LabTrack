@@ -36,8 +36,6 @@
     
     <!-- Inventory Management Content -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <!-- Inventory Scanner -->
-      <InventoryScanner />
       
       <div class="space-y-6">
         <!-- Active Sessions -->
@@ -172,7 +170,6 @@ import { ref, watch, onMounted } from 'vue'
 import Card from '@/components/ui/Card.vue'
 import Input from '@/components/ui/Input.vue'
 import Button from '@/components/ui/Button.vue'
-import InventoryScanner from '@/components/inventory/InventoryScanner.vue'
 import CountSession from '@/components/inventory/CountSession.vue'
 import CountEntryModal from '@/components/inventory/CountEntryModal.vue'
 import { useToast } from '@/composables/useToast'

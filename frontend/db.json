@@ -205,6 +205,48 @@
       "notes": "",
       "totalItems": 2,
       "countedItems": 1
+    },
+    {
+      "id": "session_1752044835955_5vuaf4jm7",
+      "name": "123",
+      "description": "1",
+      "locations": [
+        "123",
+        "La casa de mi bro",
+        "micasa"
+      ],
+      "status": "completed",
+      "createdBy": "3",
+      "createdByName": "Strawberry Admin",
+      "startDate": "2025-07-09T07:07:15.955Z",
+      "completedDate": "2025-07-09T07:07:32.401Z",
+      "counts": [],
+      "newInstances": [],
+      "movedInstances": [],
+      "notes": "",
+      "totalItems": 3,
+      "countedItems": 0
+    },
+    {
+      "id": "session_1752044857998_p8a5le44v",
+      "name": "tt",
+      "description": "1",
+      "locations": [
+        "123",
+        "La casa de mi bro",
+        "micasa"
+      ],
+      "status": "active",
+      "createdBy": "3",
+      "createdByName": "Strawberry Admin",
+      "startDate": "2025-07-09T07:07:37.998Z",
+      "completedDate": null,
+      "counts": [],
+      "newInstances": [],
+      "movedInstances": [],
+      "notes": "",
+      "totalItems": 3,
+      "countedItems": 0
     }
   ],
   "transactions": [
