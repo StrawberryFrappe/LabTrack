@@ -173,6 +173,11 @@ export default {
       title: "No se Puede Eliminar el Compuesto",
       message: "No se puede eliminar '{name}' porque tiene {count} instancia(s) activa(s). Por favor elimine todas las instancias antes de eliminar el compuesto."
     },
+    summary: {
+      locations: 'Ubicaciones',
+      instances: 'Instancias',
+      totalQuantity: 'Cantidad Total',
+    },
     
     // Import/Export
     importSuccess: "Se importaron exitosamente {count} compuestos",
