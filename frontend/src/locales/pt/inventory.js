@@ -30,6 +30,7 @@ export default {
     cancel: "Cancelar",
     recentScans: "Leituras recentes",
     counted: "Contado",
+    itemsShort: "itens",
     
     // Count Entry Modal
     countEntry: "Entrada de Contagem",
@@ -39,6 +40,20 @@ export default {
     overageFound: "Excesso",
     shortageFound: "Faltante",
     noDiscrepancy: "Sem Discrepância",
+    verificationStatus: "Status de Verificação",
+    verified: "Verificado",
+    discrepancy: "Discrepância",
+    notFound: "Não Encontrado",
+    batchNumber: "Número do Lote",
+    expiryDate: "Data de Validade",
+    notes: "Notas",
+    discrepancyNotesPlaceholder: "Digite notas sobre a discrepância...",
+    instancesVerified: "{count} de {total} instâncias verificadas",
+    saveProgress: "Salvar Progresso",
+    findMisplacedInstance: "Buscar Instância Perdida",
+    createNewInstance: "Criar Nova Instância",
+    newInstanceCreated: "Nova instância criada durante a contagem",
+    countingLocation: "Contando local: {location}",
     
     // Count Entry Labels
     cas: "CAS",
@@ -68,7 +83,8 @@ export default {
     sessionActions: {
       continueCount: "Continuar Contagem",
       viewDetails: "Ver Detalhes",
-      complete: "Completar"
+      complete: "Completar",
+      incompleteSession: "Incompleto"
     },
     
     // Count Session Status
@@ -151,6 +167,31 @@ export default {
       description: 'Importar ou exportar transações de inventário em lote',
       import: 'Importar Transações',
       export: 'Exportar para CSV'
+    },
+    
+    // Messages
+    messages: {
+      transactionRecorded: 'Transação registrada com sucesso',
+      transactionFailed: 'Falha ao registrar transação',
+      deleteTransactionConfirm: 'Tem certeza de que deseja excluir esta transação?',
+      noTransactions: 'Nenhuma transação encontrada',
+      loadingTransactions: 'Carregando transações...',
+      
+      // Session messages
+      sessionCreated: 'Sessão de contagem criada com sucesso',
+      sessionCreationFailed: 'Falha ao criar sessão de contagem',
+      sessionContinued: 'Sessão de contagem retomada',
+      sessionCompleted: 'Sessão de contagem concluída com sucesso',
+      sessionCompletionFailed: 'Falha ao concluir sessão de contagem',
+      nameAndLocationsRequired: 'Nome da sessão e pelo menos um local são obrigatórios',
+      progressSaved: 'Progresso salvo com sucesso',
+      progressSaveFailed: 'Falha ao salvar progresso',
+      unsavedChanges: 'Você tem alterações não salvas. Tem certeza de que deseja fechar?',
+      allLocationsCompleted: 'Todos os locais foram contados',
+      instanceFoundAdded: 'Instância encontrada e adicionada ao local atual',
+      instanceCreatedAdded: 'Nova instância criada e adicionada à contagem',
+      cannotCompleteSession: 'Não é possível completar a sessão: {reason}',
+      confirmCompleteSession: 'Completar sessão "{name}"? {verified}/{total} instâncias verificadas.'
     },
     
     // Messages

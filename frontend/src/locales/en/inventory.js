@@ -34,6 +34,7 @@ export default {
     cancel: "Cancel",
     recentScans: "Recent Scans",
     counted: "Counted",
+    itemsShort: "items",
     
     // Count Entry Modal
     countEntry: "Count Entry",
@@ -53,7 +54,11 @@ export default {
     notes: "Notes",
     discrepancyNotesPlaceholder: "Enter notes about discrepancy...",
     instancesVerified: "{count} of {total} instances verified",
+    locationComplete: "Location Complete",
     saveProgress: "Save Progress",
+    findMisplacedInstance: "Find Misplaced Instance",
+    createNewInstance: "Create New Instance",
+    newInstanceCreated: "New instance created during count",
     
     // Count Entry Labels
     cas: "CAS",
@@ -85,7 +90,8 @@ export default {
     sessionActions: {
       continueCount: "Continue Count",
       viewDetails: "View Details", 
-      complete: "Complete"
+      complete: "Complete",
+      incompleteSession: "Incomplete"
     },
     
     // Count Session Status
@@ -185,10 +191,15 @@ export default {
       sessionCompleted: 'Count session completed successfully',
       sessionCompletionFailed: 'Failed to complete count session',
       nameAndLocationsRequired: 'Session name and at least one location are required',
+      duplicateSessionName: 'A session with this name already exists',
       progressSaved: 'Progress saved successfully',
       progressSaveFailed: 'Failed to save progress',
       unsavedChanges: 'You have unsaved changes. Are you sure you want to close?',
-      allLocationsCompleted: 'All locations have been counted'
+      allLocationsCompleted: 'All locations have been counted',
+      instanceFoundAdded: 'Instance found and added to current location',
+      instanceCreatedAdded: 'New instance created and added to count',
+      cannotCompleteSession: 'Cannot complete session: {reason}',
+      confirmCompleteSession: 'Complete session "{name}"? {verified}/{total} instances verified.'
     }
   }
 }

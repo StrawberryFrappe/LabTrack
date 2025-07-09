@@ -19,6 +19,10 @@ export default {
     sessionDescriptionLabel: "Descripción",
     sessionLocationPlaceholder: "Ubicación a contar",
     sessionLocationLabel: "Ubicación",
+    sessionLocationsLabel: "Ubicaciones a Contar",
+    selectAllLocations: "Seleccionar Todas las Ubicaciones",
+    locationsSelected: "{count} de {total} ubicaciones seleccionadas",
+    noLocationsAvailable: "No hay ubicaciones disponibles (no se encontraron instancias activas)",
     createSessionButton: "Crear Sesión",
     scannerTitle: "Escáner de Inventario",
     scannerPrompt: "Escanee el código de barras o ingrese manualmente",
@@ -30,6 +34,7 @@ export default {
     cancel: "Cancelar",
     recentScans: "Escaneos recientes",
     counted: "Contado",
+    itemsShort: "artículos",
     
     // Count Entry Modal
     countEntry: "Entrada de Conteo",
@@ -39,6 +44,20 @@ export default {
     overageFound: "Exceso",
     shortageFound: "Faltante",
     noDiscrepancy: "Sin Discrepancia",
+    verificationStatus: "Estado de Verificación",
+    verified: "Verificado",
+    discrepancy: "Discrepancia",
+    notFound: "No Encontrado",
+    batchNumber: "Número de Lote",
+    expiryDate: "Fecha de Vencimiento",
+    notes: "Notas",
+    discrepancyNotesPlaceholder: "Ingrese notas sobre la discrepancia...",
+    instancesVerified: "{count} de {total} instancias verificadas",
+    saveProgress: "Guardar Progreso",
+    findMisplacedInstance: "Buscar Instancia Extraviada",
+    createNewInstance: "Crear Nueva Instancia",
+    newInstanceCreated: "Nueva instancia creada durante el conteo",
+    countingLocation: "Contando ubicación: {location}",
     
     // Count Entry Labels
     cas: "CAS",
@@ -68,7 +87,8 @@ export default {
     sessionActions: {
       continueCount: "Continuar Conteo",
       viewDetails: "Ver Detalles",
-      complete: "Completar"
+      complete: "Completar",
+      incompleteSession: "Incompleto"
     },
     
     // Count Session Status
@@ -151,6 +171,31 @@ export default {
       description: 'Importar o exportar transacciones de inventario en lote',
       import: 'Importar Transacciones',
       export: 'Exportar a CSV'
+    },
+    
+    // Messages
+    messages: {
+      transactionRecorded: 'Transacción registrada exitosamente',
+      transactionFailed: 'Error al registrar la transacción',
+      deleteTransactionConfirm: '¿Está seguro de que desea eliminar esta transacción?',
+      noTransactions: 'No se encontraron transacciones',
+      loadingTransactions: 'Cargando transacciones...',
+      
+      // Session messages
+      sessionCreated: 'Sesión de conteo creada exitosamente',
+      sessionCreationFailed: 'Error al crear la sesión de conteo',
+      sessionContinued: 'Sesión de conteo reanudada',
+      sessionCompleted: 'Sesión de conteo completada exitosamente',
+      sessionCompletionFailed: 'Error al completar la sesión de conteo',
+      nameAndLocationsRequired: 'El nombre de la sesión y al menos una ubicación son requeridos',
+      progressSaved: 'Progreso guardado exitosamente',
+      progressSaveFailed: 'Error al guardar el progreso',
+      unsavedChanges: 'Tiene cambios sin guardar. ¿Está seguro de cerrar?',
+      allLocationsCompleted: 'Todas las ubicaciones han sido contadas',
+      instanceFoundAdded: 'Instancia encontrada y agregada a la ubicación actual',
+      instanceCreatedAdded: 'Nueva instancia creada y agregada al conteo',
+      cannotCompleteSession: 'No se puede completar la sesión: {reason}',
+      confirmCompleteSession: '¿Completar sesión "{name}"? {verified}/{total} instancias verificadas.'
     },
     
     // Messages
