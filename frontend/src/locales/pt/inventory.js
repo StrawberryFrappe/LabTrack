@@ -19,6 +19,10 @@ export default {
     sessionDescriptionLabel: "Descrição",
     sessionLocationPlaceholder: "Local a contar",
     sessionLocationLabel: "Local",
+    sessionLocationsLabel: "Locais a Contar",
+    selectAllLocations: "Selecionar Todos os Locais",
+    locationsSelected: "{count} de {total} locais selecionados",
+    noLocationsAvailable: "Nenhum local disponível (nenhuma instância ativa encontrada)",
     createSessionButton: "Criar Sessão",
     scannerTitle: "Scanner de Inventário",
     scannerPrompt: "Escaneie o código de barras ou insira manualmente",
@@ -31,6 +35,20 @@ export default {
     recentScans: "Leituras recentes",
     counted: "Contado",
     itemsShort: "itens",
+    
+    // View labels
+    subtitle: "Gerenciamento de Contagem de Inventário",
+    locationsCount: "locais",
+    created: "Criado",
+    completed: "Completado",
+    view: "Ver",
+    continue: "Continuar",
+    complete: "Completar",
+    
+    // Actions
+    actions: {
+      refresh: "Atualizar"
+    },
     
     // Count Entry Modal
     countEntry: "Entrada de Contagem",

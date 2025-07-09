@@ -211,34 +211,34 @@
   ],
   "countSessions": [
     {
-      "id": "session_1752048395509_60k2n20iv",
-      "name": "t1",
-      "description": "",
+      "id": "session_1752050552067_yyq5fum2r",
+      "name": "123",
+      "description": "1",
       "locations": [
-        "123"
+        "La casa de mi bro"
       ],
       "locationSummary": [
         {
-          "location": "123",
+          "location": "La casa de mi bro",
           "totalInstances": 1,
-          "totalQuantity": 11,
+          "totalQuantity": 1,
           "compounds": 1
         }
       ],
-      "status": "active",
+      "status": "completed",
       "createdBy": "1",
       "createdByName": "Lab Administrator",
-      "startDate": "2025-07-09T08:06:35.509Z",
-      "completedDate": null,
+      "startDate": "2025-07-09T08:42:32.067Z",
+      "completedDate": "2025-07-09T08:42:53.702Z",
       "counts": [
         {
-          "instanceId": "321321",
-          "expectedQuantity": 11,
-          "countedQuantity": 11,
+          "instanceId": "111",
+          "expectedQuantity": 1,
+          "countedQuantity": 1,
           "status": "verified",
           "notes": "",
-          "location": "123",
-          "countedAt": "2025-07-09T08:06:38.562Z",
+          "location": "La casa de mi bro",
+          "countedAt": "2025-07-09T08:42:36.694Z",
           "interacted": true
         }
       ],
@@ -251,12 +251,78 @@
       "verifiedItems": 1,
       "locationProgress": [
         {
-          "location": "123",
+          "location": "La casa de mi bro",
           "total": 1,
           "counted": 1,
           "verified": 1,
           "progress": 100,
           "isComplete": true
+        }
+      ],
+      "completedBy": "1"
+    },
+    {
+      "id": "session_1752050588673_vte5t6mcb",
+      "name": "333",
+      "description": "3",
+      "locations": [
+        "dos",
+        "La casa de mi bro"
+      ],
+      "locationSummary": [
+        {
+          "location": "dos",
+          "totalInstances": 1,
+          "totalQuantity": 50,
+          "compounds": 1
+        },
+        {
+          "location": "La casa de mi bro",
+          "totalInstances": 1,
+          "totalQuantity": 1,
+          "compounds": 1
+        }
+      ],
+      "status": "active",
+      "createdBy": "1",
+      "createdByName": "Lab Administrator",
+      "startDate": "2025-07-09T08:43:08.673Z",
+      "completedDate": null,
+      "counts": [
+        {
+          "instanceId": "",
+          "expectedQuantity": 50,
+          "countedQuantity": 50,
+          "status": "verified",
+          "notes": "",
+          "location": "dos",
+          "countedAt": "2025-07-09T08:48:54.817Z",
+          "interacted": true
+        }
+      ],
+      "newInstances": [],
+      "movedInstances": [],
+      "notes": "",
+      "totalItems": 2,
+      "countedItems": 1,
+      "progress": 50,
+      "verifiedItems": 1,
+      "locationProgress": [
+        {
+          "location": "dos",
+          "total": 1,
+          "counted": 1,
+          "verified": 1,
+          "progress": 100,
+          "isComplete": true
+        },
+        {
+          "location": "La casa de mi bro",
+          "total": 1,
+          "counted": 0,
+          "verified": 0,
+          "progress": 0,
+          "isComplete": false
         }
       ]
     }

@@ -36,6 +36,20 @@ export default {
     counted: "Contado",
     itemsShort: "artículos",
     
+    // View labels
+    subtitle: "Gestión de Conteo de Inventario",
+    locationsCount: "ubicaciones",
+    created: "Creado",
+    completed: "Completado",
+    view: "Ver",
+    continue: "Continuar",
+    complete: "Completar",
+    
+    // Actions
+    actions: {
+      refresh: "Actualizar"
+    },
+    
     // Count Entry Modal
     countEntry: "Entrada de Conteo",
     countedQuantity: "Cantidad Contada",

@@ -36,6 +36,20 @@ export default {
     counted: "Counted",
     itemsShort: "items",
     
+    // View labels
+    subtitle: "Inventory Count Management",
+    locationsCount: "locations",
+    created: "Created",
+    completed: "Completed",
+    view: "View",
+    continue: "Continue",
+    complete: "Complete",
+    
+    // Actions
+    actions: {
+      refresh: "Refresh"
+    },
+    
     // Count Entry Modal
     countEntry: "Count Entry",
     countingLocation: "Counting location: {location}",
