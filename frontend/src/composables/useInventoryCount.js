@@ -47,6 +47,19 @@ export function useInventoryCount() {
     return locations.sort()
   }
 
+  // Get location statistics
+  const getLocationStats = (location) => {
+    const locationInstances = instances.value.filter(instance => 
+      instance.status === 'active' && instance.location === location
+    )
+    
+    return {
+      totalInstances: locationInstances.length,
+      totalQuantity: locationInstances.reduce((sum, instance) => sum + (instance.quantity || 0), 0),
+      compounds: [...new Set(locationInstances.map(i => i.compoundId))].length
+    }
+  }
+
   // Get instances for specific locations
   const getInstancesForLocations = (locations) => {
     if (!instances.value || !locations || locations.length === 0) return []
@@ -61,12 +74,18 @@ export function useInventoryCount() {
   const calculateSessionTotals = (sessionData) => {
     const instancesInSession = getInstancesForLocations(sessionData.locations)
     const totalItems = instancesInSession.length
-    const countedItems = sessionData.counts ? sessionData.counts.length : 0
+    const sessionCounts = sessionData.counts || []
+    
+    // Count verified instances (not unverified)
+    const verifiedCounts = sessionCounts.filter(count => 
+      count.status === 'verified' || count.status === 'discrepancy' || count.status === 'not_found'
+    )
     
     return {
       totalItems,
-      countedItems,
-      progress: totalItems > 0 ? (countedItems / totalItems) * 100 : 0
+      countedItems: sessionCounts.length,
+      verifiedItems: verifiedCounts.length,
+      progress: totalItems > 0 ? (verifiedCounts.length / totalItems) * 100 : 0
     }
   }
 
@@ -93,12 +112,19 @@ export function useInventoryCount() {
       // Get instances for selected locations
       const instancesInSession = getInstancesForLocations(sessionData.locations)
       
+      // Build location summary
+      const locationSummary = sessionData.locations.map(location => ({
+        location,
+        ...getLocationStats(location)
+      }))
+      
       // Create session with proper structure
       const newSession = {
         id: `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         name: sessionData.name,
         description: sessionData.description || '',
         locations: sessionData.locations,
+        locationSummary,
         status: 'active',
         createdBy: user.value?.id || 'unknown',
         createdByName: user.value?.name || 'Unknown User',
@@ -109,7 +135,8 @@ export function useInventoryCount() {
         movedInstances: [],
         notes: '',
         totalItems: instancesInSession.length,
-        countedItems: 0
+        countedItems: 0,
+        progress: 0
       }
       
       // Save to API
@@ -146,12 +173,30 @@ export function useInventoryCount() {
         throw new Error('Session not found')
       }
       
-      const updatedSession = { ...sessions.value[sessionIndex], ...updates }
-      
-      // Update totals if needed
-      if (updates.counts) {
-        const totals = calculateSessionTotals(updatedSession)
-        updatedSession.countedItems = totals.countedItems
+      const updatedSession = { ...sessions.value[sessionIndex], ...updates }        // Update totals and progress if counts are updated
+        if (updates.counts) {
+          const totals = calculateSessionTotals(updatedSession)
+          updatedSession.countedItems = totals.countedItems
+          updatedSession.verifiedItems = totals.verifiedItems
+          updatedSession.progress = totals.progress
+        
+        // Update per-location progress
+        updatedSession.locationProgress = updatedSession.locations.map(location => {
+          const instancesInLocation = getInstancesForLocations([location])
+          const locationCounts = updates.counts.filter(count => count.location === location)
+          const verifiedCounts = locationCounts.filter(count => 
+            count.status === 'verified' || count.status === 'discrepancy' || count.status === 'not_found'
+          )
+          
+          return {
+            location,
+            total: instancesInLocation.length,
+            counted: locationCounts.length,
+            verified: verifiedCounts.length,
+            progress: instancesInLocation.length > 0 ? (verifiedCounts.length / instancesInLocation.length) * 100 : 0,
+            isComplete: verifiedCounts.length >= instancesInLocation.length
+          }
+        })
       }
       
       // Save to API
@@ -172,12 +217,99 @@ export function useInventoryCount() {
     }
   }
 
+  // Check if session can be completed
+  const canCompleteSession = (sessionId) => {
+    const session = sessions.value.find(s => s.id === sessionId)
+    if (!session || session.status !== 'active') return false
+    
+    const instancesInSession = getInstancesForLocations(session.locations)
+    const sessionCounts = session.counts || []
+    
+    // Check if all instances have been accounted for and verified
+    const verifiedCounts = sessionCounts.filter(count => 
+      count.status === 'verified' || count.status === 'discrepancy' || count.status === 'not_found'
+    )
+    
+    // Session can be completed if:
+    // 1. We have counts for all instances in the session
+    // 2. All those counts have been verified (not 'unverified')
+    return sessionCounts.length >= instancesInSession.length && 
+           verifiedCounts.length >= instancesInSession.length
+  }
+
+  // Get session completion status
+  const getSessionCompletionStatus = (sessionId) => {
+    const session = sessions.value.find(s => s.id === sessionId)
+    if (!session) return { canComplete: false, reason: 'Session not found' }
+    
+    if (session.status !== 'active') {
+      return { canComplete: false, reason: 'Session is not active' }
+    }
+    
+    const instancesInSession = getInstancesForLocations(session.locations)
+    const sessionCounts = session.counts || []
+    const verifiedCounts = sessionCounts.filter(count => 
+      count.status === 'verified' || count.status === 'discrepancy' || count.status === 'not_found'
+    )
+    
+    const totalInstances = instancesInSession.length
+    const countedInstances = sessionCounts.length
+    const verifiedInstances = verifiedCounts.length
+    
+    // Check different completion requirements
+    if (countedInstances < totalInstances) {
+      const missingCount = totalInstances - countedInstances
+      return {
+        canComplete: false,
+        reason: `${missingCount} instances not yet counted`,
+        totalInstances,
+        countedInstances,
+        verifiedInstances,
+        missingInstances: missingCount
+      }
+    }
+    
+    if (verifiedInstances < totalInstances) {
+      const unverifiedCount = totalInstances - verifiedInstances
+      return {
+        canComplete: false,
+        reason: `${unverifiedCount} instances not yet verified`,
+        totalInstances,
+        countedInstances,
+        verifiedInstances,
+        unverifiedInstances: unverifiedCount
+      }
+    }
+    
+    return {
+      canComplete: true,
+      reason: null,
+      totalInstances,
+      countedInstances,
+      verifiedInstances,
+      unverifiedInstances: 0
+    }
+  }
+
   // Complete session
   const completeSession = async (sessionId, notes = '') => {
+    // Validate session is ready for completion
+    const session = sessions.value.find(s => s.id === sessionId)
+    if (!session) {
+      throw new Error('Session not found')
+    }
+    
+    // Check completion status
+    const completionStatus = getSessionCompletionStatus(sessionId)
+    if (!completionStatus.canComplete) {
+      throw new Error(`Cannot complete session: ${completionStatus.reason}`)
+    }
+    
     return await updateSession(sessionId, {
       status: 'completed',
       completedDate: new Date().toISOString(),
-      notes
+      notes,
+      completedBy: user.value?.id || 'unknown'
     })
   }
 
@@ -191,6 +323,26 @@ export function useInventoryCount() {
       progress: totals.progress,
       counted: totals.countedItems,
       total: totals.totalItems
+    }
+  }
+
+  // Get location progress within a session
+  const getLocationProgressInSession = (sessionId, location) => {
+    const session = sessions.value.find(s => s.id === sessionId)
+    if (!session) return { progress: 0, counted: 0, verified: 0, total: 0 }
+    
+    const instancesInLocation = getInstancesForLocations([location])
+    const locationCounts = session.counts?.filter(count => count.location === location) || []
+    const verifiedCounts = locationCounts.filter(count => 
+      count.status === 'verified' || count.status === 'discrepancy' || count.status === 'not_found'
+    )
+    
+    return {
+      progress: instancesInLocation.length > 0 ? (verifiedCounts.length / instancesInLocation.length) * 100 : 0,
+      counted: locationCounts.length,
+      verified: verifiedCounts.length,
+      total: instancesInLocation.length,
+      isComplete: verifiedCounts.length >= instancesInLocation.length
     }
   }
 
@@ -229,6 +381,7 @@ export function useInventoryCount() {
     // Methods
     loadSessions,
     getAvailableLocations,
+    getLocationStats,
     getInstancesForLocations,
     createSession,
     continueSession,
@@ -236,6 +389,9 @@ export function useInventoryCount() {
     completeSession,
     deleteSession,
     getSessionProgress,
+    getLocationProgressInSession,
+    canCompleteSession,
+    getSessionCompletionStatus,
     
     // Utility
     calculateSessionTotals

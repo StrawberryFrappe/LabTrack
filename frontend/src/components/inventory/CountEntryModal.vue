@@ -54,6 +54,24 @@
 
       <!-- Instance list -->
       <div class="flex-1 overflow-y-auto">
+        <!-- Action buttons -->
+        <div class="mb-4 flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            @click="showInstanceSelector = true"
+          >
+            {{ $t('inventory.findMisplacedInstance') }}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            @click="showInstanceFormModal = true"
+          >
+            {{ $t('inventory.createNewInstance') }}
+          </Button>
+        </div>
+
         <div class="space-y-4">
           <div 
             v-for="instance in instancesInLocation" 
@@ -162,8 +180,16 @@
       <!-- Footer actions -->
       <div class="flex-shrink-0 border-t border-gray-200 pt-4 mt-4">
         <div class="flex items-center justify-between">
-          <div class="text-sm text-gray-500">
-            {{ $t('inventory.instancesVerified', { count: verifiedCount, total: instancesInLocation.length }) }}
+          <div class="flex items-center space-x-4">
+            <div class="text-sm text-gray-500">
+              {{ $t('inventory.instancesVerified', { count: verifiedCount, total: instancesInLocation.length }) }}
+            </div>
+            <div v-if="isLocationComplete" class="flex items-center text-green-600">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-sm font-medium">{{ $t('inventory.locationComplete') }}</span>
+            </div>
           </div>
           <div class="flex gap-2">
             <Button 
@@ -183,6 +209,22 @@
         </div>
       </div>
     </div>
+
+    <!-- Instance Selector Modal -->
+    <InstanceSelector
+      v-if="showInstanceSelector"
+      v-model="showInstanceSelector"
+      :exclude-location="currentLocation"
+      @select="handleInstanceFound"
+    />
+
+    <!-- New Instance Form Modal -->
+    <InstanceFormModal
+      v-if="showInstanceFormModal"
+      v-model="showInstanceFormModal"
+      :default-location="currentLocation"
+      @created="handleInstanceCreated"
+    />
   </BaseModal>
 </template>
 
@@ -192,6 +234,8 @@ import { useI18n } from 'vue-i18n'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import Button from '@/components/ui/Button.vue'
 import Input from '@/components/ui/Input.vue'
+import InstanceSelector from '@/components/inventory/InstanceSelector.vue'
+import InstanceFormModal from '@/components/compounds/InstanceFormModal.vue'
 import { useCompounds } from '@/composables/useCompounds'
 import { useCompoundInstances } from '@/composables/useCompoundInstances'
 import { useInventoryCount } from '@/composables/useInventoryCount'
@@ -221,6 +265,10 @@ const instanceCounts = ref({})
 const instanceStatuses = ref({})
 const instanceNotes = ref({})
 const hasChanges = ref(false)
+
+// Modal state
+const showInstanceSelector = ref(false)
+const showInstanceFormModal = ref(false)
 
 // Get instances for current location
 const instancesInLocation = computed(() => {
@@ -292,6 +340,7 @@ const updateInstanceNotes = (instanceId, notes) => {
 
 // Progress calculation
 const verifiedCount = computed(() => {
+  // Count instances that have been verified (not unverified)
   return Object.values(instanceStatuses.value).filter(status => 
     status === 'verified' || status === 'discrepancy' || status === 'not_found'
   ).length
@@ -302,20 +351,30 @@ const progressPercentage = computed(() => {
   return (verifiedCount.value / instancesInLocation.value.length) * 100
 })
 
+// Check if location counting is complete
+const isLocationComplete = computed(() => {
+  return instancesInLocation.value.length > 0 && 
+         verifiedCount.value === instancesInLocation.value.length
+})
+
 // Save progress to session
 const saveProgress = async () => {
   if (!props.session) return
   
   try {
-    // Build counts array for this location
+    // Save ALL instances in the location, not just interacted ones
+    // This ensures proper tracking for session completion
     const locationCounts = instancesInLocation.value.map(instance => ({
       instanceId: instance.id,
       expectedQuantity: instance.quantity,
-      countedQuantity: instanceCounts.value[instance.id] || 0,
+      countedQuantity: instanceCounts.value[instance.id] !== undefined 
+        ? instanceCounts.value[instance.id] 
+        : instance.quantity, // Default to expected quantity if not set
       status: instanceStatuses.value[instance.id] || 'unverified',
       notes: instanceNotes.value[instance.id] || '',
       location: props.currentLocation,
-      countedAt: new Date().toISOString()
+      countedAt: new Date().toISOString(),
+      interacted: Boolean(instanceStatuses.value[instance.id] || instanceCounts.value[instance.id] !== undefined)
     }))
     
     // Update session with new counts
@@ -371,6 +430,36 @@ const handleClose = () => {
   } else {
     isOpen.value = false
   }
+}
+
+// Handle finding misplaced instance
+const handleInstanceFound = (instance) => {
+  // Add instance to current location's count
+  const countedQuantity = instance.quantity || 0
+  instanceCounts.value[instance.id] = countedQuantity
+  instanceStatuses.value[instance.id] = 'verified'
+  instanceNotes.value[instance.id] = `Found from ${instance.location}`
+  
+  // Update instance location
+  // This would typically update the instance's location in the database
+  hasChanges.value = true
+  
+  success(t('inventory.messages.instanceFoundAdded'))
+  showInstanceSelector.value = false
+}
+
+// Handle new instance creation
+const handleInstanceCreated = (instance) => {
+  // Add new instance to current location's count
+  const countedQuantity = instance.quantity || 0
+  instanceCounts.value[instance.id] = countedQuantity
+  instanceStatuses.value[instance.id] = 'verified'
+  instanceNotes.value[instance.id] = t('inventory.newInstanceCreated')
+  
+  hasChanges.value = true
+  
+  success(t('inventory.messages.instanceCreatedAdded'))
+  showInstanceFormModal.value = false
 }
 
 // Watch for modal open/close

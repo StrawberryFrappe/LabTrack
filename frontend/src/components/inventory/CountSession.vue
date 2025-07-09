@@ -50,16 +50,28 @@
       <div class="space-y-2">
         <div class="flex items-center justify-between text-sm">
           <span class="text-slate-500">{{ $t('inventory.progress') }}</span>
-          <span class="font-medium">{{ session.countedItems }} / {{ session.totalItems || $t('inventory.unknown') }}</span>
+          <span class="font-medium">{{ progressText }}</span>
         </div>
-        <div class="w-full bg-slate-200 rounded-full h-2">
-          <div 
-            class="bg-blue-500 h-2 rounded-full transition-all duration-300"
-            :style="{ width: `${progressPercentage}%` }"
-          />
+        
+        <!-- Progress bars for each location -->
+        <div class="space-y-1">
+          <div class="w-full bg-slate-200 rounded-full h-2">
+            <div 
+              class="bg-blue-500 h-2 rounded-full transition-all duration-300"
+              :style="{ width: `${progressPercentage}%` }"
+            />
+          </div>
+          <div class="text-xs text-slate-500 text-right">
+            {{ progressPercentage.toFixed(0) }}{{ $t('inventory.status.percentComplete') }}
+          </div>
         </div>
-        <div class="text-xs text-slate-500 text-right">
-          {{ progressPercentage.toFixed(0) }}{{ $t('inventory.status.percentComplete') }}
+        
+        <!-- Location-specific progress -->
+        <div v-if="session.status === 'active' && session.locations.length > 1" class="text-xs text-slate-500 space-y-1">
+          <div v-for="location in session.locations" :key="location" class="flex items-center justify-between">
+            <span class="truncate">{{ location }}</span>
+            <span>{{ getLocationProgress(location) }}</span>
+          </div>
         </div>
       </div>
       
@@ -93,11 +105,12 @@
         </Button>
         <Button 
           v-if="session.status === 'active'"
-          variant="outline"
+          :variant="canComplete ? 'primary' : 'outline'"
           size="sm"
+          :disabled="!canComplete"
           @click="$emit('complete', session)"
         >
-          {{ $t('inventory.sessionActions.complete') }}
+          {{ canComplete ? $t('inventory.sessionActions.complete') : $t('inventory.sessionActions.incompleteSession') }}
         </Button>
       </div>
     </template>
@@ -107,11 +120,13 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useInventoryCount } from '@/composables/useInventoryCount'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Button from '@/components/ui/Button.vue'
 
 const { t } = useI18n()
+const { getLocationProgressInSession, canCompleteSession } = useInventoryCount()
 
 const props = defineProps({
   session: {
@@ -131,10 +146,25 @@ const formatDate = (date) => {
 const progressPercentage = computed(() => {
   if (!props.session.totalItems || props.session.totalItems === 0) return 0
   
-  // Calculate progress based on actual counts if available
-  const totalCounts = props.session.counts ? props.session.counts.length : 0
-  const countedItems = props.session.countedItems || totalCounts
+  // Use the progress from the session which is based on verified items
+  return props.session.progress || 0
+})
+
+const progressText = computed(() => {
+  const verifiedItems = props.session.verifiedItems || 0
+  const totalItems = props.session.totalItems || 0
   
-  return (countedItems / props.session.totalItems) * 100
+  if (totalItems === 0) return t('inventory.unknown')
+  
+  return `${verifiedItems} / ${totalItems}`
+})
+
+const getLocationProgress = (location) => {
+  const progress = getLocationProgressInSession(props.session.id, location)
+  return `${progress.verified}/${progress.total}`
+}
+
+const canComplete = computed(() => {
+  return canCompleteSession(props.session.id)
 })
 </script>

@@ -83,10 +83,24 @@
       "createdAt": "2025-07-08T17:07:16.079Z"
     },
     {
-      "id": "",
+      "id": "123",
       "compoundId": "2",
       "location": "micasa",
-      "batchNumber": "1234",
+      "batchNumber": "132",
+      "quantity": 9,
+      "unit": "L",
+      "receivedDate": "2025-07-08",
+      "expiryDate": "2026-10-08",
+      "openedDate": "",
+      "status": "active",
+      "description": "",
+      "createdAt": "2025-07-08T16:47:57.848Z"
+    },
+    {
+      "id": "111",
+      "compoundId": "5069",
+      "location": "La casa de mi bro",
+      "batchNumber": "123123",
       "quantity": 1,
       "unit": "mol",
       "receivedDate": "2025-07-08",
@@ -179,139 +193,72 @@
       "status": "active",
       "description": "wwwwww",
       "createdAt": "2025-07-09T07:45:08.626Z"
+    },
+    {
+      "id": "",
+      "compoundId": "2",
+      "location": "micasa",
+      "batchNumber": "333",
+      "quantity": 123,
+      "unit": "g",
+      "receivedDate": "2025-07-09",
+      "expiryDate": "2027-09-09",
+      "openedDate": "",
+      "status": "active",
+      "description": "",
+      "createdAt": "2025-07-09T07:52:00.027Z"
     }
   ],
   "countSessions": [
     {
-      "id": "session_1752043744047_37cf3f3im",
-      "name": "uno",
-      "description": "1",
+      "id": "session_1752048395509_60k2n20iv",
+      "name": "t1",
+      "description": "",
       "locations": [
-        "micasa"
+        "123"
       ],
-      "status": "completed",
-      "createdBy": "3",
-      "createdByName": "Strawberry Admin",
-      "startDate": "2025-07-09T06:49:04.047Z",
-      "completedDate": "2025-07-09T06:50:16.919Z",
+      "locationSummary": [
+        {
+          "location": "123",
+          "totalInstances": 1,
+          "totalQuantity": 11,
+          "compounds": 1
+        }
+      ],
+      "status": "active",
+      "createdBy": "1",
+      "createdByName": "Lab Administrator",
+      "startDate": "2025-07-09T08:06:35.509Z",
+      "completedDate": null,
       "counts": [
         {
-          "instanceId": "123",
-          "expectedQuantity": 9,
-          "countedQuantity": 8,
-          "status": "discrepancy",
+          "instanceId": "321321",
+          "expectedQuantity": 11,
+          "countedQuantity": 11,
+          "status": "verified",
           "notes": "",
-          "location": "micasa",
-          "countedAt": "2025-07-09T06:50:12.245Z"
+          "location": "123",
+          "countedAt": "2025-07-09T08:06:38.562Z",
+          "interacted": true
         }
       ],
       "newInstances": [],
       "movedInstances": [],
       "notes": "",
       "totalItems": 1,
-      "countedItems": 1
-    },
-    {
-      "id": "session_1752043900444_vwu08jut7",
-      "name": "pene",
-      "description": "hola",
-      "locations": [
-        "La casa de mi bro",
-        "123"
-      ],
-      "status": "completed",
-      "createdBy": "3",
-      "createdByName": "Strawberry Admin",
-      "startDate": "2025-07-09T06:51:40.444Z",
-      "completedDate": "2025-07-09T06:56:35.757Z",
-      "counts": [
+      "countedItems": 1,
+      "progress": 100,
+      "verifiedItems": 1,
+      "locationProgress": [
         {
-          "instanceId": "111",
-          "expectedQuantity": 1,
-          "countedQuantity": 1,
-          "status": "verified",
-          "notes": "",
-          "location": "La casa de mi bro",
-          "countedAt": "2025-07-09T06:52:20.838Z"
+          "location": "123",
+          "total": 1,
+          "counted": 1,
+          "verified": 1,
+          "progress": 100,
+          "isComplete": true
         }
-      ],
-      "newInstances": [],
-      "movedInstances": [],
-      "notes": "",
-      "totalItems": 2,
-      "countedItems": 1
-    },
-    {
-      "id": "session_1752044278795_v1v075hfa",
-      "name": "uno",
-      "description": "123",
-      "locations": [
-        "micasa",
-        "123"
-      ],
-      "status": "completed",
-      "createdBy": "3",
-      "createdByName": "Strawberry Admin",
-      "startDate": "2025-07-09T06:57:58.795Z",
-      "completedDate": "2025-07-09T06:58:17.302Z",
-      "counts": [
-        {
-          "instanceId": "123",
-          "expectedQuantity": 9,
-          "countedQuantity": 9,
-          "status": "verified",
-          "notes": "",
-          "location": "micasa",
-          "countedAt": "2025-07-09T06:58:13.378Z"
-        }
-      ],
-      "newInstances": [],
-      "movedInstances": [],
-      "notes": "",
-      "totalItems": 2,
-      "countedItems": 1
-    },
-    {
-      "id": "session_1752044835955_5vuaf4jm7",
-      "name": "123",
-      "description": "1",
-      "locations": [
-        "123",
-        "La casa de mi bro",
-        "micasa"
-      ],
-      "status": "completed",
-      "createdBy": "3",
-      "createdByName": "Strawberry Admin",
-      "startDate": "2025-07-09T07:07:15.955Z",
-      "completedDate": "2025-07-09T07:07:32.401Z",
-      "counts": [],
-      "newInstances": [],
-      "movedInstances": [],
-      "notes": "",
-      "totalItems": 3,
-      "countedItems": 0
-    },
-    {
-      "id": "session_1752044857998_p8a5le44v",
-      "name": "tt",
-      "description": "1",
-      "locations": [
-        "123",
-        "La casa de mi bro",
-        "micasa"
-      ],
-      "status": "active",
-      "createdBy": "3",
-      "createdByName": "Strawberry Admin",
-      "startDate": "2025-07-09T07:07:37.998Z",
-      "completedDate": null,
-      "counts": [],
-      "newInstances": [],
-      "movedInstances": [],
-      "notes": "",
-      "totalItems": 3,
-      "countedItems": 0
+      ]
     }
   ],
   "transactions": [

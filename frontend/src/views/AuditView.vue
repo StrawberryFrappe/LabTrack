@@ -24,11 +24,6 @@
   - TODO TRL3: Add count reports (PDF/Excel export)
   - TODO TRL3: Implement count scheduling (weekly/monthly)
   
-  🔧 POST-TRL3 FEATURES (DEFERRED):
-  - TODO FUTURE: Barcode scanning integration 
-  - TODO FUTURE: Bulk count operations
-  - TODO FUTURE: Mobile-optimized count interface
-  - TODO FUTURE: Real-time count collaboration
 -->
 
 <template>
@@ -110,22 +105,27 @@
                   <div 
                     v-for="location in availableLocations" 
                     :key="location"
-                    class="flex items-center"
+                    class="flex items-center justify-between p-2 hover:bg-slate-100 rounded"
                   >
-                    <input
-                      :id="`location-${location}`"
-                      type="checkbox"
-                      :value="location"
-                      :checked="selectedLocations.includes(location)"
-                      @change="toggleLocation(location)"
-                      class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                    />
-                    <label 
-                      :for="`location-${location}`" 
-                      class="ml-2 text-sm text-slate-700 cursor-pointer"
-                    >
-                      {{ location }}
-                    </label>
+                    <div class="flex items-center min-w-0">
+                      <input
+                        :id="`location-${location}`"
+                        type="checkbox"
+                        :value="location"
+                        :checked="selectedLocations.includes(location)"
+                        @change="toggleLocation(location)"
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded flex-shrink-0"
+                      />
+                      <label 
+                        :for="`location-${location}`" 
+                        class="ml-2 text-sm text-slate-700 cursor-pointer truncate"
+                      >
+                        {{ location }}
+                      </label>
+                    </div>
+                    <div class="text-xs text-slate-500 flex-shrink-0 ml-2">
+                      {{ getLocationStats(location).totalInstances }} {{ $t('inventory.itemsShort') }}
+                    </div>
                   </div>
                 </div>
                 
@@ -189,6 +189,9 @@ const {
   continueSession,
   completeSession,
   getAvailableLocations,
+  getLocationStats,
+  canCompleteSession,
+  getSessionCompletionStatus,
   isLoading,
   error: composableError
 } = useInventoryCount()
@@ -221,11 +224,20 @@ const createNewSession = async () => {
     return
   }
   
+  // Check for duplicate session names
+  const existingSession = activeSessions.value.find(session => 
+    session.name.toLowerCase() === newSessionName.value.trim().toLowerCase()
+  )
+  if (existingSession) {
+    warning(t('inventory.messages.duplicateSessionName'))
+    return
+  }
+  
   isCreatingSession.value = true
   
   try {
     await createSession({
-      name: newSessionName.value,
+      name: newSessionName.value.trim(),
       description: newSessionDescription.value,
       locations: selectedLocations.value
     })
@@ -307,6 +319,27 @@ const handleViewSessionDetails = (session) => {
 
 const handleCompleteSession = async (session) => {
   try {
+    // Check if session can be completed
+    const completionStatus = getSessionCompletionStatus(session.id)
+    
+    if (!completionStatus.canComplete) {
+      warning(t('inventory.messages.cannotCompleteSession', { 
+        reason: completionStatus.reason 
+      }))
+      return
+    }
+    
+    // Confirm completion
+    const confirmMessage = t('inventory.messages.confirmCompleteSession', {
+      name: session.name,
+      verified: completionStatus.verifiedInstances,
+      total: completionStatus.totalInstances
+    })
+    
+    if (!confirm(confirmMessage)) {
+      return
+    }
+    
     await completeSession(session.id)
     success(t('inventory.messages.sessionCompleted'))
   } catch (err) {
