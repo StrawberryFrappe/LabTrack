@@ -54,23 +54,19 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import Card from '@/components/ui/Card.vue'
 import Badge from '@/components/ui/Badge.vue'
-import Button from '@/components/ui/Button.vue'
-import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
 import CircularProgressBar from '@/components/ui/CircularProgressBar.vue'
 import { useFormat } from '@/utils/format.js'
-import { useInventory } from '@/composables/useInventory.js'
 import { useCompoundInstances } from '@/composables/useCompoundInstances.js'
 import { useHazardStyles } from '@/composables/useHazardStyles.js'
 import { convertUnit, areUnitsCompatible } from '@/utils/units.js'
 
 const { t } = useI18n()
 const router = useRouter()
-const { calculateCurrentStock } = useInventory()
 const { getInstancesForCompound } = useCompoundInstances()
 const { getHazardVariant } = useHazardStyles()
 
@@ -81,21 +77,43 @@ const props = defineProps({
   }
 })
 
-const instances = ref([])
+// Get reactive instances for this compound
+const instances = computed(() => {
+  return getInstancesForCompound(props.compound.id)
+})
 
 const instanceSummary = computed(() => {
-  const totalInstances = instances.value.length
+  const allInstances = instances.value
+  const totalInstances = allInstances.length
   
-  const uniqueLocations = new Set(instances.value.map(i => i.location))
+  const uniqueLocations = new Set(allInstances.map(i => i.location))
   
-  const totalQuantity = instances.value.reduce((total, instance) => {
+  console.log(`[CompoundCard] Computing stock for compound ${props.compound.name}:`)
+  console.log(`- Compound unit: ${props.compound.unit}`)
+  console.log(`- Instances:`, allInstances.map(i => ({
+    id: i.id,
+    quantity: i.quantity,
+    unit: i.unit,
+    location: i.location
+  })))
+  
+  const totalQuantity = allInstances.reduce((total, instance) => {
+    const isCompatible = areUnitsCompatible(instance.unit, props.compound.unit)
+    console.log(`- Instance ${instance.id}: ${instance.quantity} ${instance.unit} -> compatible: ${isCompatible}`)
+    
     // Only sum if units are compatible
-    if (areUnitsCompatible(instance.unit, props.compound.unit)) {
+    if (isCompatible) {
       const convertedValue = convertUnit(instance.quantity, instance.unit, props.compound.unit)
+      console.log(`  -> converted to: ${convertedValue} ${props.compound.unit}`)
       return total + (convertedValue || 0)
+    } else {
+      console.log(`  -> skipped (incompatible units)`)
+      return total
     }
-    return total
   }, 0)
+
+  console.log(`- Total quantity: ${totalQuantity} ${props.compound.unit}`)
+  console.log(`- Threshold: ${props.compound.threshold} ${props.compound.unit}`)
 
   return {
     totalInstances,
@@ -120,11 +138,6 @@ const progressColor = computed(() => {
   return '#22c55e'; // green-500: At or above threshold
 });
 
-
-onMounted(async () => {
-  instances.value = getInstancesForCompound(props.compound.id)
-})
-
 const emit = defineEmits(['edit', 'scan', 'delete', 'view-detail'])
 
 // Card click handler
@@ -134,14 +147,6 @@ const handleCardClick = () => {
 }
 
 const { formatDate } = useFormat()
-
-// Real-time stock calculation
-const stockLoading = ref(false)
-
-// Load real-time stock on mount
-onMounted(async () => {
-  // This onMounted is duplicated, let's merge them. The previous call will handle this.
-})
 
 const hazardBadgeVariant = computed(() => {
   return getHazardVariant(props.compound.hazardClass)
@@ -166,20 +171,6 @@ const translatedHazardClass = computed(() => {
 const translatedUnit = computed(() => {
   const unitKey = `compounds.units.${props.compound.unit}`
   return t(unitKey, props.compound.unit) // fallback to original unit if translation not found
-})
-
-const expiryClasses = computed(() => {
-  const expiryDate = new Date(props.compound.expiryDate)
-  const threeMonthsFromNow = new Date()
-  threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() + 3)
-  
-  return [
-    'font-medium',
-    {
-      'text-red-600': expiryDate <= threeMonthsFromNow,
-      'text-slate-900': expiryDate > threeMonthsFromNow
-    }
-  ]
 })
 
 // Navigation methods

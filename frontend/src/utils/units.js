@@ -20,8 +20,8 @@ const CONVERSION_FACTORS = {
   ug: { factor: 0.000001, type: 'weight', aliases: ['microgramos', 'microgramo', 'µg'] },
 
   // Volume (base: L)
-  L: { factor: 1, type: 'volume', aliases: ['litros', 'litro'] },
-  mL: { factor: 0.001, type: 'volume', aliases: ['mililitros', 'mililitro'] },
+  L: { factor: 1, type: 'volume', aliases: ['litros', 'litro', 'l'] },
+  mL: { factor: 0.001, type: 'volume', aliases: ['mililitros', 'mililitro', 'ml'] },
 
   // Amount of substance (base: mol)
   mol: { factor: 1, type: 'amount', aliases: ['moles', 'mol'] },
