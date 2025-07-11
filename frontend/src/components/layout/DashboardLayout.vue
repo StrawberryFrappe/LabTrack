@@ -61,10 +61,11 @@
         <div class="p-6">
           <div class="flex items-center justify-between mb-8">
             <div class="flex items-center space-x-3">
-              <div class="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span class="text-white text-lg">🧪</span>
-              </div>
-              <h1 class="text-xl font-semibold text-slate-900">{{ $t('dashboard.appTitle') }}</h1>
+              <img 
+                :src="logoUrl" 
+                alt="LabTrack Logo" 
+                class="object-contain"
+              />
             </div>
             <!-- Mobile close button -->
             <button
@@ -167,6 +168,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import UserMenu from '@/components/auth/UserMenu.vue'
 import { useAuth } from '@/composables/useAuth.js'
+import logoUrl from '@/assets/logo.png'
 
 // i18n
 const { t: $t } = useI18n()

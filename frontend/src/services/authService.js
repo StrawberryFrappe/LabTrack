@@ -41,53 +41,32 @@ export const authService = {
   /**
    * Login User
    * 
-   * Currently simulates authentication with JSON Server.
-   * For production, replace this with a real API call to /auth/login
+   * Now calls your real API endpoint /users/login
    * 
    * @param {Object} credentials - { username, password }
    * @returns {Promise<Object>} - { token, user }
    */
   async login(credentials) {
-    try {      // FOR DEVELOPMENT: Simulate auth by checking users in JSON Server
-      // INSIGHT: This is speculative - assumes basic username/password auth
-      // In production, this would be: const response = await api.post('/auth/login', credentials)
-      // The speculative choice to use simple JSON comparison allows immediate testing
-      // while maintaining the same interface that a real API would provide
-      const response = await api.get('/users')
-      const user = response.data.find(u => 
-        u.username === credentials.username && 
-        u.password === credentials.password
-      )
+    try {
+      // Real API call to backend
+      const response = await api.post('/users/login', credentials)
       
-      if (!user) {
-        throw new Error(t('errors.invalidCredentials'))
-      }      // FOR DEVELOPMENT: Generate a simple token
-      // INSIGHT: This is highly speculative - real production would use JWT from backend
-      // The choice to base64 encode user info creates a readable "token" for development
-      // that contains the data we need while mimicking real token behavior
-      // In production, the token would come from the backend and be opaque to the frontend
-      const token = btoa(JSON.stringify({ 
-        userId: user.id, 
-        role: user.role,
-        timestamp: Date.now()
-      }))
+      // Backend returns access_token and user data
+      const { access_token, user } = response.data
       
       // Store authentication data in localStorage
       // This persists across browser sessions
-      localStorage.setItem('authToken', token)
-      localStorage.setItem('user', JSON.stringify({
-        id: user.id,
-        username: user.username,
-        name: user.name,
-        email: user.email,
-        role: user.role
-      }))
+      localStorage.setItem('authToken', access_token)
+      if (user) {
+      localStorage.setItem('user', JSON.stringify(user))
+      }
+
       
-      return { token, user }
+      return { token: access_token, user }
     } catch (error) {
       // Make error messages user-friendly
-      if (error.message === t('errors.invalidCredentials')) {
-        throw error
+      if (error.response && error.response.status === 401) {
+        throw new Error(t('errors.invalidCredentials'))
       }
       throw new Error(t('errors.loginFailed'))
     }
@@ -122,7 +101,14 @@ export const authService = {
    */
   getCurrentUser() {
     const userJson = localStorage.getItem('user')
-    return userJson ? JSON.parse(userJson) : null
+    if (!userJson || userJson === "undefined") {
+      return null
+    }
+    try {
+      return JSON.parse(userJson)
+    } catch {
+      return null
+    }
   },
 
   /**

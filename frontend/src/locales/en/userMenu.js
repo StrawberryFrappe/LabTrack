@@ -5,5 +5,11 @@ export default {
     systemSettings: 'System Settings',
     signOut: 'Sign out',
     signingOut: 'Signing out...'
+  },
+  auth: {
+    username: 'Username',
+    password: 'Password',
+    login: 'Login',
+    logout: 'Logout'
   }
 }

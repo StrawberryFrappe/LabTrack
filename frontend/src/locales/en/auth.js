@@ -6,6 +6,8 @@ export default {
     password: 'Password',
     signIn: 'Sign in',
     signingIn: 'Signing in...',
+    login: 'Login',
+    logout: 'Logout',
     loginFailed: 'Login Failed',
     loginFailedMessage: 'Please check your credentials and try again.',
     invalidCredentials: 'Invalid username or password',

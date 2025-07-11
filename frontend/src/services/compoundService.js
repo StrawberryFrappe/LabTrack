@@ -15,6 +15,12 @@
 
 import api from './api.js'
 
+// Helper para inyectar el JWT
+function authHeaders() {
+  const token = localStorage.getItem('authToken')
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
 export const compoundService = {
   /**
    * Get All Compounds
@@ -23,7 +29,10 @@ export const compoundService = {
    * You can add query parameters for filtering, pagination, etc.
    */
   async getAll(params = {}) {
-    const response = await api.get('/compounds', { params })
+    const response = await api.get('/compounds', {
+      params,
+      headers: authHeaders()
+    })
     return response.data
   },
 
@@ -35,7 +44,9 @@ export const compoundService = {
    * @param {string|number} id - The compound ID
    */
   async getById(id) {
-    const response = await api.get(`/compounds/${id}`)
+    const response = await api.get(`/compounds/${id}`, {
+      headers: authHeaders()
+    })
     return response.data
   },
 
@@ -47,7 +58,9 @@ export const compoundService = {
    * @param {Object} compound - The compound data
    */
   async create(compound) {
-    const response = await api.post('/compounds', compound)
+    const response = await api.post('/compounds', compound, {
+      headers: authHeaders()
+    })
     return response.data
   },
 
@@ -55,14 +68,21 @@ export const compoundService = {
    * Update Existing Compound
    * 
    * Updates a compound with new data.
-   * 
+   * npm run client 
    * @param {string|number} id - The compound ID
    * @param {Object} compound - The updated compound data
    */
   async update(id, compound) {
-    const response = await api.put(`/compounds/${id}`, compound)
+    const formatted = toSnakeCaseCompound(compound)
+    console.log(formatted)
+    console.log('Updating compound:', id, formatted)
+    const response = await api.put(`/compounds/${id}`, formatted, {
+      headers: authHeaders()
+    })
+    console.log("aaa",response)
     return response.data
   },
+
 
   /**
    * Delete Compound
@@ -72,7 +92,10 @@ export const compoundService = {
    * @param {string|number} id - The compound ID
    */
   async delete(id) {
-    const response = await api.delete(`/compounds/${id}`)
+    const response = await api.delete(`/compounds/${id}`, {
+      headers: authHeaders()
+    })
+    await this.getAll()
     return response.data
   },
 
@@ -84,9 +107,9 @@ export const compoundService = {
    * @param {string} query - The search query
    */
   async search(query) {
-    // For JSON Server, we use the q parameter for full-text search
-    // For production, you might have a dedicated search endpoint
-    const response = await api.get(`/compounds?q=${encodeURIComponent(query)}`)
+    const response = await api.get(`/compounds?q=${encodeURIComponent(query)}`, {
+      headers: authHeaders()
+    })
     return response.data
   },
 
@@ -97,10 +120,15 @@ export const compoundService = {
    * This could be a separate endpoint in production for better performance.
    */
   async getLowStock() {
-    // For JSON Server, we fetch all and filter
-    // In production, this would be a dedicated endpoint like /compounds/low-stock
-    const compounds = await this.getAll()
-    return compounds.filter(c => c.quantity <= c.threshold)
+    try {
+      const response = await api.get('/compounds/low-stock', {
+        headers: authHeaders()
+      })
+      return response.data
+    } catch {
+      const compounds = await this.getAll()
+      return compounds.filter(c => c.quantity <= c.threshold)
+    }
   },
 
   /**
@@ -111,16 +139,34 @@ export const compoundService = {
    * @param {number} days - Number of days ahead to check (default: 30)
    */
   async getExpiring(days = 30) {
-    // For JSON Server, we fetch all and filter
-    // In production, this would be a dedicated endpoint
-    const compounds = await this.getAll()
-    const futureDate = new Date()
-    futureDate.setDate(futureDate.getDate() + days)
-    
-    return compounds.filter(c => {
-      if (!c.expiryDate) return false
-      const expiryDate = new Date(c.expiryDate)
-      return expiryDate <= futureDate
-    })
+    try {
+      const response = await api.get('/compounds/expiring', {
+        params: { days },
+        headers: authHeaders()
+      })
+      return response.data
+    } catch {
+      const compounds = await this.getAll()
+      const futureDate = new Date()
+      futureDate.setDate(futureDate.getDate() + days)
+      return compounds.filter(c => {
+        if (!c.expiryDate) return false
+        const expiryDate = new Date(c.expiryDate)
+        return expiryDate <= futureDate
+      })
+    }
   }
+}
+
+
+
+function toSnakeCaseCompound(obj) {
+  const map = {
+    casNumber: 'cas_number',
+    hazardClass: 'hazard_class'
+  }
+
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, val]) => [map[key] || key, val])
+  )
 }

@@ -20,7 +20,7 @@ const props = defineProps({
   size: {
     type: String,
     default: 'default',
-    validator: (value) => ['sm', 'default', 'lg'].includes(value)
+    validator: (value) => ['xs', 'md','sm', 'default', 'lg'].includes(value)
   },
   disabled: {
     type: Boolean,

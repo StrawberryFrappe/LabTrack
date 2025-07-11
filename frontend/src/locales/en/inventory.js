@@ -35,6 +35,7 @@ export default {
     recentScans: "Recent Scans",
     counted: "Counted",
     itemsShort: "items",
+    manualEntryPlaceholder: "Enter barcode or compound name manually",
     
     // View labels
     subtitle: "Inventory Count Management",
