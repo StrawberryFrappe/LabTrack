@@ -3,6 +3,7 @@ export default {
     // Field validation messages
     required: 'This field is required',
     minLength: 'Must be at least {min} characters long',
+    min: 'The value is too short. Minimum length is {min}.',
     maxLength: 'Must not exceed {max} characters',
     email: 'Please enter a valid email address',
     casNumber: 'Please enter a valid CAS number (format: XXX-XX-X)',

@@ -1,7 +1,7 @@
 export default {
   compounds: {
     title: 'Compound Management',
-    description: 'Manage your laboratory\'s chemical inventory',
+    description: "Manage your laboratory's chemical inventory",
     addNew: 'Add New Compound',
     addCompound: 'Add Compound',
     editCompound: 'Edit Compound',
@@ -45,7 +45,16 @@ export default {
     casPlaceholder: "Enter CAS number (e.g. 123-45-6)",
     quantity: "Quantity",
     quantityPlaceholder: "Enter quantity",
-    unit: "Unit",
+    unit: {
+      g: 'g',
+      kg: 'kg',
+      ml: 'ml',
+      l: 'L',
+      mg: 'mg',
+      'μg': 'µg',
+      mol: 'mol',
+      mmol: 'mmol'
+    },
     unitSelect: "Select unit",
     reorderThreshold: "Reorder Threshold",
     thresholdPlaceholder: "Enter reorder threshold",
@@ -70,14 +79,14 @@ export default {
     synonyms: "Synonyms",
     synonymsPlaceholder: "Enter synonyms (comma separated)",
     synonymsHelp: "Separate synonyms with commas (e.g. Acetone, Dimethyl ketone)",
-    
+
     // Stock and inventory
     currentStock: "Current Stock",
     lowStockWarning: "⚠️ Low stock!",
     totalStock: "Total Stock",
     acrossInstances: "{count} instance | {count} instances",
     batch: "Batch",
-    
+
     // Instance management
     instances: {
       title: "Compound Instances",
@@ -111,7 +120,7 @@ export default {
       updateSuccess: "Instance updated successfully",
       deleteSuccess: "Instance deleted successfully"
     },
-    
+
     // Table headers
     tableHeaders: {
       name: "Name",
@@ -122,7 +131,7 @@ export default {
       hazards: "Hazards",
       actions: "Actions"
     },
-    
+
     // Action buttons
     actions: {
       edit: "Edit",
@@ -133,7 +142,7 @@ export default {
       viewInstances: "View Instances",
       addInstance: "Add Instance"
     },
-    
+
     // Labels and prefixes
     labels: {
       id: "ID",
@@ -154,7 +163,7 @@ export default {
     deleteError: "Failed to delete compound. Please try again.",
     deleteConfirmTitle: "Delete Compound",
     deleteConfirm: "Are you sure you want to delete '{name}'? This action cannot be undone.",
-    
+
     // Import/Export
     importSuccess: "Successfully imported {count} compounds",
     importError: "Failed to import compounds. Please check the file format.",
@@ -191,5 +200,9 @@ export default {
       loadingInstances: "Loading instances...",
       transactionFeatureComingSoon: "Transaction feature coming soon!"
     }
+  },
+  common: {
+    reset: "Reset",
+    save: "Save"
   }
 }

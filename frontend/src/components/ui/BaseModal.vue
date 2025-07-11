@@ -74,7 +74,7 @@ const props = defineProps({
   size: {
     type: String,
     default: 'default',
-    validator: (value) => ['sm', 'default', 'lg', 'xl', 'full'].includes(value)
+    validator: (value) => ['xs','sm', 'default', 'md','lg', 'xl', 'full'].includes(value)
   },
   showCloseButton: {
     type: Boolean,

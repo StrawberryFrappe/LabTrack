@@ -483,7 +483,7 @@ const expiringSoonCount = computed(() => {
 })
 
 const hazardBadgeVariant = computed(() => {
-  if (!compound.value) return 'secondary'
+  if (!compound.value || !compound.value.hazardClass) return 'secondary'
   const hazard = compound.value.hazardClass.toLowerCase()
   if (hazard.includes('toxic') || hazard.includes('carcinogenic')) return 'destructive'
   if (hazard.includes('flammable') || hazard.includes('corrosive')) return 'warning'

@@ -143,11 +143,12 @@ const stockPercentage = computed(() =>
 )
 
 const hazardBadgeVariant = computed(() => {
-  const hazard = props.compound.hazardClass.toLowerCase()
+  const hazard = (props.compound?.hazardClass ?? '').toLowerCase()
   if (hazard.includes('toxic') || hazard.includes('carcinogenic')) return 'destructive'
   if (hazard.includes('flammable') || hazard.includes('corrosive')) return 'warning'
   return 'secondary'
 })
+
 
 const stockStatusClasses = computed(() => [
   'font-semibold',

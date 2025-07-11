@@ -30,6 +30,7 @@ export default {
     cancel: "Cancel",
     recentScans: "Recent Scans",
     counted: "Counted",
+    manualEntryPlaceholder: "Enter barcode or compound name manually",
     
     // Count Entry Modal
     countEntry: "Count Entry",

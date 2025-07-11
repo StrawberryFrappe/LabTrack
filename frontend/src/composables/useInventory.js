@@ -113,9 +113,14 @@ export function useInventory() {
         ...filters
       }
       
-      const result = await transactionService.getAll(params)
-      transactions.value = result.data
-      error.value = null
+    const result = await transactionService.getAll(params)
+    if (!result || !Array.isArray(result.data)) {
+      throw new Error('Invalid response from transaction service')
+    }
+
+    transactions.value = result.data
+    error.value = null
+
       
     } catch (err) {
       error.value = err.message

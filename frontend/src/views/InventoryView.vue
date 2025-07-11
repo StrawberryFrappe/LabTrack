@@ -32,7 +32,8 @@
 -->
 
 <template>
-  <div class="space-y-8">    <!-- Page Header -->
+  <div class="space-y-8">
+    <!-- Page Header -->
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-2xl font-bold text-slate-900">{{$t('inventory.countsTitle')}}</h1>
@@ -125,60 +126,63 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { isAdmin } = useAuth()
-const { success, error, warning } = useToast()
+const { success, error } = useToast()
 
 // Inventory count composable
 const { 
   activeSessions, 
   completedSessions, 
-  createSession,
+  createCountSession,
   continueSession,
   completeSession 
 } = useInventoryCount()
 
-// New session form
+// New session form fields
 const newSessionName = ref('')
 const newSessionDescription = ref('')
 const newSessionLocation = ref('')
 
-// Session management methods
+// Create new count session
 const createNewSession = async () => {
   if (!newSessionName.value.trim()) return
-  
+
   try {
-    await createSession({
+    await createCountSession({
       name: newSessionName.value,
       description: newSessionDescription.value,
       location: newSessionLocation.value
+      // created_by and start_date should be set by backend
     })
     
-    // Clear form
+    // Clear form fields  
     newSessionName.value = ''
     newSessionDescription.value = ''
     newSessionLocation.value = ''
-  } catch (error) {
-    console.error('Error creating session:', error)
-    // TODO: Show error notification
+
+    success(t('inventory.createSessionSuccess'))
+  } catch (err) {
+    console.error('Error creating session:', err)
+    error(t('inventory.createSessionError'))
   }
 }
 
 const handleContinueSession = (sessionId) => {
   continueSession(sessionId)
-  // TODO: Navigate to count session details
+  // TODO: Navigate to session detail page or modal
 }
 
 const handleViewSessionDetails = (sessionId) => {
-  // TODO: Navigate to count session details
   console.log('Viewing session details:', sessionId)
+  // TODO: Implement navigation or modal with session details
 }
 
 const handleCompleteSession = async (sessionId) => {
   try {
     await completeSession(sessionId)
-    // TODO: Show success notification
-  } catch (error) {
-    console.error('Error completing session:', error)
-    // TODO: Show error notification
+    success(t('inventory.completeSessionSuccess'))
+  } catch (err) {
+    console.error('Error completing session:', err)
+    error(t('inventory.completeSessionError'))
   }
 }
 
